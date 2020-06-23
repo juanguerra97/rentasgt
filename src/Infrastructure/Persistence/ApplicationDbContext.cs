@@ -33,6 +33,42 @@ namespace rentasgt.Infrastructure.Persistence
 
         public DbSet<TodoItem> TodoItems { get; set; }
 
+        public DbSet<AddressPicture> AddressPictures { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<ChatMessage> ChatMessages { get; set; }
+
+        public DbSet<ChatRoom> ChatRooms { get; set; }
+
+        public DbSet<DpiPicture> DpiPictures { get; set; }
+
+        public DbSet<Picture> Pictures { get; set; }
+
+        public DbSet<Product> Products { get; set; }
+
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+
+        public DbSet<ProductPicture> ProductPictures { get; set; }
+
+        public DbSet<ProfilePicture> ProfilePictures { get; set; }
+
+        public DbSet<Rent> Rents { get; set; }
+
+        public DbSet<RentCost> RentCosts { get; set; }
+
+        public DbSet<RentRequest> RentRequests { get; set; }
+
+        public DbSet<RequestEvent> RequestEvents { get; set; }
+
+        public DbSet<TextMessage> TextMessages { get; set; }
+
+        public DbSet<UserChatRoom> UserChatRooms { get; set; }
+
+        public DbSet<UserPicture> UserPictures { get; set; }
+
+        public DbSet<UserProfileEvent> UserProfileEvents { get; set; }
+
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             foreach (var entry in ChangeTracker.Entries<AuditableEntity>())

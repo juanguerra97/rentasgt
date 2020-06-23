@@ -51,7 +51,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Category",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -65,11 +65,11 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChatRoom",
+                name: "ChatRooms",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -77,7 +77,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChatRoom", x => x.Id);
+                    table.PrimaryKey("PK_ChatRooms", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -115,7 +115,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Picture",
+                name: "Pictures",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -125,7 +125,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Picture", x => x.Id);
+                    table.PrimaryKey("PK_Pictures", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -253,7 +253,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Product",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -272,9 +272,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Product_AspNetUsers_OwnerId",
+                        name: "FK_Products_AspNetUsers_OwnerId",
                         column: x => x.OwnerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -282,7 +282,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserProfileEvent",
+                name: "UserProfileEvents",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -295,15 +295,15 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserProfileEvent", x => x.Id);
+                    table.PrimaryKey("PK_UserProfileEvents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserProfileEvent_AspNetUsers_UserEventId",
+                        name: "FK_UserProfileEvents_AspNetUsers_UserEventId",
                         column: x => x.UserEventId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserProfileEvent_AspNetUsers_UserProfileId",
+                        name: "FK_UserProfileEvents_AspNetUsers_UserProfileId",
                         column: x => x.UserProfileId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -311,7 +311,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChatMessage",
+                name: "ChatMessages",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -326,21 +326,21 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChatMessage", x => x.Id);
+                    table.PrimaryKey("PK_ChatMessages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ChatMessage_AspNetUsers_RecipientId",
+                        name: "FK_ChatMessages_AspNetUsers_RecipientId",
                         column: x => x.RecipientId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ChatMessage_ChatRoom_RoomId",
+                        name: "FK_ChatMessages_ChatRooms_RoomId",
                         column: x => x.RoomId,
-                        principalTable: "ChatRoom",
+                        principalTable: "ChatRooms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ChatMessage_AspNetUsers_SenderId",
+                        name: "FK_ChatMessages_AspNetUsers_SenderId",
                         column: x => x.SenderId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -348,7 +348,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserChatRoom",
+                name: "UserChatRooms",
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
@@ -356,15 +356,15 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserChatRoom", x => new { x.UserId, x.RoomId });
+                    table.PrimaryKey("PK_UserChatRooms", x => new { x.UserId, x.RoomId });
                     table.ForeignKey(
-                        name: "FK_UserChatRoom_ChatRoom_RoomId",
+                        name: "FK_UserChatRooms_ChatRooms_RoomId",
                         column: x => x.RoomId,
-                        principalTable: "ChatRoom",
+                        principalTable: "ChatRooms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserChatRoom_AspNetUsers_UserId",
+                        name: "FK_UserChatRooms_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -372,7 +372,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AddressPicture",
+                name: "AddressPictures",
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
@@ -381,21 +381,21 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AddressPicture", x => x.UserId);
+                    table.PrimaryKey("PK_AddressPictures", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_AddressPicture_Picture_PictureId",
+                        name: "FK_AddressPictures_Pictures_PictureId",
                         column: x => x.PictureId,
-                        principalTable: "Picture",
+                        principalTable: "Pictures",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_AddressPicture_AspNetUsers_UserId",
+                        name: "FK_AddressPictures_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AddressPicture_AspNetUsers_UserId1",
+                        name: "FK_AddressPictures_AspNetUsers_UserId1",
                         column: x => x.UserId1,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -403,7 +403,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DpiPicture",
+                name: "DpiPictures",
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
@@ -412,21 +412,21 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DpiPicture", x => x.UserId);
+                    table.PrimaryKey("PK_DpiPictures", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_DpiPicture_Picture_PictureId",
+                        name: "FK_DpiPictures_Pictures_PictureId",
                         column: x => x.PictureId,
-                        principalTable: "Picture",
+                        principalTable: "Pictures",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_DpiPicture_AspNetUsers_UserId",
+                        name: "FK_DpiPictures_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DpiPicture_AspNetUsers_UserId1",
+                        name: "FK_DpiPictures_AspNetUsers_UserId1",
                         column: x => x.UserId1,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -434,7 +434,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProfilePicture",
+                name: "ProfilePictures",
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
@@ -443,21 +443,21 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProfilePicture", x => x.UserId);
+                    table.PrimaryKey("PK_ProfilePictures", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_ProfilePicture_Picture_PictureId",
+                        name: "FK_ProfilePictures_Pictures_PictureId",
                         column: x => x.PictureId,
-                        principalTable: "Picture",
+                        principalTable: "Pictures",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProfilePicture_AspNetUsers_UserId",
+                        name: "FK_ProfilePictures_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProfilePicture_AspNetUsers_UserId1",
+                        name: "FK_ProfilePictures_AspNetUsers_UserId1",
                         column: x => x.UserId1,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -465,7 +465,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserPicture",
+                name: "UserPictures",
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
@@ -474,21 +474,21 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserPicture", x => x.UserId);
+                    table.PrimaryKey("PK_UserPictures", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_UserPicture_Picture_PictureId",
+                        name: "FK_UserPictures_Pictures_PictureId",
                         column: x => x.PictureId,
-                        principalTable: "Picture",
+                        principalTable: "Pictures",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserPicture_AspNetUsers_UserId",
+                        name: "FK_UserPictures_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserPicture_AspNetUsers_UserId1",
+                        name: "FK_UserPictures_AspNetUsers_UserId1",
                         column: x => x.UserId1,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -524,7 +524,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductCategory",
+                name: "ProductCategories",
                 columns: table => new
                 {
                     CategoryId = table.Column<long>(nullable: false),
@@ -532,23 +532,23 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductCategory", x => new { x.CategoryId, x.ProductId });
+                    table.PrimaryKey("PK_ProductCategories", x => new { x.CategoryId, x.ProductId });
                     table.ForeignKey(
-                        name: "FK_ProductCategory_Category_CategoryId",
+                        name: "FK_ProductCategories_Categories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Category",
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductCategory_Product_ProductId",
+                        name: "FK_ProductCategories_Products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Product",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductPicture",
+                name: "ProductPictures",
                 columns: table => new
                 {
                     ProductId = table.Column<long>(nullable: false),
@@ -556,23 +556,23 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductPicture", x => new { x.ProductId, x.PictureId });
+                    table.PrimaryKey("PK_ProductPictures", x => new { x.ProductId, x.PictureId });
                     table.ForeignKey(
-                        name: "FK_ProductPicture_Picture_PictureId",
+                        name: "FK_ProductPictures_Pictures_PictureId",
                         column: x => x.PictureId,
-                        principalTable: "Picture",
+                        principalTable: "Pictures",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductPicture_Product_ProductId",
+                        name: "FK_ProductPictures_Products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Product",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RentCost",
+                name: "RentCosts",
                 columns: table => new
                 {
                     Duration = table.Column<int>(nullable: false),
@@ -581,17 +581,17 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RentCost", x => new { x.ProductId, x.Duration });
+                    table.PrimaryKey("PK_RentCosts", x => new { x.ProductId, x.Duration });
                     table.ForeignKey(
-                        name: "FK_RentCost_Product_ProductId",
+                        name: "FK_RentCosts_Products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Product",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RentRequest",
+                name: "RentRequests",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -606,15 +606,15 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RentRequest", x => x.Id);
+                    table.PrimaryKey("PK_RentRequests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RentRequest_Product_ProductId",
+                        name: "FK_RentRequests_Products_ProductId",
                         column: x => x.ProductId,
-                        principalTable: "Product",
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_RentRequest_AspNetUsers_RequestorId",
+                        name: "FK_RentRequests_AspNetUsers_RequestorId",
                         column: x => x.RequestorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -622,7 +622,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rent",
+                name: "Rents",
                 columns: table => new
                 {
                     RequestId = table.Column<long>(nullable: false),
@@ -633,23 +633,23 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Rent", x => x.RequestId);
+                    table.PrimaryKey("PK_Rents", x => x.RequestId);
                     table.ForeignKey(
-                        name: "FK_Rent_ChatRoom_ChatRoomId",
+                        name: "FK_Rents_ChatRooms_ChatRoomId",
                         column: x => x.ChatRoomId,
-                        principalTable: "ChatRoom",
+                        principalTable: "ChatRooms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Rent_RentRequest_RequestId",
+                        name: "FK_Rents_RentRequests_RequestId",
                         column: x => x.RequestId,
-                        principalTable: "RentRequest",
+                        principalTable: "RentRequests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RequestEvent",
+                name: "RequestEvents",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -661,23 +661,23 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RequestEvent", x => x.Id);
+                    table.PrimaryKey("PK_RequestEvents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RequestEvent_RentRequest_RentRequestId",
+                        name: "FK_RequestEvents_RentRequests_RentRequestId",
                         column: x => x.RentRequestId,
-                        principalTable: "RentRequest",
+                        principalTable: "RentRequests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AddressPicture_PictureId",
-                table: "AddressPicture",
+                name: "IX_AddressPictures_PictureId",
+                table: "AddressPictures",
                 column: "PictureId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AddressPicture_UserId1",
-                table: "AddressPicture",
+                name: "IX_AddressPictures_UserId1",
+                table: "AddressPictures",
                 column: "UserId1");
 
             migrationBuilder.CreateIndex(
@@ -718,18 +718,18 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChatMessage_RecipientId",
-                table: "ChatMessage",
+                name: "IX_ChatMessages_RecipientId",
+                table: "ChatMessages",
                 column: "RecipientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChatMessage_RoomId",
-                table: "ChatMessage",
+                name: "IX_ChatMessages_RoomId",
+                table: "ChatMessages",
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChatMessage_SenderId",
-                table: "ChatMessage",
+                name: "IX_ChatMessages_SenderId",
+                table: "ChatMessages",
                 column: "SenderId");
 
             migrationBuilder.CreateIndex(
@@ -744,13 +744,13 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 column: "Expiration");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DpiPicture_PictureId",
-                table: "DpiPicture",
+                name: "IX_DpiPictures_PictureId",
+                table: "DpiPictures",
                 column: "PictureId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DpiPicture_UserId1",
-                table: "DpiPicture",
+                name: "IX_DpiPictures_UserId1",
+                table: "DpiPictures",
                 column: "UserId1");
 
             migrationBuilder.CreateIndex(
@@ -764,48 +764,48 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 columns: new[] { "SubjectId", "ClientId", "Type" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_OwnerId",
-                table: "Product",
+                name: "IX_ProductCategories_ProductId",
+                table: "ProductCategories",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductPictures_PictureId",
+                table: "ProductPictures",
+                column: "PictureId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_OwnerId",
+                table: "Products",
                 column: "OwnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductCategory_ProductId",
-                table: "ProductCategory",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductPicture_PictureId",
-                table: "ProductPicture",
+                name: "IX_ProfilePictures_PictureId",
+                table: "ProfilePictures",
                 column: "PictureId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProfilePicture_PictureId",
-                table: "ProfilePicture",
-                column: "PictureId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProfilePicture_UserId1",
-                table: "ProfilePicture",
+                name: "IX_ProfilePictures_UserId1",
+                table: "ProfilePictures",
                 column: "UserId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rent_ChatRoomId",
-                table: "Rent",
-                column: "ChatRoomId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RentRequest_ProductId",
-                table: "RentRequest",
+                name: "IX_RentRequests_ProductId",
+                table: "RentRequests",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RentRequest_RequestorId",
-                table: "RentRequest",
+                name: "IX_RentRequests_RequestorId",
+                table: "RentRequests",
                 column: "RequestorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RequestEvent_RentRequestId",
-                table: "RequestEvent",
+                name: "IX_Rents_ChatRoomId",
+                table: "Rents",
+                column: "ChatRoomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RequestEvents_RentRequestId",
+                table: "RequestEvents",
                 column: "RentRequestId");
 
             migrationBuilder.CreateIndex(
@@ -814,35 +814,35 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 column: "ListId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserChatRoom_RoomId",
-                table: "UserChatRoom",
+                name: "IX_UserChatRooms_RoomId",
+                table: "UserChatRooms",
                 column: "RoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserPicture_PictureId",
-                table: "UserPicture",
+                name: "IX_UserPictures_PictureId",
+                table: "UserPictures",
                 column: "PictureId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserPicture_UserId1",
-                table: "UserPicture",
+                name: "IX_UserPictures_UserId1",
+                table: "UserPictures",
                 column: "UserId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserProfileEvent_UserEventId",
-                table: "UserProfileEvent",
+                name: "IX_UserProfileEvents_UserEventId",
+                table: "UserProfileEvents",
                 column: "UserEventId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserProfileEvent_UserProfileId",
-                table: "UserProfileEvent",
+                name: "IX_UserProfileEvents_UserProfileId",
+                table: "UserProfileEvents",
                 column: "UserProfileId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AddressPicture");
+                name: "AddressPictures");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -860,67 +860,67 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ChatMessage");
+                name: "ChatMessages");
 
             migrationBuilder.DropTable(
                 name: "DeviceCodes");
 
             migrationBuilder.DropTable(
-                name: "DpiPicture");
+                name: "DpiPictures");
 
             migrationBuilder.DropTable(
                 name: "PersistedGrants");
 
             migrationBuilder.DropTable(
-                name: "ProductCategory");
+                name: "ProductCategories");
 
             migrationBuilder.DropTable(
-                name: "ProductPicture");
+                name: "ProductPictures");
 
             migrationBuilder.DropTable(
-                name: "ProfilePicture");
+                name: "ProfilePictures");
 
             migrationBuilder.DropTable(
-                name: "Rent");
+                name: "RentCosts");
 
             migrationBuilder.DropTable(
-                name: "RentCost");
+                name: "Rents");
 
             migrationBuilder.DropTable(
-                name: "RequestEvent");
+                name: "RequestEvents");
 
             migrationBuilder.DropTable(
                 name: "TodoItems");
 
             migrationBuilder.DropTable(
-                name: "UserChatRoom");
+                name: "UserChatRooms");
 
             migrationBuilder.DropTable(
-                name: "UserPicture");
+                name: "UserPictures");
 
             migrationBuilder.DropTable(
-                name: "UserProfileEvent");
+                name: "UserProfileEvents");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Category");
+                name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "RentRequest");
+                name: "RentRequests");
 
             migrationBuilder.DropTable(
                 name: "TodoLists");
 
             migrationBuilder.DropTable(
-                name: "ChatRoom");
+                name: "ChatRooms");
 
             migrationBuilder.DropTable(
-                name: "Picture");
+                name: "Pictures");
 
             migrationBuilder.DropTable(
-                name: "Product");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

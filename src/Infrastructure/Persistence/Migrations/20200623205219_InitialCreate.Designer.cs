@@ -10,7 +10,7 @@ using rentasgt.Infrastructure.Persistence;
 namespace rentasgt.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200623184542_InitialCreate")]
+    [Migration("20200623205219_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -251,7 +251,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("AddressPicture");
+                    b.ToTable("AddressPictures");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.AppUser", b =>
@@ -360,7 +360,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.ChatMessage", b =>
@@ -397,7 +397,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("ChatMessage");
+                    b.ToTable("ChatMessages");
 
                     b.HasDiscriminator<int>("MessageType").HasValue(0);
                 });
@@ -410,7 +410,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ChatRoom");
+                    b.ToTable("ChatRooms");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.DpiPicture", b =>
@@ -430,7 +430,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("DpiPicture");
+                    b.ToTable("DpiPictures");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.Picture", b =>
@@ -448,7 +448,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Picture");
+                    b.ToTable("Pictures");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.Product", b =>
@@ -495,7 +495,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.ProductCategory", b =>
@@ -510,7 +510,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductCategory");
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.ProductPicture", b =>
@@ -525,7 +525,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PictureId");
 
-                    b.ToTable("ProductPicture");
+                    b.ToTable("ProductPictures");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.ProfilePicture", b =>
@@ -545,7 +545,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("ProfilePicture");
+                    b.ToTable("ProfilePictures");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.Rent", b =>
@@ -569,7 +569,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("ChatRoomId");
 
-                    b.ToTable("Rent");
+                    b.ToTable("Rents");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.RentCost", b =>
@@ -585,7 +585,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasKey("ProductId", "Duration");
 
-                    b.ToTable("RentCost");
+                    b.ToTable("RentCosts");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.RentRequest", b =>
@@ -623,7 +623,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("RequestorId");
 
-                    b.ToTable("RentRequest");
+                    b.ToTable("RentRequests");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.RequestEvent", b =>
@@ -649,7 +649,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("RentRequestId");
 
-                    b.ToTable("RequestEvent");
+                    b.ToTable("RequestEvents");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.TodoItem", b =>
@@ -740,7 +740,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("RoomId");
 
-                    b.ToTable("UserChatRoom");
+                    b.ToTable("UserChatRooms");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.UserPicture", b =>
@@ -760,7 +760,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("UserPicture");
+                    b.ToTable("UserPictures");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.UserProfileEvent", b =>
@@ -793,7 +793,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserProfileId");
 
-                    b.ToTable("UserProfileEvent");
+                    b.ToTable("UserProfileEvents");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.TextMessage", b =>
@@ -939,7 +939,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("ProductId");
 
-                            b1.ToTable("Product");
+                            b1.ToTable("Products");
 
                             b1.WithOwner()
                                 .HasForeignKey("ProductId");
