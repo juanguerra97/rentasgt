@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using rentasgt.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace rentasgt.Infrastructure
 {
@@ -30,8 +31,9 @@ namespace rentasgt.Infrastructure
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
-                services.AddDefaultIdentity<AppUser>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<AppUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();                    
             
             services.AddIdentityServer()
                 .AddApiAuthorization<AppUser, ApplicationDbContext>();

@@ -32,7 +32,9 @@ namespace rentasgt.WebUI
                     }                   
 
                     var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
+                    await ApplicationDbContextSeed.SeedUserRoles(roleManager);
                     await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager);
                     await ApplicationDbContextSeed.SeedSampleDataAsync(context);
                 }
