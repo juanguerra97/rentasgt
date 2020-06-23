@@ -11,6 +11,6 @@ dotnet ef migrations add InitialCreate -v --project src/Infrastructure --startup
 
 Apply migrations command:
 ```
-dotnet ef databse update --project src/Infrastructure --startup-project src/WebUI
+dotnet ef database update --project src/Infrastructure --startup-project src/WebUI
 ```
 > This was executed from the project root directory
