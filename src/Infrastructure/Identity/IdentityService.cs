@@ -4,14 +4,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using rentasgt.Domain.Entities;
 
 namespace rentasgt.Infrastructure.Identity
 {
     public class IdentityService : IIdentityService
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<AppUser> _userManager;
 
-        public IdentityService(UserManager<ApplicationUser> userManager)
+        public IdentityService(UserManager<AppUser> userManager)
         {
             _userManager = userManager;
         }
@@ -24,7 +25,7 @@ namespace rentasgt.Infrastructure.Identity
         }
         public async Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password)
         {
-            var user = new ApplicationUser
+            var user = new AppUser
             {
                 UserName = userName,
                 Email = userName,
@@ -47,7 +48,7 @@ namespace rentasgt.Infrastructure.Identity
             return Result.Success();
         }
 
-        public async Task<Result> DeleteUserAsync(ApplicationUser user)
+        public async Task<Result> DeleteUserAsync(AppUser user)
         {
             var result = await _userManager.DeleteAsync(user);
 

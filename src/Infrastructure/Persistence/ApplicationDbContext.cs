@@ -1,7 +1,6 @@
 ﻿using rentasgt.Application.Common.Interfaces;
 using rentasgt.Domain.Common;
 using rentasgt.Domain.Entities;
-using rentasgt.Infrastructure.Identity;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace rentasgt.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, IApplicationDbContext
+    public class ApplicationDbContext : ApiAuthorizationDbContext<AppUser>, IApplicationDbContext
     {
         private readonly ICurrentUserService _currentUserService;
         private readonly IDateTime _dateTime;
@@ -105,9 +104,62 @@ namespace rentasgt.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-            base.OnModelCreating(builder);
+            builder.Entity<AppUser>(userBuilder =>
+            {
+                userBuilder.Property(u => u.Cui)
+                    .HasMaxLength(13)
+                    .IsFixedLength()
+                    .IsRequired(false);
+
+                userBuilder.HasAlternateKey(u => u.Cui);
+
+                userBuilder.Property(u => u.Address)
+                    .HasMaxLength(256)
+                    .IsRequired(false);
+
+                userBuilder.HasOne(u => u.DpiPicture)
+                    .WithOne()
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                userBuilder.HasOne(u => u.UserPicture)
+                    .WithOne()
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                userBuilder.HasOne(u => u.ProfilePicture)
+                    .WithOne()
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                userBuilder.HasOne(u => u.AddressPicture)
+                    .WithOne()
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                userBuilder.HasMany(u => u.Products)
+                    .WithOne(p => p.Owner)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                userBuilder.HasMany(u => u.RentRequests)
+                    .WithOne(r => r.Requestor)
+                    .HasForeignKey(r => r.RequestorId)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                userBuilder.HasMany(u => u.ProfileEvents)
+                    .WithOne(e => e.UserProfile)
+                    .HasForeignKey(e => e.UserProfileId)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
+
+
+            });
+
         }
     }
 }
