@@ -41,6 +41,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
+                    ProfileStatus = table.Column<int>(nullable: false),
                     Cui = table.Column<string>(fixedLength: true, maxLength: 13, nullable: false),
                     Address = table.Column<string>(maxLength: 256, nullable: true)
                 },
@@ -376,7 +377,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: true),
                     PictureId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
@@ -394,12 +394,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AddressPictures_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -407,7 +401,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: true),
                     PictureId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
@@ -425,12 +418,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DpiPictures_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -438,7 +425,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: true),
                     PictureId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
@@ -456,12 +442,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ProfilePictures_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -469,7 +449,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: true),
                     PictureId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
@@ -487,12 +466,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserPictures_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -676,11 +649,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 column: "PictureId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AddressPictures_UserId1",
-                table: "AddressPictures",
-                column: "UserId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -749,11 +717,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 column: "PictureId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DpiPictures_UserId1",
-                table: "DpiPictures",
-                column: "UserId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PersistedGrants_Expiration",
                 table: "PersistedGrants",
                 column: "Expiration");
@@ -782,11 +745,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 name: "IX_ProfilePictures_PictureId",
                 table: "ProfilePictures",
                 column: "PictureId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProfilePictures_UserId1",
-                table: "ProfilePictures",
-                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RentRequests_ProductId",
@@ -822,11 +780,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 name: "IX_UserPictures_PictureId",
                 table: "UserPictures",
                 column: "PictureId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserPictures_UserId1",
-                table: "UserPictures",
-                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserProfileEvents_UserEventId",

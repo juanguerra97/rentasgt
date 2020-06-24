@@ -145,6 +145,9 @@ namespace rentasgt.Infrastructure.Persistence
 
             builder.Entity<AppUser>(userBuilder =>
             {
+                userBuilder.Property(u => u.ProfileStatus)
+                    .IsRequired();
+
                 userBuilder.Property(u => u.Cui)
                     .HasMaxLength(13)
                     .IsFixedLength()
@@ -157,22 +160,26 @@ namespace rentasgt.Infrastructure.Persistence
                     .IsRequired(false);
 
                 userBuilder.HasOne(u => u.DpiPicture)
-                    .WithOne()
+                    .WithOne(p => p.User)
+                    .HasForeignKey((DpiPicture p) => p.UserId)
                     .IsRequired()
                     .OnDelete(DeleteBehavior.Cascade);
 
                 userBuilder.HasOne(u => u.UserPicture)
-                    .WithOne()
+                    .WithOne(p => p.User)
+                    .HasForeignKey((UserPicture p) => p.UserId)
                     .IsRequired()
                     .OnDelete(DeleteBehavior.Cascade);
 
                 userBuilder.HasOne(u => u.ProfilePicture)
-                    .WithOne()
+                    .WithOne(p => p.User)
+                    .HasForeignKey((ProfilePicture p) => p.UserId)
                     .IsRequired()
                     .OnDelete(DeleteBehavior.Cascade);
 
                 userBuilder.HasOne(u => u.AddressPicture)
-                    .WithOne()
+                    .WithOne(p => p.User)
+                    .HasForeignKey((AddressPicture p) => p.UserId)
                     .IsRequired()
                     .OnDelete(DeleteBehavior.Cascade);
 

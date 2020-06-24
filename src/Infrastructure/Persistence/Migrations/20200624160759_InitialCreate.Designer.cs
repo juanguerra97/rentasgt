@@ -10,7 +10,7 @@ using rentasgt.Infrastructure.Persistence;
 namespace rentasgt.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200623205219_InitialCreate")]
+    [Migration("20200624160759_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -242,14 +242,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.Property<long>("PictureId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("UserId1")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
                     b.HasKey("UserId");
 
                     b.HasIndex("PictureId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("AddressPictures");
                 });
@@ -305,6 +300,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("ProfileStatus")
+                        .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -421,14 +419,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.Property<long>("PictureId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("UserId1")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
                     b.HasKey("UserId");
 
                     b.HasIndex("PictureId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("DpiPictures");
                 });
@@ -536,14 +529,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.Property<long>("PictureId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("UserId1")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
                     b.HasKey("UserId");
 
                     b.HasIndex("PictureId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("ProfilePictures");
                 });
@@ -751,14 +739,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.Property<long>("PictureId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("UserId1")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
                     b.HasKey("UserId");
 
                     b.HasIndex("PictureId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("UserPictures");
                 });
@@ -867,15 +850,11 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("rentasgt.Domain.Entities.AppUser", null)
+                    b.HasOne("rentasgt.Domain.Entities.AppUser", "User")
                         .WithOne("AddressPicture")
                         .HasForeignKey("rentasgt.Domain.Entities.AddressPicture", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("rentasgt.Domain.Entities.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.ChatMessage", b =>
@@ -907,15 +886,11 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("rentasgt.Domain.Entities.AppUser", null)
+                    b.HasOne("rentasgt.Domain.Entities.AppUser", "User")
                         .WithOne("DpiPicture")
                         .HasForeignKey("rentasgt.Domain.Entities.DpiPicture", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("rentasgt.Domain.Entities.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.Product", b =>
@@ -984,15 +959,11 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("rentasgt.Domain.Entities.AppUser", null)
+                    b.HasOne("rentasgt.Domain.Entities.AppUser", "User")
                         .WithOne("ProfilePicture")
                         .HasForeignKey("rentasgt.Domain.Entities.ProfilePicture", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("rentasgt.Domain.Entities.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.Rent", b =>
@@ -1074,15 +1045,11 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("rentasgt.Domain.Entities.AppUser", null)
+                    b.HasOne("rentasgt.Domain.Entities.AppUser", "User")
                         .WithOne("UserPicture")
                         .HasForeignKey("rentasgt.Domain.Entities.UserPicture", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("rentasgt.Domain.Entities.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.UserProfileEvent", b =>
