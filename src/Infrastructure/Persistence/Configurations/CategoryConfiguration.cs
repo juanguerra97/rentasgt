@@ -11,6 +11,8 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
             builder.Property(c => c.Id)
                 .ValueGeneratedOnAdd();
 
+            builder.HasAlternateKey(c => c.Name);
+
             builder.Property(c => c.Name)
                 .HasMaxLength(Category.MAX_NAME_LENGTH)
                 .IsRequired();
