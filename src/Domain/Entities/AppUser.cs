@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using rentasgt.Domain.Enums;
 using System.Collections.Generic;
 
 namespace rentasgt.Domain.Entities
@@ -13,11 +14,12 @@ namespace rentasgt.Domain.Entities
             RentRequests = new List<RentRequest>();
         }
 
-        public AppUser(string email, string phoneNumber, ProfilePicture profilePicture,
+        public AppUser(UserProfileStatus status, string email, string phoneNumber, ProfilePicture profilePicture,
             DpiPicture dpiPicture, UserPicture userPicture, AddressPicture addressPicture, 
             string? cui = null, string? address = null)
             : this()
         {
+            ProfileStatus = status;
             Email = email;
             UserName = email;
             PhoneNumber = phoneNumber;
@@ -28,6 +30,11 @@ namespace rentasgt.Domain.Entities
             Cui = cui;
             Address = address;
         }
+
+        /// <summary>
+        /// User's profile status
+        /// </summary>
+        public UserProfileStatus ProfileStatus { get; set; }
 
         /// <summary>
         /// Codigo unico de identificacion
