@@ -11,6 +11,8 @@ namespace rentasgt.Domain.Entities
     public class RentRequest
     {
 
+        public static readonly int MAX_PLACE_LENGTH = 128;
+
         public RentRequest()
         {
             Events = new List<RequestEvent>();

@@ -10,6 +10,8 @@ namespace rentasgt.Domain.Entities
     public class RequestEvent
     {
 
+        public static readonly int MAX_MESSAGE_LENGTH = 128;
+
         public RequestEvent()
         { }
 

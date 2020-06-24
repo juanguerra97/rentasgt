@@ -12,11 +12,11 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
                 .ValueGeneratedOnAdd();
 
             builder.Property(c => c.Name)
-                .HasMaxLength(128)
+                .HasMaxLength(Category.MAX_NAME_LENGTH)
                 .IsRequired();
 
             builder.Property(c => c.Description)
-                .HasMaxLength(512)
+                .HasMaxLength(Category.MAX_DESCRIPTION_LENGTH)
                 .IsRequired();
 
             builder.HasMany(c => c.Products)

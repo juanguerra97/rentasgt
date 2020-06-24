@@ -15,14 +15,14 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
 
             builder.Property(p => p.Name)
                 .IsRequired()
-                .HasMaxLength(128);
+                .HasMaxLength(Product.MAX_NAME_LENGTH);
 
             builder.Property(p => p.OtherNames)
-                .HasMaxLength(256)
+                .HasMaxLength(Product.MAX_OTHERNAMES_LENGTH)
                 .IsRequired();
 
             builder.Property(p => p.Description)
-                .HasMaxLength(512)
+                .HasMaxLength(Product.MAX_DESCRIPTION_LENGTH)
                 .IsRequired();
 
             builder.HasOne(p => p.Owner)

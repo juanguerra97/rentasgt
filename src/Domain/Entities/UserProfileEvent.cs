@@ -6,6 +6,8 @@ namespace rentasgt.Domain.Entities
     public class UserProfileEvent
     {
 
+        public static readonly int MAX_MESSAGE_LENGTH = 128;
+
         public UserProfileEvent()
         { }
 

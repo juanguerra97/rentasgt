@@ -18,7 +18,7 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder.Property(e => e.Message)
-                .HasMaxLength(128)
+                .HasMaxLength(RequestEvent.MAX_MESSAGE_LENGTH)
                 .IsRequired(false);
 
             builder.HasOne(e => e.RentRequest)

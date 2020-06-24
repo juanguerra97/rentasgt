@@ -25,7 +25,7 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder.Property(r => r.Place)
-                .HasMaxLength(128)
+                .HasMaxLength(RentRequest.MAX_PLACE_LENGTH)
                 .IsRequired(false);
 
             builder.HasOne(r => r.Product)
@@ -49,8 +49,7 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
                 .WithOne(re => re.Request)
                 .HasForeignKey((Rent r) => r.RequestId)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
-    
+                .OnDelete(DeleteBehavior.Cascade);   
 
         }
     }

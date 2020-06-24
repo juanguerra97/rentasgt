@@ -10,7 +10,7 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
         {
 
             builder.Property(m => m.TextContent)
-                .HasMaxLength(512)
+                .HasMaxLength(TextMessage.MAX_TEXTCONTENT_LENGTH)
                 .IsRequired();
 
         }

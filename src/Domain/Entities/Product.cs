@@ -11,6 +11,10 @@ namespace rentasgt.Domain.Entities
     public class Product : AuditableEntity
     {
 
+        public static readonly int MAX_NAME_LENGTH = 128;
+        public static readonly int MAX_OTHERNAMES_LENGTH = 256;
+        public static readonly int MAX_DESCRIPTION_LENGTH = 512;
+
         public Product()
         {
             Pictures = new List<ProductPicture>();

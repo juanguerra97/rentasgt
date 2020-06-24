@@ -9,6 +9,8 @@ namespace rentasgt.Domain.Entities
     public class TextMessage : ChatMessage
     {
 
+        public static readonly int MAX_TEXTCONTENT_LENGTH = 512;
+
         public TextMessage()
         {
             MessageType = ChatMessageType.Text;
