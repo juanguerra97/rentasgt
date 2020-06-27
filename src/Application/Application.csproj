@@ -20,6 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Categories\Queries\GetCategories\" />
+    <Folder Include="Categories\Queries\GetCategoryById\" />
     <Folder Include="Common\Mappings\" />
   </ItemGroup>
 
