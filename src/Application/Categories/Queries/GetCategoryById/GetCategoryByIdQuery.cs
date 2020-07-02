@@ -15,15 +15,20 @@ namespace rentasgt.Application.Categories.Queries.GetCategoryById
 
         public long Id { get; set; }
 
+        public GetCategoryByIdQuery(long id)
+        {
+            Id = id;
+        }
+
     }
 
     public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery, CategoryDto>
     {
 
         private readonly IApplicationDbContext context;
-        private readonly Mapper mapper;
+        private readonly IMapper mapper;
 
-        public GetCategoryByIdQueryHandler(IApplicationDbContext context, Mapper mapper)
+        public GetCategoryByIdQueryHandler(IApplicationDbContext context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;

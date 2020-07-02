@@ -28,9 +28,9 @@ namespace rentasgt.Application.Categories.Queries.GetCategories
     {
 
         private readonly IApplicationDbContext context;
-        private readonly Mapper mapper;
+        private readonly IMapper mapper;
 
-        public GetCategoriesQueryHandler(IApplicationDbContext context, Mapper mapper)
+        public GetCategoriesQueryHandler(IApplicationDbContext context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;
