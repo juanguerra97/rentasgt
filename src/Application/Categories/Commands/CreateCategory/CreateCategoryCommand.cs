@@ -1,17 +1,24 @@
 ﻿using AutoMapper;
 using MediatR;
 using rentasgt.Application.Common.Interfaces;
+using rentasgt.Application.Common.Mappings;
 using rentasgt.Domain.Entities;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace rentasgt.Application.Categories.Commands.CreateCategory
 {
-    public partial class CreateCategoryCommand : IRequest<long>
+    public partial class CreateCategoryCommand : IRequest<long>, IMapFrom<Category>
     {
 
         public string Name { get; set; }
         public string Description { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap(typeof(Category), GetType());
+            profile.CreateMap(GetType(), typeof(Category));
+        }
 
     }
 
@@ -19,9 +26,9 @@ namespace rentasgt.Application.Categories.Commands.CreateCategory
     {
 
         private readonly IApplicationDbContext context;
-        private readonly Mapper mapper;
+        private readonly IMapper mapper;
 
-        public CreateCategoryCommandHandler(IApplicationDbContext context, Mapper mapper)
+        public CreateCategoryCommandHandler(IApplicationDbContext context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;
