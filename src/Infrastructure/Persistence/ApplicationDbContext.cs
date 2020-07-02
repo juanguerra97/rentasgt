@@ -153,7 +153,7 @@ namespace rentasgt.Infrastructure.Persistence
                     .IsFixedLength()
                     .IsRequired(false);
 
-                userBuilder.HasAlternateKey(u => u.Cui);
+                userBuilder.HasIndex(u => u.Cui).IsUnique();
 
                 userBuilder.Property(u => u.Address)
                     .HasMaxLength(256)
