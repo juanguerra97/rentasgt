@@ -203,6 +203,84 @@
         ]
       }
     },
+    "/api/Pictures/upload/public": {
+      "post": {
+        "tags": [
+          "Pictures"
+        ],
+        "operationId": "Pictures_UploadPublicPicture",
+        "parameters": [
+          {
+            "type": "file",
+            "name": "ImageFile",
+            "in": "formData",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "nullable": true
+            },
+            "nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Pictures/upload/private": {
+      "post": {
+        "tags": [
+          "Pictures"
+        ],
+        "operationId": "Pictures_UploadPrivatePicture",
+        "parameters": [
+          {
+            "type": "file",
+            "name": "ImageFile",
+            "in": "formData",
+            "schema": {
+              "type": "string",
+              "format": "binary",
+              "nullable": true
+            },
+            "nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/TodoItems": {
       "post": {
         "tags": [
