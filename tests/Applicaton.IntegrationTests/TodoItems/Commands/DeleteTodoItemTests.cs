@@ -5,7 +5,7 @@ using rentasgt.Application.TodoLists.Commands.CreateTodoList;
 using rentasgt.Domain.Entities;
 using FluentAssertions;
 using System.Threading.Tasks;
-using NUnit.Framework;
+//using NUnit.Framework;
 
 namespace rentasgt.Application.IntegrationTests.TodoItems.Commands
 {
@@ -13,7 +13,7 @@ namespace rentasgt.Application.IntegrationTests.TodoItems.Commands
 
     public class DeleteTodoItemTests : TestBase
     {
-        [Test]
+        //[Test]
         public void ShouldRequireValidTodoItemId()
         {
             var command = new DeleteTodoItemCommand { Id = 99 };
@@ -22,7 +22,7 @@ namespace rentasgt.Application.IntegrationTests.TodoItems.Commands
                 SendAsync(command)).Should().Throw<NotFoundException>();
         }
 
-        [Test]
+        //[Test]
         public async Task ShouldDeleteTodoItem()
         {
             var listId = await SendAsync(new CreateTodoListCommand

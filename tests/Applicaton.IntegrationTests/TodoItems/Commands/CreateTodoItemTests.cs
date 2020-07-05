@@ -3,7 +3,7 @@ using rentasgt.Application.TodoItems.Commands.CreateTodoItem;
 using rentasgt.Application.TodoLists.Commands.CreateTodoList;
 using rentasgt.Domain.Entities;
 using FluentAssertions;
-using NUnit.Framework;
+//using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
@@ -13,7 +13,7 @@ namespace rentasgt.Application.IntegrationTests.TodoItems.Commands
 
     public class CreateTodoItemTests : TestBase
     {
-        [Test]
+        //[Test]
         public void ShouldRequireMinimumFields()
         {
             var command = new CreateTodoItemCommand();
@@ -22,7 +22,7 @@ namespace rentasgt.Application.IntegrationTests.TodoItems.Commands
                 SendAsync(command)).Should().Throw<ValidationException>();
         }
 
-        [Test]
+        //[Test]
         public async Task ShouldCreateTodoItem()
         {
             var userId = await RunAsDefaultUserAsync();

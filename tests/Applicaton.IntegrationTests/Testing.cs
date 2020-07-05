@@ -9,13 +9,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using NUnit.Framework;
+//using NUnit.Framework;
 using Respawn;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using rentasgt.Domain.Entities;
 
-[SetUpFixture]
+//[SetUpFixture]
 public class Testing
 {   
     private static IConfigurationRoot _configuration;
@@ -23,7 +24,7 @@ public class Testing
     private static Checkpoint _checkpoint;
     private static string _currentUserId;
 
-    [OneTimeSetUp]
+    //[OneTimeSetUp]
     public void RunBeforeAnyTests()
     {
         var builder = new ConfigurationBuilder()
@@ -93,9 +94,9 @@ public class Testing
     {
         using var scope = _scopeFactory.CreateScope();
 
-        var userManager = scope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+        var userManager = scope.ServiceProvider.GetService<UserManager<AppUser>>();
 
-        var user = new ApplicationUser { UserName = userName, Email = userName };
+        var user = new AppUser { UserName = userName, Email = userName };
 
         var result = await userManager.CreateAsync(user, password);
 
@@ -132,7 +133,7 @@ public class Testing
         await context.SaveChangesAsync();
     }
 
-    [OneTimeTearDown]
+    //[OneTimeTearDown]
     public void RunAfterAnyTests()
     {
     }

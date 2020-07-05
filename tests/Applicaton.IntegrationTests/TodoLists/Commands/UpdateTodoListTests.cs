@@ -3,7 +3,7 @@ using rentasgt.Application.TodoLists.Commands.CreateTodoList;
 using rentasgt.Application.TodoLists.Commands.UpdateTodoList;
 using rentasgt.Domain.Entities;
 using FluentAssertions;
-using NUnit.Framework;
+//using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
@@ -13,7 +13,7 @@ namespace rentasgt.Application.IntegrationTests.TodoLists.Commands
 
     public class UpdateTodoListTests : TestBase
     {
-        [Test]
+        //[Test]
         public void ShouldRequireValidTodoListId()
         {
             var command = new UpdateTodoListCommand
@@ -26,7 +26,7 @@ namespace rentasgt.Application.IntegrationTests.TodoLists.Commands
                 SendAsync(command)).Should().Throw<NotFoundException>();
         }
 
-        [Test]
+        //[Test]
         public async Task ShouldRequireUniqueTitle()
         {
             var listId = await SendAsync(new CreateTodoListCommand
@@ -51,7 +51,7 @@ namespace rentasgt.Application.IntegrationTests.TodoLists.Commands
                     .And.Errors["Title"].Should().Contain("The specified title already exists.");
         }
 
-        [Test]
+        //[Test]
         public async Task ShouldUpdateTodoList()
         {
             var userId = await RunAsDefaultUserAsync();

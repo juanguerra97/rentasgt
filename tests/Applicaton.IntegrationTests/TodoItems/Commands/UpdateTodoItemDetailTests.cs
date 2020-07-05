@@ -7,7 +7,7 @@ using rentasgt.Domain.Entities;
 using rentasgt.Domain.Enums;
 using FluentAssertions;
 using System.Threading.Tasks;
-using NUnit.Framework;
+//using NUnit.Framework;
 using System;
 
 namespace rentasgt.Application.IntegrationTests.TodoItems.Commands
@@ -16,7 +16,7 @@ namespace rentasgt.Application.IntegrationTests.TodoItems.Commands
 
     public class UpdateTodoItemDetailTests : TestBase
     {
-        [Test]
+        //[Test]
         public void ShouldRequireValidTodoItemId()
         {
             var command = new UpdateTodoItemCommand
@@ -29,7 +29,7 @@ namespace rentasgt.Application.IntegrationTests.TodoItems.Commands
                 SendAsync(command)).Should().Throw<NotFoundException>();
         }
 
-        [Test]
+        //[Test]
         public async Task ShouldUpdateTodoItem()
         {
             var userId = await RunAsDefaultUserAsync();

@@ -1,7 +1,7 @@
 ﻿using rentasgt.Application.TodoLists.Queries.GetTodos;
 using rentasgt.Domain.Entities;
 using FluentAssertions;
-using NUnit.Framework;
+//using NUnit.Framework;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,7 +11,7 @@ namespace rentasgt.Application.IntegrationTests.TodoLists.Queries
 
     public class GetTodosTests : TestBase
     {
-        [Test]
+        //[Test]
         public async Task ShouldReturnPriorityLevels()
         {
             var query = new GetTodosQuery();
@@ -21,7 +21,7 @@ namespace rentasgt.Application.IntegrationTests.TodoLists.Queries
             result.PriorityLevels.Should().NotBeEmpty();
         }
 
-        [Test]
+        //[Test]
         public async Task ShouldReturnAllListsAndItems()
         {
             await AddAsync(new TodoList

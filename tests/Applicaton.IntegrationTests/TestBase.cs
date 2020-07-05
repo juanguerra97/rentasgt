@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿//using NUnit.Framework;
 using System.Threading.Tasks;
 
 namespace rentasgt.Application.IntegrationTests
@@ -7,7 +7,7 @@ namespace rentasgt.Application.IntegrationTests
 
     public class TestBase
     {
-        [SetUp]
+        //[SetUp]
         public async Task TestSetUp()
         {
             await ResetState();
