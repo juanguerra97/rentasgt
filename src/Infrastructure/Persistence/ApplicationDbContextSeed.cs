@@ -38,6 +38,8 @@ namespace rentasgt.Infrastructure.Persistence
             {
                 UserName = "administrator@localhost",
                 Email = "administrator@localhost",
+                FirstName = "Solomeo",
+                LastName = "Paredes",
                 EmailConfirmed = true,
                 PhoneNumber = "12345678",
                 PhoneNumberConfirmed = true,

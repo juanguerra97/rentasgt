@@ -148,6 +148,14 @@ namespace rentasgt.Infrastructure.Persistence
                 userBuilder.Property(u => u.ProfileStatus)
                     .IsRequired();
 
+                userBuilder.Property(u => u.FirstName)
+                    .HasMaxLength(AppUser.MAX_FIRSTNAME_LENGTH)
+                    .IsRequired();
+
+                userBuilder.Property(u => u.LastName)
+                    .HasMaxLength(AppUser.MAX_LASTNAME_LENGTH)
+                    .IsRequired();
+
                 userBuilder.Property(u => u.Cui)
                     .HasMaxLength(13)
                     .IsFixedLength()
@@ -156,7 +164,7 @@ namespace rentasgt.Infrastructure.Persistence
                 userBuilder.HasIndex(u => u.Cui).IsUnique();
 
                 userBuilder.Property(u => u.Address)
-                    .HasMaxLength(256)
+                    .HasMaxLength(AppUser.MAX_ADDRESS_LENGTH)
                     .IsRequired(false);
 
                 userBuilder.HasOne(u => u.DpiPicture)

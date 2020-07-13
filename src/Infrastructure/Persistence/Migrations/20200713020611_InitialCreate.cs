@@ -42,13 +42,14 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     ProfileStatus = table.Column<int>(nullable: false),
-                    Cui = table.Column<string>(fixedLength: true, maxLength: 13, nullable: false),
+                    FirstName = table.Column<string>(maxLength: 128, nullable: false),
+                    LastName = table.Column<string>(maxLength: 128, nullable: false),
+                    Cui = table.Column<string>(fixedLength: true, maxLength: 13, nullable: true),
                     Address = table.Column<string>(maxLength: 256, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.UniqueConstraint("AK_AspNetUsers_Cui", x => x.Cui);
                 });
 
             migrationBuilder.CreateTable(
@@ -675,6 +676,12 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_Cui",
+                table: "AspNetUsers",
+                column: "Cui",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
@@ -683,6 +690,12 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_Name",
+                table: "Categories",
+                column: "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(

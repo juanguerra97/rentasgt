@@ -10,7 +10,7 @@ using rentasgt.Infrastructure.Persistence;
 namespace rentasgt.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200624160759_InitialCreate")]
+    [Migration("20200713020611_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -266,7 +266,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Cui")
-                        .IsRequired()
                         .HasColumnType("char(13) CHARACTER SET utf8mb4")
                         .IsFixedLength(true)
                         .HasMaxLength(13);
@@ -277,6 +276,16 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
+                        .HasMaxLength(128);
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
+                        .HasMaxLength(128);
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
@@ -316,7 +325,8 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("Cui");
+                    b.HasIndex("Cui")
+                        .IsUnique();
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -357,6 +367,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasMaxLength(128);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Categories");
                 });

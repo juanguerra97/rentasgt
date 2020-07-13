@@ -1,11 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using rentasgt.Domain.Enums;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 
 namespace rentasgt.Domain.Entities
 {
     public class AppUser : IdentityUser
     {
+
+        public static readonly int MAX_FIRSTNAME_LENGTH = 128;
+        public static readonly int MAX_LASTNAME_LENGTH = 128;
+        public static readonly int MAX_ADDRESS_LENGTH = 256;
 
         public AppUser()
         {
@@ -14,12 +19,15 @@ namespace rentasgt.Domain.Entities
             RentRequests = new List<RentRequest>();
         }
 
-        public AppUser(UserProfileStatus status, string email, string phoneNumber, ProfilePicture profilePicture,
+        public AppUser(UserProfileStatus status, string firstName, string lastName, 
+            string email, string phoneNumber, ProfilePicture profilePicture,
             DpiPicture dpiPicture, UserPicture userPicture, AddressPicture addressPicture, 
             string? cui = null, string? address = null)
             : this()
         {
             ProfileStatus = status;
+            FirstName = firstName;
+            LastName = lastName;
             Email = email;
             UserName = email;
             PhoneNumber = phoneNumber;
@@ -35,6 +43,10 @@ namespace rentasgt.Domain.Entities
         /// User's profile status
         /// </summary>
         public UserProfileStatus ProfileStatus { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
 
         /// <summary>
         /// Codigo unico de identificacion

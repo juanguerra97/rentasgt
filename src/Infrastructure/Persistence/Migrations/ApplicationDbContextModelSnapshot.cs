@@ -275,6 +275,16 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
+                        .HasMaxLength(128);
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
+                        .HasMaxLength(128);
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
 
