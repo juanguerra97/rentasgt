@@ -41,7 +41,7 @@ namespace rentasgt.Application.Pictures.Commands.UploadPublicPicture
                 EnsureCreateUploadedImagesDirectory();
                 await SaveImageToFileSystem(request.ImageFile, imageUri);
 
-                var pic = new Picture(PictureStorageType.Url, Path.Combine("uploads", "images", imageFileName));
+                var pic = new Picture(PictureStorageType.Url, "/uploads/images/" + imageFileName);
                 context.Pictures.Add(pic);
                 await context.SaveChangesAsync(cancellationToken);
                 return pic.Id;
