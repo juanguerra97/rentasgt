@@ -10,9 +10,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace rentasgt.Application.ProductCategories.Queries.GetProductsFromCategory
+namespace rentasgt.Application.ProductCategories.Queries.GetProductsOfCategory
 {
-    public class GetProductsFromCategoryQuery : IRequest<List<ProductDto>>
+    public class GetProductsOfCategoryQuery : IRequest<List<ProductDto>>
     {
 
         public long CategoryId { get; set; }
@@ -21,7 +21,7 @@ namespace rentasgt.Application.ProductCategories.Queries.GetProductsFromCategory
 
     }
 
-    public class GetProductsFromCategoryQueryHandler : IRequestHandler<GetProductsFromCategoryQuery, List<ProductDto>>
+    public class GetProductsFromCategoryQueryHandler : IRequestHandler<GetProductsOfCategoryQuery, List<ProductDto>>
     {
 
         private readonly IApplicationDbContext context;
@@ -33,7 +33,7 @@ namespace rentasgt.Application.ProductCategories.Queries.GetProductsFromCategory
             this.mapper = mapper;
         }
 
-        public async Task<List<ProductDto>> Handle(GetProductsFromCategoryQuery request, CancellationToken cancellationToken)
+        public async Task<List<ProductDto>> Handle(GetProductsOfCategoryQuery request, CancellationToken cancellationToken)
         {
             return await this.context.ProductCategories.Include(pc => pc.Product)
                 .Where(pc => pc.CategoryId == request.CategoryId)

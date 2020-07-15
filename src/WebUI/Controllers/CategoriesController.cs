@@ -5,7 +5,7 @@ using rentasgt.Application.Categories.Commands.DeleteCategory;
 using rentasgt.Application.Categories.Commands.UpdateCategory;
 using rentasgt.Application.Categories.Queries.GetCategories;
 using rentasgt.Application.Categories.Queries.GetCategoryById;
-using rentasgt.Application.ProductCategories.Queries.GetProductsFromCategory;
+using rentasgt.Application.ProductCategories.Queries.GetProductsOfCategory;
 using rentasgt.Application.Products.Queries.GetProducts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -34,7 +34,7 @@ namespace rentasgt.WebUI.Controllers
         [HttpGet("{id}/products")]
         public async Task<ActionResult<List<ProductDto>>> GetProducts(long id, int pageSize = 15, int pageNumber = 1)
         {
-            return await Mediator.Send(new GetProductsFromCategoryQuery
+            return await Mediator.Send(new GetProductsOfCategoryQuery
             {
                 CategoryId = id,
                 PageSize = pageSize,
