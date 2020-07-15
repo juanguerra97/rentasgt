@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using rentasgt.Application.Products.Commands.CreateProduct;
 using rentasgt.Application.Products.Commands.DeleteProduct;
 using rentasgt.Application.Products.Commands.UpdateProduct;
-using rentasgt.Application.Products.Queries.GetCategoriesOfProduct;
+using rentasgt.Application.ProductCategories.Queries.GetCategoriesOfProduct;
 using rentasgt.Application.Products.Queries.GetProductById;
 using rentasgt.Application.Products.Queries.GetProducts;
 using System;

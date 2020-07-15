@@ -1,7 +1,7 @@
 ﻿using rentasgt.Application.Common.Mappings;
 using rentasgt.Domain.Entities;
 
-namespace rentasgt.Application.Products.Queries.GetCategoriesOfProduct
+namespace rentasgt.Application.ProductCategories.Queries.GetCategoriesOfProduct
 {
     public class CategorySummaryDto : IMapFrom<Category>
     {

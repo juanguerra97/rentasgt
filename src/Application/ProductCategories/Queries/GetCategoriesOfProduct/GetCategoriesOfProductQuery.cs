@@ -3,14 +3,12 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using rentasgt.Application.Common.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace rentasgt.Application.Products.Queries.GetCategoriesOfProduct
+namespace rentasgt.Application.ProductCategories.Queries.GetCategoriesOfProduct
 {
     public class GetCategoriesOfProductQuery : IRequest<List<CategorySummaryDto>>
     {
