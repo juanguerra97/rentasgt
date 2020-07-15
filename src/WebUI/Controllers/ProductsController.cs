@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using rentasgt.Application.Products.Commands.CreateProduct;
 using rentasgt.Application.Products.Commands.DeleteProduct;
 using rentasgt.Application.Products.Commands.UpdateProduct;
+using rentasgt.Application.Products.Queries.GetCategoriesOfProduct;
 using rentasgt.Application.Products.Queries.GetProductById;
 using rentasgt.Application.Products.Queries.GetProducts;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -27,6 +29,13 @@ namespace rentasgt.WebUI.Controllers
         public async Task<ActionResult<ProductDto>> GetById(long id)
         {
             return await Mediator.Send(new GetProductByIdQuery { Id = id });
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{id}/categories")]
+        public async Task<ActionResult<List<CategorySummaryDto>>> GetCategories(long id)
+        {
+            return await Mediator.Send(new GetCategoriesOfProductQuery { ProductId = id });
         }
 
         [HttpPost]
