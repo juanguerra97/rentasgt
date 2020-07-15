@@ -19,6 +19,8 @@ namespace rentasgt.WebUI.Filters
             {
                 { typeof(ValidationException), HandleValidationException },
                 { typeof(NotFoundException), HandleNotFoundException },
+                { typeof(PictureUploadException), HandlePictureUploadException },
+                { typeof(DuplicateDataException), HandleDuplicateDataException },
             };
         }
 
@@ -87,5 +89,36 @@ namespace rentasgt.WebUI.Filters
 
             context.ExceptionHandled = true;
         }
+
+        private void HandleDuplicateDataException(ExceptionContext context)
+        {
+            var exception = context.Exception as DuplicateDataException;
+
+            var details = new ProblemDetails()
+            {
+                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+                Detail = exception.Message
+            };
+
+            context.Result = new BadRequestObjectResult(details);
+
+            context.ExceptionHandled = true;
+        }
+
+        private void HandlePictureUploadException(ExceptionContext context)
+        {
+            var exception = context.Exception as PictureUploadException;
+
+            var details = new ProblemDetails()
+            {
+                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+                Detail = exception.Message
+            };
+
+            context.Result = new BadRequestObjectResult(details);
+
+            context.ExceptionHandled = true;
+        }
+
     }
 }
