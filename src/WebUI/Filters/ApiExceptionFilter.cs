@@ -19,8 +19,10 @@ namespace rentasgt.WebUI.Filters
             {
                 { typeof(ValidationException), HandleValidationException },
                 { typeof(NotFoundException), HandleNotFoundException },
-                { typeof(PictureUploadException), HandlePictureUploadException },
-                { typeof(DuplicateDataException), HandleDuplicateDataException },
+                { typeof(PictureUploadException), HandleCustomException },
+                { typeof(DuplicateDataException), HandleCustomException },
+                { typeof(InvalidStateException), HandleCustomException },
+                { typeof(InvalidRentRequestException), HandleCustomException },
             };
         }
 
@@ -90,24 +92,9 @@ namespace rentasgt.WebUI.Filters
             context.ExceptionHandled = true;
         }
 
-        private void HandleDuplicateDataException(ExceptionContext context)
+        private void HandleCustomException(ExceptionContext context)
         {
-            var exception = context.Exception as DuplicateDataException;
-
-            var details = new ProblemDetails()
-            {
-                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
-                Detail = exception.Message
-            };
-
-            context.Result = new BadRequestObjectResult(details);
-
-            context.ExceptionHandled = true;
-        }
-
-        private void HandlePictureUploadException(ExceptionContext context)
-        {
-            var exception = context.Exception as PictureUploadException;
+            var exception = context.Exception;
 
             var details = new ProblemDetails()
             {
