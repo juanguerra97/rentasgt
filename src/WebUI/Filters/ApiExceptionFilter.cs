@@ -23,6 +23,7 @@ namespace rentasgt.WebUI.Filters
                 { typeof(DuplicateDataException), HandleCustomException },
                 { typeof(InvalidStateException), HandleCustomException },
                 { typeof(InvalidRentRequestException), HandleCustomException },
+                { typeof(OperationForbidenException), HandleOperationForbidenException },
             };
         }
 
@@ -103,6 +104,21 @@ namespace rentasgt.WebUI.Filters
             };
 
             context.Result = new BadRequestObjectResult(details);
+
+            context.ExceptionHandled = true;
+        }
+
+        private void HandleOperationForbidenException(ExceptionContext context)
+        {
+            var exception = context.Exception;
+
+            var details = new ProblemDetails()
+            {
+                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+                Detail = exception.Message
+            };
+
+            context.Result = new ForbidResult();
 
             context.ExceptionHandled = true;
         }
