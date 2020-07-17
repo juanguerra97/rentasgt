@@ -57,6 +57,27 @@ namespace rentasgt.Infrastructure.Persistence
                 await userManager.AddToRoleAsync(defaultUser, "Admin");
                 await userManager.AddToRoleAsync(defaultUser, "Moderador");
             }
+
+            if (userManager.Users.All(u => u.UserName != "panchos@localhost"))
+            {
+                await userManager.CreateAsync(new AppUser
+                {
+                    UserName = "panchos@localhost",
+                    Email = "panchos@localhost",
+                    FirstName = "Pancho",
+                    LastName = "Villa",
+                    EmailConfirmed = true,
+                    PhoneNumber = "12345678",
+                    PhoneNumberConfirmed = true,
+                    Cui = "2320556340104",
+                    Address = "Area 51",
+                    DpiPicture = new DpiPicture { Picture = dpiPic },
+                    UserPicture = new UserPicture { Picture = userPic },
+                    ProfilePicture = new ProfilePicture { Picture = profilePic },
+                    AddressPicture = new AddressPicture { Picture = addressPic }
+                }, "P@nch0s");
+            }
+
         }
 
         public static async Task SeedSampleDataAsync(ApplicationDbContext context)
