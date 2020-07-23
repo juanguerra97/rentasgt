@@ -917,11 +917,19 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                             b1.Property<long>("ProductId")
                                 .HasColumnType("bigint");
 
+                            b1.Property<string>("City")
+                                .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
+                                .HasMaxLength(128);
+
                             b1.Property<double>("Latitude")
                                 .HasColumnType("double");
 
                             b1.Property<double>("Longitude")
                                 .HasColumnType("double");
+
+                            b1.Property<string>("State")
+                                .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
+                                .HasMaxLength(128);
 
                             b1.HasKey("ProductId");
 

@@ -53,7 +53,12 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.OwnsOne(p => p.Location);
+            builder.OwnsOne(p => p.Location, b => {
+                b.Property(u => u.City)
+                    .HasMaxLength(Ubicacion.MAX_CITY_LENGTH);
+                b.Property(u => u.State)
+                    .HasMaxLength(Ubicacion.MAX_STATE_LENGTH);
+            });
 
         }
     }

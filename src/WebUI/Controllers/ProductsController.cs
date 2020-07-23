@@ -6,7 +6,6 @@ using rentasgt.Application.Products.Commands.UpdateProduct;
 using rentasgt.Application.ProductCategories.Queries.GetCategoriesOfProduct;
 using rentasgt.Application.Products.Queries.GetProductById;
 using rentasgt.Application.Products.Queries.GetProducts;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,9 +18,20 @@ namespace rentasgt.WebUI.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<List<ProductDto>>> Get(int pageSize = 15, int pageNumber = 1)
+        public async Task<ActionResult<List<ProductDto>>> Get(int pageSize = 15,
+            int pageNumber = 1, double? lon = null, double? lat = null,
+            int d = 10, string? city = null, string? state = null)
         {
-            return await Mediator.Send(new GetProductsQuery(pageSize, pageNumber));
+            return await Mediator.Send(new GetProductsQuery
+            {
+                PageSize = pageSize,
+                PageNumber = pageNumber,
+                Longitude = lon,
+                Latitude = lat,
+                Distance = d,
+                City = city,
+                State = state
+            });
         }
 
         [AllowAnonymous]

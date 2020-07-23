@@ -270,7 +270,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     OtherNames = table.Column<string>(maxLength: 256, nullable: false),
                     OwnerId = table.Column<string>(nullable: false),
                     Location_Latitude = table.Column<double>(nullable: true),
-                    Location_Longitude = table.Column<double>(nullable: true)
+                    Location_Longitude = table.Column<double>(nullable: true),
+                    Location_City = table.Column<string>(maxLength: 128, nullable: true),
+                    Location_State = table.Column<string>(maxLength: 128, nullable: true)
                 },
                 constraints: table =>
                 {

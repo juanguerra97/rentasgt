@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using rentasgt.Application.Common.Interfaces;
+using rentasgt.Application.Common.Models;
 using rentasgt.Domain.Entities;
 using rentasgt.Domain.Enums;
 using System.Collections.Generic;
@@ -28,14 +29,17 @@ namespace rentasgt.Application.Products.Commands.CreateProduct
     {
         private readonly IApplicationDbContext context;
         private readonly ICurrentUserService currentUserService;
+        private readonly ILocation locationService;
         private readonly UserManager<AppUser> userManager;
 
         public CreateProductCommandHandler(IApplicationDbContext context, 
             ICurrentUserService currentUserService,
+            ILocation locationService,
             UserManager<AppUser> userManager)
         {
             this.context = context;
             this.currentUserService = currentUserService;
+            this.locationService = locationService;
             this.userManager = userManager;
         }
 
@@ -50,6 +54,14 @@ namespace rentasgt.Application.Products.Commands.CreateProduct
                 OtherNames = request.OtherNames,
                 Location = request.Location
             };
+
+            Address addr = this.locationService.GetAddress(new Geolocation.Coordinate
+            {
+                Latitude = request.Location.Latitude,
+                Longitude = request.Location.Longitude
+            });
+            newProduct.Location.City = addr.City;
+            newProduct.Location.State = addr.State;
 
             if (request.Categories != null)
             {

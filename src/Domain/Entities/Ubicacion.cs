@@ -8,6 +8,9 @@ namespace rentasgt.Domain.Entities
     public class Ubicacion
     {
 
+        public static readonly int MAX_CITY_LENGTH = 128;
+        public static readonly int MAX_STATE_LENGTH = 128;
+
         public Ubicacion()
         { }
 
@@ -20,6 +23,10 @@ namespace rentasgt.Domain.Entities
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }
+
+        public string? City { get; set; }
+
+        public string? State { get; set; }
 
     }
 }
