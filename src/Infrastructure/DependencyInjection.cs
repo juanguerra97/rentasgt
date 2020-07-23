@@ -57,6 +57,7 @@ namespace rentasgt.Infrastructure
             services.AddTransient<IProfileService, IdentityClaimsProfileService>();
 
             services.AddTransient<IDateTime, DateTimeService>();
+            services.AddTransient<ILocation, LocationService>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();            
 
