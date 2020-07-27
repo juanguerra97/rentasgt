@@ -10,7 +10,7 @@ import {
 } from '@angular/router';
 import {Injectable} from '@angular/core';
 import {AuthorizeService} from './authorize.service';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {ApplicationPaths, QueryParameterNames} from './api-authorization.constants';
 import {tap} from 'rxjs/operators';
 
@@ -36,7 +36,7 @@ export class OnlyAdminGuard implements CanActivate, CanLoad, CanActivateChild {
   private verifyAdminRole(state: RouterStateSnapshot) {
     return this.authorize.isAuthenticated().pipe(tap(isAuthenticated => {
       this.handleAuthorization(isAuthenticated, state);
-      this.authorize.isAdmin().pipe(tap(isAdmin => this.handleIsAdmin(isAdmin)));
+      return isAuthenticated && this.authorize.isAdmin().pipe(tap(isAdmin => this.handleIsAdmin(isAdmin)));
     }));
   }
 
@@ -54,6 +54,7 @@ export class OnlyAdminGuard implements CanActivate, CanLoad, CanActivateChild {
     if (!isAdmin) {
       // TODO: Redirect to other route
     }
+    return isAdmin;
   }
 
 }

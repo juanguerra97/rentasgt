@@ -16,7 +16,7 @@ import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { AdminModule } from './admin/admin.module';
+import { OnlyAdminGuard } from '../api-authorization/only-admin.guard';
 
 @NgModule({
   declarations: [
@@ -38,10 +38,11 @@ import { AdminModule } from './admin/admin.module';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'todo', component: TodoComponent, canActivate: [AuthorizeGuard] },
+      { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) ,
+        canActivateChild: [OnlyAdminGuard], canActivate: [OnlyAdminGuard], },
     ]),
     BrowserAnimationsModule,
-    ModalModule.forRoot(),
-    AdminModule,
+    ModalModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
