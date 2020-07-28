@@ -1,1 +1,55 @@
-<p>categories works!</p>
+
+
+<div class="row">
+
+  <div class="col-12 col-md-6 col-lg-8">
+
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripci&oacute;n</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let categ of categories">
+          <td>{{ categ.id }}</td>
+          <td>{{ categ.name }}</td>
+          <td>{{ categ.description | slice:0:128 }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <nav *ngIf="pageInfo != null && pageInfo.totalPages > 1" aria-label="Categories Navigation">
+      <ul class="pagination">
+        <li *ngFor="let pageNum of pageInfo.pagesSpace" [ngClass]="{'page-item': true, 'active': pageNum === pageInfo.currentPage}"><a (click)="loadCategories(pageInfo.pageSize, pageNum)" class="page-link">{{ pageNum }}</a></li>
+      </ul>
+    </nav>
+
+  </div>
+
+  <div class="col-12 col-md-6 col-lg-4">
+
+    <form (ngSubmit)="onSubmitNewCategoryForm()" [formGroup]="newCategoryForm">
+
+      <div class="form-group">
+        <label for="name">Nombre</label>
+        <input formControlName="name" type="text" id="name" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descripci&oacute;n</label>
+        <textarea formControlName="description" id="description" cols="30" rows="10" class="form-control"></textarea>
+      </div>
+
+      <input [disabled]="!newCategoryForm.valid"
+             type="submit" value="Guardar" class="btn btn-sm btn-primary">
+
+    </form>
+
+  </div>
+
+</div>
