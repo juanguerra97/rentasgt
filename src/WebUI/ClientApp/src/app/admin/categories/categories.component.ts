@@ -14,11 +14,12 @@ export class CategoriesComponent implements OnInit {
   faTrash = faTrash;
   faEdit = faEdit;
 
+  public PAGE_SIZE = 5;
+  public DEFAULT_PAGE_NUMBER = 1;
   public categories: CategoryDto[] = [];
   public selectedCategory: CategoryDto = null;
   public pageInfo: PageInfo = null;
-  public PAGE_SIZE = 5;
-  public DEFAULT_PAGE_NUMBER = 1;
+  public loadingCategories = false;
 
   public newCategoryForm = new FormGroup({
     name: new FormControl('', [
@@ -38,10 +39,15 @@ export class CategoriesComponent implements OnInit {
   }
 
   private loadCategories(pageSize: number, pageNumber: number): void {
+    this.loadingCategories = true;
     this.categoriesClient.get(pageSize, pageNumber).subscribe((res => {
       this.pageInfo = new PageInfo(res.currentPage, res.totalPages, res.pageSize, res.totalCount);
       this.categories = res.items;
-    }), console.error);
+      this.loadingCategories = false;
+    }), error => {
+      this.loadingCategories = false;
+      console.error(error);
+    });
   }
 
   public onSubmitNewCategoryForm(): void {
