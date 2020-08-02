@@ -17,6 +17,7 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { OnlyAdminGuard } from '../api-authorization/only-admin.guard';
+import { AppCommonModule } from './app-common/app-common.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { OnlyAdminGuard } from '../api-authorization/only-admin.guard';
     HttpClientModule,
     FormsModule,
     ApiAuthorizationModule,
+    AppCommonModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },

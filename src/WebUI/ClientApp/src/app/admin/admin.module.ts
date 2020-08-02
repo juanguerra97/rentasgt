@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AppCommonModule } from '../app-common/app-common.module';
 import { ApiAuthorizationModule } from '../../api-authorization/api-authorization.module';
 import { CategoriesComponent } from './categories/categories.component';
 
@@ -24,7 +25,8 @@ import { CategoriesComponent } from './categories/categories.component';
         path: 'categorias',
         component: CategoriesComponent
       }
-    ])
+    ]),
+    AppCommonModule
   ]
 })
 export class AdminModule { }
