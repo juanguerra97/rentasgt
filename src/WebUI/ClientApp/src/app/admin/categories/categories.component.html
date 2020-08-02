@@ -38,9 +38,25 @@
       </table>
     </div>
 
-    <nav *ngIf="pageInfo != null && pageInfo.totalPages > 1" aria-label="Categories Navigation">
+    <nav *ngIf="pageInfo != null && pageInfo.totalPages > 1" aria-label="Categories Navigation" class="d-flex p-0 justify-content-end">
       <ul class="pagination">
-        <li *ngFor="let pageNum of pageInfo.pagesSpace" [ngClass]="{'page-item': true, 'active': pageNum === pageInfo.currentPage}"><a (click)="loadCategories(pageInfo.pageSize, pageNum)" class="page-link">{{ pageNum }}</a></li>
+
+        <li class="page-item">
+          <button (click)="previousPage()" [disabled]="pageInfo.pagesSpace.length < 5 || pageInfo.pagesSpace[0] === 1"
+            class="btn btn-default" aria-label="Anterior">
+            <span aria-hidden="true">&laquo;</span>
+          </button>
+        </li>
+
+        <li *ngFor="let pageNum of pageInfo.pagesSpace" [ngClass]="{'page-item': true, 'active': pageNum === pageInfo.currentPage}"><button (click)="loadCategories(pageInfo.pageSize, pageNum)" class="page-link btn btn-default">{{ pageNum }}</button></li>
+
+        <li class="page-item">
+          <button (click)="nextPage()" [disabled]="pageInfo.pagesSpace.length < 5 || pageInfo.pagesSpace[pageInfo.pagesSpace.length - 1] === pageInfo.totalPages"
+            class="btn btn-default" aria-label="Siguiente">
+            <span aria-hidden="true">&raquo;</span>
+          </button>
+        </li>
+
       </ul>
     </nav>
 

@@ -10,6 +10,7 @@ import { CategoriesClient, CategoryDto } from '../../rentasgt-api';
 })
 export class CategoriesComponent implements OnInit {
 
+  static PAGINATOR_SIZE = 5;
   static DEFAULT_PAGE_SIZE = 5;
   static DEFAULT_PAGE_NUMBER = 1;
 
@@ -63,12 +64,39 @@ export class CategoriesComponent implements OnInit {
     }
   }
 
+  public previousPage(): void {
+    const firstAvailablePage = this.pageInfo.pagesSpace[0];
+    if (firstAvailablePage === 1) {
+      return;
+    }
+    let previous = firstAvailablePage - (Math.floor(this.pageInfo.PAGINATOR_SIZE / 2));
+    if (previous < 1) {
+      previous = 1;
+    }
+    this.loadCategories(CategoriesComponent.DEFAULT_PAGE_SIZE, previous);
+  }
+
+  public nextPage(): void {
+    const lastAvailablePage = this.pageInfo.pagesSpace[this.pageInfo.pagesSpace.length - 1];
+    if (lastAvailablePage === this.pageInfo.totalPages) {
+      return;
+    }
+    let next = lastAvailablePage + Math.floor(this.pageInfo.PAGINATOR_SIZE / 2);
+    console.log(lastAvailablePage);
+    if (next > this.pageInfo.totalPages) {
+      next = this.pageInfo.totalPages;
+    }
+    this.loadCategories(CategoriesComponent.DEFAULT_PAGE_SIZE, next);
+  }
+
 
 }
 
 
 class PageInfo {
-  public pagesSpace: number[];
+
+  public PAGINATOR_SIZE = 5;
+  public pagesSpace: number[] = [];
 
   constructor(
     public currentPage: number,
@@ -76,24 +104,35 @@ class PageInfo {
     public pageSize: number,
     public totalCount: number
   ) {
-    this.calculatePageSpace();
+    this.createPagesSpace();
   }
 
-  private calculatePageSpace(): void {
-    let min = 1;
-    let max = this.totalPages;
-    if (this.totalPages > 5) {
-      if (this.currentPage - 2 > 0) {
-        min = this.currentPage - 2;
-      }
-      if (this.currentPage + 2 <= this.totalPages) {
-        max = this.currentPage + 2;
-      }
-    }
+  private createPagesSpace(): void {
     this.pagesSpace = [];
-    for (let i = min; i <= max; ++i) {
-      this.pagesSpace.push(i);
+    let min = this.currentPage - (Math.floor(this.PAGINATOR_SIZE / 2));
+    let max = this.currentPage + (Math.floor(this.PAGINATOR_SIZE / 2));
+    if (min < 1) {
+      if (max < this.totalPages) {
+        max += (Math.abs(min - 1));
+      }
+        min = 1;
     }
+
+    if (max > this.totalPages) {
+      if (min > 1) {
+        min -= (Math.abs(max - this.totalPages));
+        if (min < 1) {
+          min = 1;
+        }
+      }
+      max = this.totalPages;
+    }
+
+    this.pagesSpace = [];
+    for (let page = min; page <= max; ++page) {
+      this.pagesSpace.push(page);
+    }
+
   }
 
 }
