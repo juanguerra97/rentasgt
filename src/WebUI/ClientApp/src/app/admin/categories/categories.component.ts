@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { CategoriesClient, CategoryDto } from '../../rentasgt-api';
+import { BsModalService } from 'ngx-bootstrap';
 import { PageInfo } from '../../models/PageInfo';
+import { ConfirmationModalComponent } from '../../app-common/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-categories',
@@ -31,14 +33,15 @@ export class CategoriesComponent implements OnInit {
   });
 
   constructor(
-    private categoriesClient: CategoriesClient
+    private categoriesClient: CategoriesClient,
+    private bsModalService: BsModalService,
   ) { }
 
   ngOnInit(): void {
     this.loadCategories(this.PAGE_SIZE, this.DEFAULT_PAGE_NUMBER);
   }
 
-  private loadCategories(pageSize: number, pageNumber: number): void {
+  public loadCategories(pageSize: number, pageNumber: number): void {
     this.loadingCategories = true;
     this.categoriesClient.get(pageSize, pageNumber).subscribe((res => {
       this.pageInfo = new PageInfo(res.currentPage, res.totalPages, res.pageSize, res.totalCount);
@@ -68,5 +71,29 @@ export class CategoriesComponent implements OnInit {
       this.selectedCategory = null;
     }
   }
+
+  public showDeleteConfirmationModal(): void {
+    if (this.selectedCategory === null) {
+      return;
+    }
+    const modal = this.bsModalService.show(ConfirmationModalComponent);
+    (<ConfirmationModalComponent>modal.content).showConfirmationModal(
+      'Eliminación',
+      '¿Estás seguro que quieres eliminar esta categoría?'
+    );
+
+    (<ConfirmationModalComponent>modal.content).onClose.subscribe(result => {
+      if (result === true) {
+        this.categoriesClient.delete(this.selectedCategory.id).subscribe((res) => {
+          console.log(res);
+          const categIndex = this.categories.findIndex(cat => cat.id === this.selectedCategory.id);
+          this.categories.splice(categIndex, 1);
+          this.selectedCategory = null;
+        }, console.error);
+      }
+    });
+  }
+
+
 
 }

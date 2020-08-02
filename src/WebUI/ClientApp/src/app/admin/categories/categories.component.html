@@ -8,11 +8,14 @@
       <h4 class="flex-fill">Categor&iacute;as</h4>
       <div class="d-flex">
 
-        <button [disabled]="selectedCategory == null" class="btn btn-default p-0">
+        <button [disabled]="selectedCategory == null"
+                class="btn btn-default p-0">
           <fa-icon [icon]="faEdit"></fa-icon>
         </button>
 
-        <button [disabled]="selectedCategory == null" class="btn btn-default p-0 ml-2">
+        <button [disabled]="selectedCategory == null"
+                (click)="showDeleteConfirmationModal()"
+                class="btn btn-default p-0 ml-2">
           <fa-icon [icon]="faTrash"></fa-icon>
         </button>
 
