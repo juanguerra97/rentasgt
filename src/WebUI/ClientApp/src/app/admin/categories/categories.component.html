@@ -4,6 +4,21 @@
 
   <div class="col-12 col-md-6 col-lg-8">
 
+    <div class="d-flex">
+      <h4 class="flex-fill">Categor&iacute;as</h4>
+      <div class="d-flex">
+
+        <button [disabled]="selectedCategory == null" class="btn btn-default p-0">
+          <fa-icon [icon]="faEdit"></fa-icon>
+        </button>
+
+        <button [disabled]="selectedCategory == null" class="btn btn-default p-0 ml-2">
+          <fa-icon [icon]="faTrash"></fa-icon>
+        </button>
+
+      </div>
+    </div>
+
     <div class="table-responsive">
       <table class="table table-hover">
         <thead>
@@ -14,7 +29,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let categ of categories">
+        <tr *ngFor="let categ of categories" (click)="onCategoryClicked(categ)" [ngClass]="{'bg-info text-white': categ === selectedCategory}">
           <td>{{ categ.id }}</td>
           <td>{{ categ.name }}</td>
           <td>{{ categ.description | slice:0:128 }}</td>

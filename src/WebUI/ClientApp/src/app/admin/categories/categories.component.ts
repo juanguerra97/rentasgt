@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { CategoriesClient, CategoryDto } from '../../rentasgt-api';
 
 @Component({
@@ -12,7 +13,11 @@ export class CategoriesComponent implements OnInit {
   static DEFAULT_PAGE_SIZE = 5;
   static DEFAULT_PAGE_NUMBER = 1;
 
+  faTrash = faTrash;
+  faEdit = faEdit;
+
   public categories: CategoryDto[] = [];
+  public selectedCategory: CategoryDto = null;
   public pageInfo: PageInfo = null;
 
   public newCategoryForm = new FormGroup({
@@ -49,6 +54,15 @@ export class CategoriesComponent implements OnInit {
       this.newCategoryForm.reset();
     }, console.error);
   }
+
+  public onCategoryClicked(category: CategoryDto): void {
+    if (this.selectedCategory == null || category.id !== this.selectedCategory.id) {
+      this.selectedCategory = category;
+    } else {
+      this.selectedCategory = null;
+    }
+  }
+
 
 }
 

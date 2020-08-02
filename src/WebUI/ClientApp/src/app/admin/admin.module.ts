@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ApiAuthorizationModule } from '../../api-authorization/api-authorization.module';
 import { CategoriesComponent } from './categories/categories.component';
 
@@ -9,6 +10,7 @@ import { CategoriesComponent } from './categories/categories.component';
   declarations: [CategoriesComponent],
   imports: [
     CommonModule,
+    FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
     ApiAuthorizationModule,
