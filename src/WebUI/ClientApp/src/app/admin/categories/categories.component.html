@@ -47,22 +47,7 @@
 
   <div class="col-12 col-md-6 col-lg-4">
 
-    <form (ngSubmit)="onSubmitNewCategoryForm()" [formGroup]="newCategoryForm">
-
-      <div class="form-group">
-        <label for="name">Nombre</label>
-        <input formControlName="name" type="text" id="name" class="form-control">
-      </div>
-
-      <div class="form-group">
-        <label for="description">Descripci&oacute;n</label>
-        <textarea formControlName="description" id="description" cols="30" rows="10" class="form-control"></textarea>
-      </div>
-
-      <input [disabled]="!newCategoryForm.valid"
-             type="submit" value="Guardar" class="btn btn-sm btn-primary">
-
-    </form>
+    <app-new-category (onNewCategorySaved)="onNewCategorySaved($event)"></app-new-category>
 
   </div>
 

@@ -1,0 +1,18 @@
+<form (ngSubmit)="onSubmitNewCategoryForm()" [formGroup]="newCategoryForm">
+
+  <div class="form-group">
+    <label for="name">Nombre</label>
+    <input formControlName="name" type="text" id="name" class="form-control">
+  </div>
+
+  <div class="form-group">
+    <label for="description">Descripci&oacute;n</label>
+    <textarea formControlName="description" id="description" cols="30" rows="10" class="form-control"></textarea>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <input [disabled]="!newCategoryForm.valid || saving"
+           type="submit" value="Guardar" class="btn btn-sm btn-primary">
+  </div>
+
+</form>

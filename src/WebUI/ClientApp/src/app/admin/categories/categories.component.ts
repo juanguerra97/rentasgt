@@ -23,15 +23,6 @@ export class CategoriesComponent implements OnInit {
   public pageInfo: PageInfo = null;
   public loadingCategories = false;
 
-  public newCategoryForm = new FormGroup({
-    name: new FormControl('', [
-      Validators.required
-    ]),
-    description: new FormControl('', [
-      Validators.required
-    ])
-  });
-
   constructor(
     private categoriesClient: CategoriesClient,
     private bsModalService: BsModalService,
@@ -53,15 +44,11 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
-  public onSubmitNewCategoryForm(): void {
-    if (!this.newCategoryForm.valid) {
+  public onNewCategorySaved(category: CategoryDto): void {
+    if (category === null || category === undefined) {
       return;
     }
-    this.categoriesClient.create(this.newCategoryForm.value).subscribe((res) => {
-      const newCategory: CategoryDto = Object.assign({}, this.newCategoryForm.value, {id: res});
-      this.categories.unshift(newCategory);
-      this.newCategoryForm.reset();
-    }, console.error);
+    this.categories.unshift(category);
   }
 
   public onCategoryClicked(category: CategoryDto): void {
@@ -93,7 +80,5 @@ export class CategoriesComponent implements OnInit {
       }
     });
   }
-
-
 
 }
