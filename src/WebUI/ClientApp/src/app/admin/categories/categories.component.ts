@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import {Component, OnInit, TemplateRef} from '@angular/core';
+import { faPlus, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { CategoriesClient, CategoryDto } from '../../rentasgt-api';
-import { BsModalService } from 'ngx-bootstrap';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import { PageInfo } from '../../models/PageInfo';
 import { ConfirmationModalComponent } from '../../app-common/confirmation-modal/confirmation-modal.component';
+import {NewCategoryComponent} from './new-category/new-category.component';
 
 @Component({
   selector: 'app-categories',
@@ -13,6 +13,7 @@ import { ConfirmationModalComponent } from '../../app-common/confirmation-modal/
 })
 export class CategoriesComponent implements OnInit {
 
+  faPlus = faPlus;
   faTrash = faTrash;
   faEdit = faEdit;
 
@@ -22,6 +23,8 @@ export class CategoriesComponent implements OnInit {
   public selectedCategory: CategoryDto = null;
   public pageInfo: PageInfo = null;
   public loadingCategories = false;
+
+  private modalNewCategoryRef: BsModalRef|null = null;
 
   constructor(
     private categoriesClient: CategoriesClient,
@@ -44,11 +47,18 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
+  public onShowNewCategoryFormModal(template: TemplateRef<any>): void {
+
+    this.modalNewCategoryRef = this.bsModalService.show(template);
+
+  }
+
   public onNewCategorySaved(category: CategoryDto): void {
     if (category === null || category === undefined) {
       return;
     }
     this.categories.unshift(category);
+    this.modalNewCategoryRef.hide();
   }
 
   public onCategoryClicked(category: CategoryDto): void {

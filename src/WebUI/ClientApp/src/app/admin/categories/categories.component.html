@@ -2,14 +2,20 @@
 
 <div class="row">
 
-  <div class="col-12 col-md-6 col-lg-8">
+  <div class="col-12">
 
     <div class="d-flex">
-      <h4 class="flex-fill">Categor&iacute;as</h4>
-      <div class="d-flex">
+      <h4 class="">Categor&iacute;as</h4>
+
+      <div class="flex-fill d-flex justify-content-end align-items-center">
+
+        <button (click)="onShowNewCategoryFormModal(newCategoryModalTemplate)"
+                class="btn btn-default p-0">
+          <fa-icon [icon]="faPlus"></fa-icon>
+        </button>
 
         <button [disabled]="selectedCategory == null"
-                class="btn btn-default p-0">
+                class="btn btn-default p-0 ml-2">
           <fa-icon [icon]="faEdit"></fa-icon>
         </button>
 
@@ -45,10 +51,16 @@
 
   </div>
 
-  <div class="col-12 col-md-6 col-lg-4">
-
-    <app-new-category (onNewCategorySaved)="onNewCategorySaved($event)"></app-new-category>
-
-  </div>
-
 </div>
+
+<ng-template #newCategoryModalTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Nueva categor&iacute;a</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalNewCategoryRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-new-category (onNewCategorySaved)="onNewCategorySaved($event)"></app-new-category>
+  </div>
+</ng-template>
