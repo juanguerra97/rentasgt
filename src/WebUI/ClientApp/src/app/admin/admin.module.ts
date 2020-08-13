@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AppCommonModule } from '../app-common/app-common.module'
 import { ApiAuthorizationModule } from '../../api-authorization/api-authorization.module';
@@ -12,8 +11,6 @@ import { EditCategoryComponent } from './categories/edit-category/edit-category.
   declarations: [CategoriesComponent, NewCategoryComponent, EditCategoryComponent],
   imports: [
     FontAwesomeModule,
-    FormsModule,
-    ReactiveFormsModule,
     ApiAuthorizationModule,
     RouterModule.forChild([
       {

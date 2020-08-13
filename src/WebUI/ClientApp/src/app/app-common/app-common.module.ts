@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginatorNavComponent } from './paginator-nav/paginator-nav.component';
 import { ButtonModule, FileUploadModule } from 'primeng';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
@@ -14,15 +15,19 @@ import { ImgCropperComponent } from './img-cropper/img-cropper.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     ButtonModule,
     FileUploadModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
   ],
   exports: [
     PaginatorNavComponent,
     ConfirmationModalComponent,
     ImgCropperComponent,
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     ModalModule,
     ButtonModule,
     FileUploadModule,

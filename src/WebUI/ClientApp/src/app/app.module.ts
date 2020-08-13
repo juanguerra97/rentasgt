@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -31,7 +30,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     FontAwesomeModule,
     HttpClientModule,
-    FormsModule,
     ApiAuthorizationModule,
     AppCommonModule,
     RouterModule.forRoot([
@@ -42,7 +40,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
         canActivate: [OnlyAdminGuard], canActivateChild: [OnlyAdminGuard], },
       { path: 'propietario', loadChildren: () => import('./owner/owner.module').then(m => m.OwnerModule),
-        canActivate: [AuthorizeGuard], canActivateChild: [AuthorizeGuard]},
+        canActivate: [AuthorizeGuard], canActivateChild: [AuthorizeGuard]
+      },
     ]),
   ],
   providers: [
