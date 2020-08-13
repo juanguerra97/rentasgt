@@ -1,17 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppCommonModule } from '../app-common/app-common.module';
+import { ProductsComponent } from './products/products.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [ProductsComponent],
   imports: [
     AppCommonModule,
     RouterModule.forChild([
       {
         path: '',
-        redirectTo: 'products',
+        redirectTo: 'productos',
         pathMatch: 'full',
       },
+      {
+        path: 'productos',
+        component: ProductsComponent
+      }
     ]),
   ]
 })

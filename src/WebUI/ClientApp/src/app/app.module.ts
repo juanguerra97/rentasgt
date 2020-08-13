@@ -39,9 +39,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'todo', component: TodoComponent, canActivate: [AuthorizeGuard] },
-      { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) ,
-        canActivateChild: [OnlyAdminGuard], canActivate: [OnlyAdminGuard], },
-      { path: 'owner', loadChildren: () => import('./owner/owner.module').then(m => m.OwnerModule) },
+      { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+        canActivate: [OnlyAdminGuard], canActivateChild: [OnlyAdminGuard], },
+      { path: 'propietario', loadChildren: () => import('./owner/owner.module').then(m => m.OwnerModule),
+        canActivate: [AuthorizeGuard], canActivateChild: [AuthorizeGuard]},
     ]),
   ],
   providers: [
