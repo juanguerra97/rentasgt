@@ -20,9 +20,9 @@ namespace rentasgt.Application.Categories.Commands.UpdateCategory
                 .NotEmpty().WithMessage("El nombre es obligatorio")
                 .MaximumLength(Category.MAX_NAME_LENGTH)
                     .WithMessage($"El nombre no debe sobrepasar los {Category.MAX_NAME_LENGTH} caracteres")
-                .MustAsync(BeUniqueName).WithMessage("El nombre especificado ya existe")
                 .When(c => c.Name != null);
-
+            RuleFor(c => c)
+                .MustAsync(BeUniqueName).WithMessage("El nombre especificado ya existe");
             RuleFor(c => c.Description)
                 .NotEmpty().WithMessage("La descripcion es obligatoria")
                 .MaximumLength(Category.MAX_DESCRIPTION_LENGTH)
@@ -30,10 +30,10 @@ namespace rentasgt.Application.Categories.Commands.UpdateCategory
                 .When(c => c.Description != null);
         }
 
-        public async Task<bool> BeUniqueName(string name, CancellationToken cancellationToken)
+        public async Task<bool> BeUniqueName(UpdateCategoryCommand command, CancellationToken cancellationToken)
         {
             return await this.context.Categories
-                .AllAsync(c => c.Name != name);
+                .AllAsync(c => command.Id == c.Id || command.Name != c.Name);
         }
 
     }
