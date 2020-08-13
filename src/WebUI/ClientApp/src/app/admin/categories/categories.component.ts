@@ -1,10 +1,9 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import { faPlus, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { CategoriesClient, CategoryDto } from '../../rentasgt-api';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { PageInfo } from '../../models/PageInfo';
 import { ConfirmationModalComponent } from '../../app-common/confirmation-modal/confirmation-modal.component';
-import {NewCategoryComponent} from './new-category/new-category.component';
 
 @Component({
   selector: 'app-categories',
@@ -25,6 +24,7 @@ export class CategoriesComponent implements OnInit {
   public loadingCategories = false;
 
   private modalNewCategoryRef: BsModalRef|null = null;
+  private modalEditCategoryRef: BsModalRef|null = null;
 
   constructor(
     private categoriesClient: CategoriesClient,
@@ -48,9 +48,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   public onShowNewCategoryFormModal(template: TemplateRef<any>): void {
-
     this.modalNewCategoryRef = this.bsModalService.show(template);
-
   }
 
   public onNewCategorySaved(category: CategoryDto): void {
@@ -59,6 +57,21 @@ export class CategoriesComponent implements OnInit {
     }
     this.categories.unshift(category);
     this.modalNewCategoryRef.hide();
+  }
+
+  public onShowEditCategoryFormModal(template: TemplateRef<any>): void {
+    this.modalEditCategoryRef = this.bsModalService.show(template);
+  }
+
+  public onCategoryUpdated(category: CategoryDto): void {
+    if (category === null || category === undefined) {
+      return;
+    }
+    const catIndex = this.categories.findIndex(cat => cat.id === this.selectedCategory.id);
+    if (catIndex >= 0) {
+      this.categories[catIndex] = category;
+    }
+    this.modalEditCategoryRef.hide();
   }
 
   public onCategoryClicked(category: CategoryDto): void {

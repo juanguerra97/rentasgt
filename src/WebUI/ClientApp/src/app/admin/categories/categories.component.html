@@ -15,6 +15,7 @@
         </button>
 
         <button [disabled]="selectedCategory == null"
+                (click)="onShowEditCategoryFormModal(editCategoryModalTemplate)"
                 class="btn btn-default p-0 ml-2">
           <fa-icon [icon]="faEdit"></fa-icon>
         </button>
@@ -62,5 +63,17 @@
   </div>
   <div class="modal-body">
     <app-new-category (onNewCategorySaved)="onNewCategorySaved($event)"></app-new-category>
+  </div>
+</ng-template>
+
+<ng-template #editCategoryModalTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Modificar categor&iacute;a</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalEditCategoryRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-edit-category [category]="selectedCategory" (onCategoryUpdated)="onCategoryUpdated($event)"></app-edit-category>
   </div>
 </ng-template>
