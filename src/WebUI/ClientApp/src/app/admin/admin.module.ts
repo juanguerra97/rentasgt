@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -12,7 +11,6 @@ import { EditCategoryComponent } from './categories/edit-category/edit-category.
 @NgModule({
   declarations: [CategoriesComponent, NewCategoryComponent, EditCategoryComponent],
   imports: [
-    CommonModule,
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
@@ -28,7 +26,7 @@ import { EditCategoryComponent } from './categories/edit-category/edit-category.
         component: CategoriesComponent
       }
     ]),
-    AppCommonModule
+    AppCommonModule,
   ]
 })
 export class AdminModule { }

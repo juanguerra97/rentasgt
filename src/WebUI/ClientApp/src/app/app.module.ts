@@ -14,10 +14,9 @@ import { TodoComponent } from './todo/todo.component';
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ModalModule } from 'ngx-bootstrap/modal';
 import { OnlyAdminGuard } from '../api-authorization/only-admin.guard';
 import { AppCommonModule } from './app-common/app-common.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -30,6 +29,7 @@ import { AppCommonModule } from './app-common/app-common.module';
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserAnimationsModule,
     FontAwesomeModule,
     HttpClientModule,
     FormsModule,
@@ -43,8 +43,6 @@ import { AppCommonModule } from './app-common/app-common.module';
       { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) ,
         canActivateChild: [OnlyAdminGuard], canActivate: [OnlyAdminGuard], },
     ]),
-    BrowserAnimationsModule,
-    ModalModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
