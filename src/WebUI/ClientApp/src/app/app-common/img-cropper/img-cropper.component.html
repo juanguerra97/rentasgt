@@ -1,0 +1,16 @@
+
+<div class="row">
+  <div class="col-12 mb-2 d-flex justify-content-center">
+    <button (click)="onListo()"
+            [disabled]="srcImg === null"
+            pButton pRipple type="button" label="Listo" icon="pi pi-check"
+            class="p-button-raised mr-2"></button>
+    <button (click)="onCancel()"
+            [disabled]="srcImg === null"
+            pButton pRipple type="button" label="Cancelar" icon="pi pi-times"
+            class="p-button-raised p-button-danger"></button>
+  </div>
+  <div class="col-12 d-flex justify-content-center">
+    <div id="img-cropper"></div>
+  </div>
+</div>

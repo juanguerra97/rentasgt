@@ -1,0 +1,11 @@
+/*
+
+#img-cropper {
+  width: 350px;
+  height: 300px;
+}
+*/
+
+#img-cropper {
+  width: fit-content;
+}
