@@ -2,5 +2,43 @@
 <div class="row">
   <div class="col-12">
     <h2 class="pantalla-title">Nuevo art&iacute;culo</h2>
+
+    <div class="img-upload-group">
+      <h3>Im&aacute;genes del producto</h3>
+      <div class="img-preview-container d-flex flex-column flex-md-row justify-content-center align-items-center flex-wrap">
+        <div *ngFor="let img of uploadedImages;index as i" class="img-card">
+          <button (click)="removeImg(i)" pButton pRipple
+                  type="button" icon="pi pi-times"
+                  class="rm-img-btn p-button-rounded p-button-danger"></button>
+          <img [src]="img.imgCropped" [alt]="img.file.name">
+        </div>
+        <div *ngIf="uploadedImages.length < 3" class="img-card d-flex justify-content-center align-items-center">
+          <div class="upload-btn-wrapper">
+            <button [disabled]="uploadedImages.length >= 3 || currentImg !== null"
+                    pButton icon="pi pi-plus" class="p-button"></button>
+            <input [disabled]="uploadedImages.length >= 3 || currentImg !== null"
+                   (change)="onImgFileChange($event, cropImgModalTemplate)"
+                   type="file" accept="image/*" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </div>
+
+<ng-template #cropImgModalTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Editar imagen</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="onUploadImgCancelled()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-img-cropper *ngIf="currentImg !== null && currentImg.origContent != null"
+                     [srcImg]="currentImg.origContent"
+                     (onCropCancelled)="onUploadImgCancelled()"
+                     (onCropDone)="onImageCropped($event)"></app-img-cropper>
+  </div>
+</ng-template>
