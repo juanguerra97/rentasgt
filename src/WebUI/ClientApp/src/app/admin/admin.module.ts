@@ -7,9 +7,10 @@ import { AppCommonModule } from '../app-common/app-common.module'
 import { ApiAuthorizationModule } from '../../api-authorization/api-authorization.module';
 import { CategoriesComponent } from './categories/categories.component';
 import { NewCategoryComponent } from './categories/new-category/new-category.component';
+import { EditCategoryComponent } from './categories/edit-category/edit-category.component';
 
 @NgModule({
-  declarations: [CategoriesComponent, NewCategoryComponent],
+  declarations: [CategoriesComponent, NewCategoryComponent, EditCategoryComponent],
   imports: [
     CommonModule,
     FontAwesomeModule,
