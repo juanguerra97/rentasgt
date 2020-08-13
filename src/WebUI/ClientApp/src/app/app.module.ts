@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
@@ -42,6 +41,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       { path: 'todo', component: TodoComponent, canActivate: [AuthorizeGuard] },
       { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) ,
         canActivateChild: [OnlyAdminGuard], canActivate: [OnlyAdminGuard], },
+      { path: 'owner', loadChildren: () => import('./owner/owner.module').then(m => m.OwnerModule) },
     ]),
   ],
   providers: [
