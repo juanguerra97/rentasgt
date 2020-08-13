@@ -1,0 +1,14 @@
+
+
+.noproducts-message-container {
+  text-align: center;
+}
+
+.noproducts-message-container > * {
+  margin: 0;
+  margin-top: 5px;
+}
+
+.noproducts-message-container > button {
+  margin-top: 15px;
+}

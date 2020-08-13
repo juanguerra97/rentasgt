@@ -1,1 +1,16 @@
-<p>products works!</p>
+
+<div class="row">
+  <div *ngIf="products.length > 0"
+       class="col-12">
+    <h4>Productos</h4>
+  </div>
+  <div *ngIf="products.length <= 0" class="col-12 d-flex justify-content-center align-content-center">
+    <div class="noproducts-message-container">
+
+      <p class="">A&uacute;n no has registrado art&iacute;culos.</p>
+      <p>Pulsa el siguiente bot&oacute;n para registrar tu primer art&iacute;culo.</p>
+      <button [routerLink]="['nuevo']" pButton pRipple icon="pi pi-plus" type="button" label="Agregar art&iacute;culo" class="p-button-rounded"></button>
+
+    </div>
+  </div>
+</div>
