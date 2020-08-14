@@ -18,3 +18,7 @@ code {
 .pantalla-title {
   font-size: 1.5rem;
 }
+
+.pac-container {
+  z-index: 10000 !important;
+}
