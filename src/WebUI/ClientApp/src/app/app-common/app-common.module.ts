@@ -6,12 +6,15 @@ import { ButtonModule, FileUploadModule } from 'primeng';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ImgCropperComponent } from './img-cropper/img-cropper.component';
+import { SelectLocationComponent } from './select-location/select-location.component';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   declarations: [
     PaginatorNavComponent,
     ConfirmationModalComponent,
-    ImgCropperComponent
+    ImgCropperComponent,
+    SelectLocationComponent
   ],
   imports: [
     CommonModule,
@@ -20,6 +23,10 @@ import { ImgCropperComponent } from './img-cropper/img-cropper.component';
     ButtonModule,
     FileUploadModule,
     ModalModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: '<SECRET_API_KEY>',
+      libraries: ['places']
+    })
   ],
   exports: [
     PaginatorNavComponent,
@@ -31,6 +38,7 @@ import { ImgCropperComponent } from './img-cropper/img-cropper.component';
     ModalModule,
     ButtonModule,
     FileUploadModule,
+    SelectLocationComponent,
   ]
 })
 export class AppCommonModule { }
