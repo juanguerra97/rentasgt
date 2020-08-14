@@ -31,6 +31,9 @@ export class SelectLocationComponent implements OnInit {
       this.geoCoder = new google.maps.Geocoder;
 
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
+      autocomplete.setComponentRestrictions({
+        country: ['gt']
+      });
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
           const place: google.maps.places.PlaceResult = autocomplete.getPlace();
