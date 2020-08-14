@@ -2,6 +2,7 @@ import {Component, OnInit, TemplateRef} from '@angular/core';
 import { imgBlobToBase64 } from '../../utils';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {LocationInfo} from '../../models/LocationInfo';
 
 @Component({
   selector: 'app-new-product',
@@ -13,6 +14,7 @@ export class NewProductComponent implements OnInit {
   public uploadedImages: Img[] = [];
   public currentImg: Img = null;
   public cropImgModalRef: BsModalRef|null = null;
+  public locationModalRef: BsModalRef|null = null;
 
   public newProductForm = new FormGroup({
     name: new FormControl('', [
@@ -25,6 +27,14 @@ export class NewProductComponent implements OnInit {
       Validators.required,
     ])
   });
+
+  public location: LocationInfo = {
+    formattedAddress: null,
+    state: 'Guatemala',
+    country: 'Guatemala',
+    longitude: null,
+    latitude: null,
+  };
 
   constructor(
     private bsModalService: BsModalService,
@@ -67,6 +77,15 @@ export class NewProductComponent implements OnInit {
 
   public removeImg(index: number): void {
     this.uploadedImages.splice(index, 1);
+  }
+
+  public onSelectLocation(template: TemplateRef<any>): void {
+    this.locationModalRef = this.bsModalService.show(template, { ignoreBackdropClick: true });
+  }
+
+  public onLocationSelected(location: LocationInfo): void {
+    this.location = location;
+    this.locationModalRef.hide();
   }
 
 }

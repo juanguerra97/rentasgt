@@ -27,11 +27,20 @@
             <textarea formControlName="description" id="description" class="form-control"></textarea>
           </div>
 
+          <div class="form-row">
+            <div class="col">
+              <button (click)="onSelectLocation(locationModalTemplate)"
+                      pButton label="Ubicaci&oacute;n" icon="pi pi-map-marker"
+                      class="p-button-sm"></button>
+              <p *ngIf="location.formattedAddress !== null">{{ location.formattedAddress }}</p>
+            </div>
+          </div>
+
         </form>
 
       </div>
 
-      <div class="col-12 col-lg-6">
+      <div class="col-12 col-lg-6 mt-2 mt-lg-0">
         <div class="img-upload-group">
           <h3>Im&aacute;genes del producto</h3>
           <div class="img-preview-container d-flex flex-column flex-md-row flex-lg-column justify-content-center align-items-center flex-wrap">
@@ -54,7 +63,7 @@
         </div>
       </div>
 
-      <div class="col-12 col-lg-6">
+      <div class="col-12 col-lg-6 mt-2">
         <button
           [disabled]="!newProductForm.valid || uploadedImages.length <= 0"
           pButton label="Guardar" icon="pi pi-save"
@@ -78,5 +87,18 @@
                      [srcImg]="currentImg.origContent"
                      (onCropCancelled)="onUploadImgCancelled()"
                      (onCropDone)="onImageCropped($event)"></app-img-cropper>
+  </div>
+</ng-template>
+
+<ng-template #locationModalTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Ubicaci&oacute;n del art&iacute;culo</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="locationModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-select-location (onLocationSelected)="onLocationSelected($event)"
+      [latitude]="location.latitude" [longitude]="location.longitude"></app-select-location>
   </div>
 </ng-template>
