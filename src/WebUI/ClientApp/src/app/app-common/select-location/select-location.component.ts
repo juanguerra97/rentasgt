@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { LocationInfo } from '../../models/LocationInfo';
+import { getAddressFromCoordinates } from '../../utils';
 
 @Component({
   selector: 'app-select-location',
@@ -70,39 +71,17 @@ export class SelectLocationComponent implements OnInit {
   }
 
   public markerDragEnd($event: any) {
+    console.log($event);
     this.latitude = $event.latLng.lat();
     this.longitude = $event.latLng.lng();
   }
 
   public async onSelectLocation(): Promise<any> {
     try {
-      this.onLocationSelected.emit(await this.getAddress(this.latitude, this.longitude));
+      this.onLocationSelected.emit(await getAddressFromCoordinates(this.latitude, this.longitude));
     } catch (error) {
       console.error(error);
     }
-  }
-
-  private getAddress(latitude, longitude): Promise<LocationInfo> {
-    return new Promise<LocationInfo>((resolve, reject) => {
-      this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
-        if (status === 'OK') {
-          if (results[0]) {
-            this.zoom = 15;
-            // this.address = results[0].formatted_address;
-            const countryComponent = results[0].address_components.find(c => c.types.includes('country'));
-            const stateComponent = results[0].address_components.find(c => c.types.includes('administrative_area_level_1'));
-            resolve({
-              formattedAddress: results[0].formatted_address,
-              latitude: latitude,
-              longitude: longitude,
-              country: countryComponent.long_name,
-              state: stateComponent.long_name
-            });
-          }
-        }
-        reject();
-      });
-    });
   }
 
 }
