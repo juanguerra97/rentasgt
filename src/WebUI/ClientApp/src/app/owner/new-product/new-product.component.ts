@@ -1,6 +1,7 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
 import { imgBlobToBase64 } from '../../utils';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-new-product',
@@ -11,8 +12,19 @@ export class NewProductComponent implements OnInit {
 
   public uploadedImages: Img[] = [];
   public currentImg: Img = null;
-
   public cropImgModalRef: BsModalRef|null = null;
+
+  public newProductForm = new FormGroup({
+    name: new FormControl('', [
+      Validators.required,
+    ]),
+    description: new FormControl('', [
+      Validators.required,
+    ]),
+    otherNames: new FormControl('', [
+      Validators.required,
+    ])
+  });
 
   constructor(
     private bsModalService: BsModalService,
