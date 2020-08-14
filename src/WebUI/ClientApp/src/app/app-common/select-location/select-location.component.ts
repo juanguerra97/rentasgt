@@ -64,9 +64,9 @@ export class SelectLocationComponent implements OnInit {
     }
   }
 
-  markerDragEnd($event: any) {
-    this.latitude = $event.coords.lat;
-    this.longitude = $event.coords.lng;
+  public markerDragEnd($event: any) {
+    this.latitude = $event.latLng.lat();
+    this.longitude = $event.latLng.lng();
   }
 
   public async onSelectLocation(): Promise<any> {
@@ -87,7 +87,7 @@ export class SelectLocationComponent implements OnInit {
             const countryComponent = results[0].address_components.find(c => c.types.includes('country'));
             const stateComponent = results[0].address_components.find(c => c.types.includes('administrative_area_level_1'));
             resolve({
-              formattedAddress: results[0].formattedAddress,
+              formattedAddress: results[0].formatted_address,
               latitude: latitude,
               longitude: longitude,
               country: countryComponent.long_name,
