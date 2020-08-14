@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AgmCoreModule } from '@agm/core';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
@@ -14,7 +16,6 @@ import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { OnlyAdminGuard } from '../api-authorization/only-admin.guard';
 import { AppCommonModule } from './app-common/app-common.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         canActivate: [AuthorizeGuard], canActivateChild: [AuthorizeGuard]
       },
     ]),
+    AgmCoreModule.forRoot({
+      apiKey: '<SECRET_API_KEY>',
+      libraries: ['places']
+    })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
