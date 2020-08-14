@@ -22,3 +22,7 @@ code {
 .pac-container {
   z-index: 10000 !important;
 }
+
+agm-map {
+  height: 250px;
+}
