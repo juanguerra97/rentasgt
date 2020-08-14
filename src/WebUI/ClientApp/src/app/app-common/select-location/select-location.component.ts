@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, NgZone, OnInit, Output, ViewChild} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { LocationInfo } from '../../models/LocationInfo';
 
@@ -10,10 +10,10 @@ import { LocationInfo } from '../../models/LocationInfo';
 export class SelectLocationComponent implements OnInit {
 
   @Output() onLocationSelected: EventEmitter<LocationInfo> = new EventEmitter<LocationInfo>();
+  @Input() public latitude: number = null;
+  @Input() public longitude: number = null;
 
   public gettingCoordinates = false;
-  public latitude: number;
-  public longitude: number;
   public zoom: number;
   private geoCoder;
 
@@ -46,7 +46,7 @@ export class SelectLocationComponent implements OnInit {
   }
 
   private setCurrentLocation() {
-    if ('geolocation' in navigator) {
+    if ('geolocation' in navigator && (this.latitude === null || this.longitude === null)) {
       this.gettingCoordinates = true;
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude;
@@ -61,6 +61,8 @@ export class SelectLocationComponent implements OnInit {
         }
         this.gettingCoordinates = false;
       });
+    } else {
+      this.zoom = 15;
     }
   }
 
