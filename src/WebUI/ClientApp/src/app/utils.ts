@@ -1,4 +1,5 @@
 import { LocationInfo } from './models/LocationInfo';
+import { MapsAPILoader } from '@agm/core';
 
 export function getErrorsFromResponse(errorResponse): string[] {
   const errors: string[] = [];
@@ -23,25 +24,46 @@ export function imgBlobToBase64(imgBlob: Blob): Promise<string|ArrayBuffer> {
   });
 }
 
-export function getAddressFromCoordinates(latitude: number, longitude: number): Promise<LocationInfo> {
+export function getAddressFromCoordinates(latitude: number, longitude: number, mapsAPILoader: MapsAPILoader): Promise<LocationInfo> {
   return new Promise<LocationInfo>((resolve, reject) => {
-    this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
-      if (status === 'OK') {
-        if (results[0]) {
-          this.zoom = 15;
-          // this.address = results[0].formatted_address;
-          const countryComponent = results[0].address_components.find(c => c.types.includes('country'));
-          const stateComponent = results[0].address_components.find(c => c.types.includes('administrative_area_level_1'));
-          resolve({
-            formattedAddress: results[0].formatted_address,
-            latitude: latitude,
-            longitude: longitude,
-            country: countryComponent.long_name,
-            state: stateComponent.long_name
-          });
-        }
-      }
-      reject();
-    });
+      mapsAPILoader.load().then(() => {
+        const geoCoder = new google.maps.Geocoder;
+        geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
+          if (status === 'OK') {
+            if (results[0]) {
+              // this.address = results[0].formatted_address;
+              const countryComponent = results[0].address_components.find(c => c.types.includes('country'));
+              const stateComponent = results[0].address_components.find(c => c.types.includes('administrative_area_level_1'));
+              resolve({
+                formattedAddress: results[0].formatted_address,
+                latitude: latitude,
+                longitude: longitude,
+                country: countryComponent.long_name,
+                state: stateComponent.long_name
+              });
+            } else {
+              reject();
+            }
+          } else {
+            reject();
+          }
+        });
+      }).catch(reject);
   });
+}
+
+export function saveCurrentUserLocation(location: LocationInfo): void {
+  localStorage.setItem('rentasgt.userLoc', JSON.stringify(location));
+}
+
+export function getLocationFromStorage(): LocationInfo {
+  return JSON.parse(localStorage.getItem('rentasgt.userLoc'));
+}
+
+export function clearLocation(): void {
+  localStorage.removeItem('rentasgt.userLoc');
+}
+
+export function isValidLocation(location: LocationInfo): boolean {
+  return location !== null && location.country === 'Guatemala';
 }
