@@ -461,6 +461,15 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    b.Property<decimal>("CostPerDay")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal?>("CostPerMonth")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal?>("CostPerWeek")
+                        .HasColumnType("decimal(65,30)");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime(6)");
 
@@ -1002,7 +1011,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("rentasgt.Domain.Entities.RentCost", b =>
                 {
                     b.HasOne("rentasgt.Domain.Entities.Product", "Product")
-                        .WithMany("Costs")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

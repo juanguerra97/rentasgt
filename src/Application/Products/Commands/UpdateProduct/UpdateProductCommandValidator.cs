@@ -31,6 +31,31 @@ namespace rentasgt.Application.Products.Commands.UpdateProduct
                 .InclusiveBetween(-180, 180).WithMessage("Valor de longitud invalido")
                 .When(c => c.Location != null);
 
+            RuleFor(p => p.CostPerDay)
+                .InclusiveBetween(1, 5000).WithMessage("El costo diario debe estar entre 1 y 5000")
+                .When(p => p.CostPerDay != null);
+
+            RuleFor(p => p.CostPerDay)
+                .LessThan(p => p.CostPerWeek)
+                .When(p => p.CostPerDay != null && p.CostPerWeek != null);
+
+            RuleFor(p => p.CostPerDay)
+                .LessThan(p => p.CostPerMonth)
+                .When(p => p.CostPerDay != null && p.CostPerMonth != null);
+
+            RuleFor(p => p.CostPerWeek)
+                .InclusiveBetween(2, 35000).WithMessage("El costo semanal debe estar entre 2 y 35000")
+                .When(p => p.CostPerWeek != null);
+
+            RuleFor(p => p.CostPerWeek)
+                .LessThan(p => p.CostPerMonth)
+                .When(p => p.CostPerWeek != null && p.CostPerMonth != null);
+
+            RuleFor(p => p.CostPerMonth)
+                .InclusiveBetween(4, 155000).WithMessage("El costo mensual debe estar entre 4 y 155000")
+                .When(p => p.CostPerMonth != null);
+
+
         }
 
     }

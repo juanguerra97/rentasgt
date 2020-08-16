@@ -18,14 +18,13 @@ namespace rentasgt.Domain.Entities
         public Product()
         {
             Pictures = new List<ProductPicture>();
-            Costs = new List<RentCost>();
             Categories = new List<ProductCategory>();
             RentRequests = new List<RentRequest>();
         }
 
         public Product(ProductStatus status, string name, string otherNames,
             string description, AppUser owner, Ubicacion location, 
-            List<ProductPicture> pictures, List<RentCost> costs = null, 
+            List<ProductPicture> pictures,
             List<ProductCategory> categories = null, 
             List<RentRequest> rentRequests = null)
             : this()
@@ -40,11 +39,6 @@ namespace rentasgt.Domain.Entities
             if (pictures != null)
             {
                 Pictures.AddRange(pictures);
-            }
-
-            if (costs != null)
-            {
-                Costs.AddRange(costs);
             }
 
             if (categories != null)
@@ -63,7 +57,7 @@ namespace rentasgt.Domain.Entities
             List<ProductPicture> pictures, List<RentCost> costs, 
             List<Category> categories)
             : this(status, name, otherNames, description, owner, location, pictures, 
-                  costs, new List<ProductCategory>())
+                  new List<ProductCategory>())
         {
 
             if (categories != null)
@@ -112,11 +106,12 @@ namespace rentasgt.Domain.Entities
         /// List of pictures of the product
         /// </summary>
         public List<ProductPicture> Pictures { get; set; }
+        
+        public decimal CostPerDay { get; set; }
+        
+        public decimal? CostPerWeek { get; set; }
 
-        /// <summary>
-        /// Lists of costs of renting the product
-        /// </summary>
-        public List<RentCost> Costs { get; set; }
+        public decimal? CostPerMonth { get; set; }
 
         /// <summary>
         /// List of the categories the product belongs to

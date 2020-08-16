@@ -1830,12 +1830,19 @@
               "format": "int64"
             }
           },
-          "costs": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/RentCostCommand"
-            }
+          "costPerDay": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "costPerWeek": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "costPerMonth": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
           }
         }
       },
@@ -1858,20 +1865,6 @@
           "state": {
             "type": "string",
             "nullable": true
-          }
-        }
-      },
-      "RentCostCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "duration": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "cost": {
-            "type": "number",
-            "format": "decimal"
           }
         }
       },
@@ -1901,6 +1894,21 @@
           },
           "otherNames": {
             "type": "string",
+            "nullable": true
+          },
+          "costPerDay": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "costPerWeek": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "costPerMonth": {
+            "type": "number",
+            "format": "decimal",
             "nullable": true
           },
           "location": {

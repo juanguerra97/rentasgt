@@ -17,11 +17,11 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
             builder.Property(c => c.Cost)
                 .IsRequired();
 
-            builder.HasOne(c => c.Product)
-                .WithMany(p => p.Costs)
-                .HasForeignKey(c => c.ProductId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+            //builder.HasOne(c => c.Product)
+            //    .WithMany(p => p.Costs)
+            //    .HasForeignKey(c => c.ProductId)
+            //    .IsRequired()
+            //    .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

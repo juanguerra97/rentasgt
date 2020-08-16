@@ -272,7 +272,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     Location_Latitude = table.Column<double>(nullable: true),
                     Location_Longitude = table.Column<double>(nullable: true),
                     Location_City = table.Column<string>(maxLength: 128, nullable: true),
-                    Location_State = table.Column<string>(maxLength: 128, nullable: true)
+                    Location_State = table.Column<string>(maxLength: 128, nullable: true),
+                    CostPerDay = table.Column<decimal>(nullable: false),
+                    CostPerWeek = table.Column<decimal>(nullable: true),
+                    CostPerMonth = table.Column<decimal>(nullable: true)
                 },
                 constraints: table =>
                 {

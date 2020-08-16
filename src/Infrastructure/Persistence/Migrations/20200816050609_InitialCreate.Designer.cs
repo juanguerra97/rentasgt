@@ -10,7 +10,7 @@ using rentasgt.Infrastructure.Persistence;
 namespace rentasgt.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200720163143_InitialCreate")]
+    [Migration("20200816050609_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -462,6 +462,15 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    b.Property<decimal>("CostPerDay")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal?>("CostPerMonth")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal?>("CostPerWeek")
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime(6)");
@@ -1004,7 +1013,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("rentasgt.Domain.Entities.RentCost", b =>
                 {
                     b.HasOne("rentasgt.Domain.Entities.Product", "Product")
-                        .WithMany("Costs")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
