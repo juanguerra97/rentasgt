@@ -232,3 +232,4 @@ _Pvt_Extensions
 
 
 src/WebUI/wwwroot/uploads/
+src/WebUI/ClientApp/src/app/rentasgt-api.ts
