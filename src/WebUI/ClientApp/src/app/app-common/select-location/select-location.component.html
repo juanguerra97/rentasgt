@@ -8,9 +8,9 @@
     </div>
 
     <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom"
-              [restriction]="{latLngBounds: {north: 17.806880, south: 13.748223, west: -92.210494, east: -88.177616}, strictBounds: false}">
+              [restriction]="{ latLngBounds: {north: 17.806880, south: 13.748223, west: -92.210494, east: -88.177616 }, strictBounds: false}">
       <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
-                  (dragEnd)="markerDragEnd($event)"></agm-marker>
+                  (dragEnd)="markerDragEnd($event)" (dragStart)="markerDragStart($event)"></agm-marker>
     </agm-map>
 
   </div>

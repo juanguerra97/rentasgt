@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { LocationInfo } from '../../models/LocationInfo';
-import { getAddressFromCoordinates } from '../../utils';
+import { getAddressFromCoordinates, getLocationFromStorage, isValidLocation, saveCurrentUserLocation } from '../../utils';
 
 @Component({
   selector: 'app-select-location',
@@ -17,6 +17,10 @@ export class SelectLocationComponent implements OnInit {
   public gettingCoordinates = false;
   public zoom: number;
   private geoCoder;
+  private validatingMarkerPosition = false;
+
+  private startLat: number = null;
+  private startLng: number = null;
 
   @ViewChild('search')
   public searchElementRef: ElementRef;
@@ -50,35 +54,57 @@ export class SelectLocationComponent implements OnInit {
   }
 
   private setCurrentLocation() {
-    if ('geolocation' in navigator && (this.latitude === null || this.longitude === null)) {
-      this.gettingCoordinates = true;
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-        this.zoom = 15;
-        this.gettingCoordinates = false;
-      }, (error) => {
-        if (error.code === error.PERMISSION_DENIED) {
-          this.latitude = 14.6385986;
-          this.longitude = -90.5137278;
+    if (this.latitude === null || this.longitude === null) {
+      const location = getLocationFromStorage();
+      if (isValidLocation(location)) {
+        this.latitude = location.latitude;
+        this.longitude = location.longitude;
+      } else if ('geolocation' in navigator) {
+        this.gettingCoordinates = true;
+        navigator.geolocation.getCurrentPosition(async (position) => {
+          this.latitude = position.coords.latitude;
+          this.longitude = position.coords.longitude;
+          saveCurrentUserLocation(await getAddressFromCoordinates(this.latitude, this.longitude, this.mapsAPILoader));
           this.zoom = 15;
-        }
-        this.gettingCoordinates = false;
-      });
-    } else {
-      this.zoom = 15;
+          this.gettingCoordinates = false;
+        }, (error) => {
+          if (error.code === error.PERMISSION_DENIED) {
+            this.latitude = 14.6385986;
+            this.longitude = -90.5137278;
+          }
+          this.gettingCoordinates = false;
+        });
+      }
     }
+    this.zoom = 15;
   }
 
-  public markerDragEnd($event: any) {
-    console.log($event);
-    this.latitude = $event.latLng.lat();
-    this.longitude = $event.latLng.lng();
+  public async markerDragEnd($event: any): Promise<any> {
+    this.validatingMarkerPosition = true;
+    const lat = $event.latLng.lat();
+    const lng = $event.latLng.lng();
+    const loc = await getAddressFromCoordinates(lat, lng, this.mapsAPILoader);
+    if (!isValidLocation(loc)) {
+      this.updateLatLng(this.startLat, this.startLng);
+    } else {
+      this.updateLatLng(lat, lng);
+    }
+    this.validatingMarkerPosition = false;
+  }
+
+  private updateLatLng(lat: number, lng: number): void {
+    this.latitude = lat;
+    this.longitude = lng;
+  }
+
+  public markerDragStart($event: any): void {
+    this.startLat = $event.latLng.lat();
+    this.startLng = $event.latLng.lng();
   }
 
   public async onSelectLocation(): Promise<any> {
     try {
-      this.onLocationSelected.emit(await getAddressFromCoordinates(this.latitude, this.longitude));
+      this.onLocationSelected.emit(await getAddressFromCoordinates(this.latitude, this.longitude, this.mapsAPILoader));
     } catch (error) {
       console.error(error);
     }
