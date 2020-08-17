@@ -10,15 +10,20 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
         {
             builder.Property(c => c.Id).ValueGeneratedOnAdd();
 
+            builder.HasIndex(cr => new { cr.ProductId, cr.UserId })
+                .IsUnique(true);
+
+            builder.HasOne(c => c.Product)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(c => c.User)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasMany(c => c.Messages)
                 .WithOne(m => m.Room)
                 .HasForeignKey(m => m.RoomId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasMany(c => c.Users)
-                .WithOne(ur => ur.Room)
-                .HasForeignKey(ur => ur.RoomId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
         }

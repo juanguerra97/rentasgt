@@ -78,14 +78,6 @@ namespace rentasgt.Application.RentRequests.Commands.AcceptRentRequest
                 Status = RentStatus.Pending,
                 ChatRoom = new ChatRoom()
             };
-            entity.Rent.ChatRoom.Users.Add(new UserChatRoom
-            {
-                User = entity.Product.Owner
-            });
-            entity.Rent.ChatRoom.Users.Add(new UserChatRoom
-            {
-                User = entity.Requestor
-            });
             entity.Events.Add(new RequestEvent
             {
                 EventDate = currentDate,

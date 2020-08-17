@@ -10,7 +10,7 @@ using rentasgt.Infrastructure.Persistence;
 namespace rentasgt.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200817170456_InitialCreate")]
+    [Migration("20200817175350_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -419,7 +419,18 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("ProductId", "UserId")
+                        .IsUnique();
 
                     b.ToTable("ChatRooms");
                 });
@@ -906,6 +917,20 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("rentasgt.Domain.Entities.ChatRoom", b =>
+                {
+                    b.HasOne("rentasgt.Domain.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("rentasgt.Domain.Entities.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("rentasgt.Domain.Entities.DpiPicture", b =>
                 {
                     b.HasOne("rentasgt.Domain.Entities.Picture", "Picture")
@@ -1061,7 +1086,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("rentasgt.Domain.Entities.UserChatRoom", b =>
                 {
                     b.HasOne("rentasgt.Domain.Entities.ChatRoom", "Room")
-                        .WithMany("Users")
+                        .WithMany()
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
