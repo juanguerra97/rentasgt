@@ -573,6 +573,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<decimal?>("TotalCost")
+                        .HasColumnType("decimal(65,30)");
+
                     b.HasKey("RequestId");
 
                     b.HasIndex("ChatRoomId");
@@ -604,6 +607,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("EstimatedCost")
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("Place")
                         .HasColumnType("varchar(128) CHARACTER SET utf8mb4")

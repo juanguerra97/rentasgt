@@ -57,11 +57,37 @@ namespace rentasgt.Application.Rents.Commands.EndRent
 
             entity.Status = RentStatus.ProductReturned;
             entity.EndDate = this.timeService.Now;
+            entity.TotalCost = entity.Request.EstimatedCost + CalculateFine(entity);
 
             await this.context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
         }
+
+        private decimal CalculateFine(Rent rent)
+        {
+            decimal total = 0;
+            if (rent.EndDate > rent.Request.EndDate)
+            {
+                var span = (rent.EndDate - rent.Request.EndDate).Value;
+                var days = span.Days;
+                var months = days / 31;
+                if (rent.Request.Product.CostPerMonth != null)
+                {
+                    total += months * (decimal)rent.Request.Product.CostPerMonth;
+                    days = days - months * 31;
+                }
+                var weeks = days / 7;
+                if (rent.Request.Product.CostPerWeek != null)
+                {
+                    total += weeks * (decimal)rent.Request.Product.CostPerWeek;
+                    days = days - weeks * 7;
+                }
+                total += days * rent.Request.Product.CostPerDay;
+            }
+            return total;
+        }
+
     }
 
 }

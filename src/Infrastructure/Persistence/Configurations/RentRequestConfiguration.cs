@@ -28,6 +28,9 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
                 .HasMaxLength(RentRequest.MAX_PLACE_LENGTH)
                 .IsRequired(false);
 
+            builder.Property(r => r.EstimatedCost)
+                .IsRequired(true);
+
             builder.HasOne(r => r.Product)
                 .WithMany(p => p.RentRequests)
                 .IsRequired()

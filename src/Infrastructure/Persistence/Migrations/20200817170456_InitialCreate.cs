@@ -581,7 +581,8 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     RequestorId = table.Column<string>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
-                    Place = table.Column<string>(maxLength: 128, nullable: true)
+                    Place = table.Column<string>(maxLength: 128, nullable: true),
+                    EstimatedCost = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -608,6 +609,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     Status = table.Column<int>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: true),
                     EndDate = table.Column<DateTime>(nullable: true),
+                    TotalCost = table.Column<decimal>(nullable: true),
                     ChatRoomId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>

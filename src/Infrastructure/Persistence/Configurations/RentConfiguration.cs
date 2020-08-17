@@ -16,6 +16,9 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
             builder.Property(r => r.EndDate)
                 .IsRequired(false);
 
+            builder.Property(r => r.TotalCost)
+                .IsRequired(false);
+
             builder.HasOne(r => r.Request)
                 .WithOne(rq => rq.Rent)
                 .HasForeignKey((Rent r) => r.RequestId)
