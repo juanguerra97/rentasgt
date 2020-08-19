@@ -25,7 +25,20 @@ export class NewProductComponent implements OnInit {
     ]),
     otherNames: new FormControl('', [
       Validators.required,
-    ])
+    ]),
+    costPerDay: new FormControl('', [
+      Validators.required,
+      Validators.min(1),
+      Validators.max(5000),
+    ]),
+    costPerWeek: new FormControl('', [
+      Validators.min(2),
+      Validators.max(35000),
+    ]),
+    costPerMonth: new FormControl('', [
+      Validators.min(4),
+      Validators.max(155000),
+    ]),
   });
 
   public location: LocationInfo = {

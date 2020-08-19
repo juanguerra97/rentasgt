@@ -28,6 +28,35 @@
           </div>
 
           <div class="form-row">
+
+            <div class="col-12">
+              Costo de renta
+            </div>
+
+            <div class="col-6 col-sm-4">
+              <div class="form-group">
+                <label for="costPerDay">D&iacute;a</label>
+                <input formControlName="costPerDay" type="number" min="1" max="5000" step="1" id="costPerDay" class="form-control">
+              </div>
+            </div>
+
+            <div class="col-6 col-sm-4">
+              <div class="form-group">
+                <label for="costPerWeek">Semana</label>
+                <input formControlName="costPerWeek" type="number" min="2" max="35000" step="1" id="costPerWeek" class="form-control">
+              </div>
+            </div>
+
+            <div class="col-6 col-sm-4">
+              <div class="form-group">
+                <label for="costPerMonth">Mes</label>
+                <input formControlName="costPerMonth" type="number" min="4" max="155000" step="1" id="costPerMonth" class="form-control">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-row">
             <div class="col">
               <button (click)="onSelectLocation(locationModalTemplate)"
                       pButton label="Ubicaci&oacute;n" icon="pi pi-map-marker"
