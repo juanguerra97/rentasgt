@@ -7,7 +7,7 @@
 
       <div class="col-12 col-lg-6">
 
-        <form [formGroup]="newProductForm" id="newProductForm">
+        <form (ngSubmit)="onSubmitNewProductForm()" [formGroup]="newProductForm" id="newProductForm">
 
           <div class="form-group">
             <label for="name">Nombre</label>
@@ -59,10 +59,15 @@
           <div class="form-row">
             <div class="col">
               <button (click)="onSelectLocation(locationModalTemplate)"
-                      pButton label="Ubicaci&oacute;n" icon="pi pi-map-marker"
+                      pButton label="Ubicaci&oacute;n" icon="pi pi-map-marker" type="button"
                       class="p-button-sm"></button>
               <p *ngIf="location.formattedAddress !== null">{{ location.formattedAddress }}</p>
             </div>
+          </div>
+
+          <div class="form-group d-flex flex-column mt-2">
+            <label for="categs">Categor&iacute;as</label>
+            <p-multiSelect [options]="categories" [(ngModel)]="selectedCategories" [ngModelOptions]="{standalone: true}" defaultLabel="Selecciona las categor&iacute;as" optionLabel="name" id="categs"></p-multiSelect>
           </div>
 
         </form>
@@ -94,7 +99,7 @@
 
       <div class="col-12 col-lg-6 mt-2">
         <button
-          [disabled]="!newProductForm.valid || uploadedImages.length <= 0"
+          [disabled]="!newProductForm.valid || saving || uploadedImages.length <= 0 || location.latitude === null"
           pButton label="Guardar" icon="pi pi-save"
           type="submit" form="newProductForm" class="p-button-sm"></button>
       </div>

@@ -1,8 +1,16 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { imgBlobToBase64 } from '../../utils';
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {LocationInfo} from '../../models/LocationInfo';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LocationInfo } from '../../models/LocationInfo';
+import {
+  CategoriesClient,
+  CategoryDto,
+  PaginatedListResponseOfCategoryDto,
+  PicturesClient,
+  ProductsClient
+} from '../../rentasgt-api';
 
 @Component({
   selector: 'app-new-product',
@@ -15,6 +23,7 @@ export class NewProductComponent implements OnInit {
   public currentImg: Img = null;
   public cropImgModalRef: BsModalRef|null = null;
   public locationModalRef: BsModalRef|null = null;
+  public saving = false;
 
   public newProductForm = new FormGroup({
     name: new FormControl('', [
@@ -41,19 +50,35 @@ export class NewProductComponent implements OnInit {
     ]),
   });
 
+  public categories: CategoryDto[] = [];
+  public selectedCategories: CategoryDto[] = [];
+
   public location: LocationInfo = {
     formattedAddress: null,
     state: 'Guatemala',
     country: 'Guatemala',
+    city: 'Guatemala',
     longitude: null,
     latitude: null,
   };
 
   constructor(
+    private productsClient: ProductsClient,
+    private categoriesClient: CategoriesClient,
+    private picturesClient: PicturesClient,
+    private router: Router,
     private bsModalService: BsModalService,
   ) { }
 
   ngOnInit(): void {
+    this.loadCategories();
+  }
+
+  private loadCategories(): void {
+    this.categoriesClient.get(50, 1)
+      .subscribe((res: PaginatedListResponseOfCategoryDto) => {
+        this.categories = res.items;
+      }, console.error);
   }
 
   public async onImgFileChange(event, template: TemplateRef<any>): Promise<any> {
@@ -99,6 +124,44 @@ export class NewProductComponent implements OnInit {
   public onLocationSelected(location: LocationInfo): void {
     this.location = location;
     this.locationModalRef.hide();
+  }
+
+  public async onSubmitNewProductForm(): Promise<any> {
+    this.saving = true;
+    const pics: number[] = [];
+    try {
+      for (const img of this.uploadedImages) {
+        pics.push(await this.picturesClient.uploadPublicPicture({
+          data: img.file,
+          fileName: img.file.name,
+        }).toPromise());
+      }
+
+      const newProduct = Object.assign({}, this.newProductForm.value,
+        { pictures: pics }, { categories: this.selectedCategories.map(c => c.id)},
+        { location: Object.assign({}, this.location)});
+      if (newProduct.costPerMonth === '') {
+        delete newProduct.costPerMonth;
+      }
+      if (newProduct.costPerWeek === '') {
+        delete newProduct.costPerWeek;
+      }
+      const idNewProd = await this.productsClient.create(newProduct).toPromise();
+
+      this.uploadedImages = [];
+      this.selectedCategories = [];
+      this.location.formattedAddress = null;
+      this.location.latitude = null;
+      this.location.longitude = null;
+      this.newProductForm.reset();
+
+      await this.router.navigate(['/propietario/productos/detalle/', idNewProd]);
+
+    } catch (err) {
+      console.error(err);
+    } finally {
+      this.saving = false;
+    }
   }
 
 }
