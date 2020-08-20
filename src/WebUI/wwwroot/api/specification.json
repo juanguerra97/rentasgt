@@ -1,5 +1,5 @@
-﻿{
-  "x-generator": "NSwag v13.3.0.0 (NJsonSchema v10.1.11.0 (Newtonsoft.Json v12.0.0.0))",
+{
+  "x-generator": "NSwag v13.7.0.0 (NJsonSchema v10.1.24.0 (Newtonsoft.Json v12.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "rentasgt API",
@@ -261,19 +261,22 @@
           "Pictures"
         ],
         "operationId": "Pictures_UploadPublicPicture",
-        "parameters": [
-          {
-            "type": "file",
-            "name": "ImageFile",
-            "in": "formData",
-            "schema": {
-              "type": "string",
-              "format": "binary",
-              "nullable": true
-            },
-            "nullable": true
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ImageFile": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  }
+                }
+              }
+            }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "",
@@ -300,19 +303,22 @@
           "Pictures"
         ],
         "operationId": "Pictures_UploadPrivatePicture",
-        "parameters": [
-          {
-            "type": "file",
-            "name": "ImageFile",
-            "in": "formData",
-            "schema": {
-              "type": "string",
-              "format": "binary",
-              "nullable": true
-            },
-            "nullable": true
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ImageFile": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  }
+                }
+              }
+            }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "",
@@ -536,6 +542,53 @@
                 "schema": {
                   "type": "integer",
                   "format": "int64"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Products/owner": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "Products_GetProductsOfOwner",
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 15
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListResponseOfProductDto"
                 }
               }
             }
@@ -1638,18 +1691,25 @@
               }
             ]
           },
+          "costPerDay": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "costPerWeek": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "costPerYear": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
           "pictures": {
             "type": "array",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ProductPictureDto"
-            }
-          },
-          "costs": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/RentCostDto"
             }
           }
         }
@@ -1716,20 +1776,6 @@
           }
         }
       },
-      "RentCostDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "duration": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "cost": {
-            "type": "number",
-            "format": "decimal"
-          }
-        }
-      },
       "CreateCategoryCommand": {
         "type": "object",
         "additionalProperties": false,
@@ -1773,6 +1819,41 @@
           "categoryId": {
             "type": "integer",
             "format": "int64"
+          }
+        }
+      },
+      "PaginatedListResponseOfProductDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "currentPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPrevious": {
+            "type": "boolean"
+          },
+          "hasNext": {
+            "type": "boolean"
+          },
+          "items": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ProductDto"
+            }
           }
         }
       },

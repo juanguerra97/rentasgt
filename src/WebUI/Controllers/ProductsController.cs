@@ -8,6 +8,8 @@ using rentasgt.Application.Products.Queries.GetProductById;
 using rentasgt.Application.Products.Queries.GetProducts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using rentasgt.Application.Common.Models;
+using rentasgt.Application.Products.Queries.GetProductsOfOwner;
 
 namespace rentasgt.WebUI.Controllers
 {
@@ -31,6 +33,17 @@ namespace rentasgt.WebUI.Controllers
                 Distance = d,
                 City = city,
                 State = state
+            });
+        }
+
+        [HttpGet("owner")]
+        public async Task<ActionResult<PaginatedListResponse<ProductDto>>>GetProductsOfOwner(
+            int pageSize = 15, int pageNumber = 1)
+        {
+            return await Mediator.Send(new GetProductsOfOwner
+            {
+                PageSize = pageSize,
+                PageNumber = pageNumber,
             });
         }
 
