@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ProductDto, ProductsClient } from '../../rentasgt-api';
 import { PageInfo } from '../../models/PageInfo';
 
@@ -10,7 +9,7 @@ import { PageInfo } from '../../models/PageInfo';
 })
 export class ProductsComponent implements OnInit {
 
-  public PAGE_SIZE = 15;
+  public PAGE_SIZE = 10;
   public DEFAULT_PAGE_NUMBER = 1;
 
   public products: ProductDto[] = [];
@@ -25,14 +24,13 @@ export class ProductsComponent implements OnInit {
 
   constructor(
     private productsClient: ProductsClient,
-    private router: Router,
   ) { }
 
   ngOnInit(): void {
     this.loadProducts();
   }
 
-  private loadProducts(pageSize = this.PAGE_SIZE, pageNumber = this.DEFAULT_PAGE_NUMBER): void {
+  public loadProducts(pageSize = this.PAGE_SIZE, pageNumber = this.DEFAULT_PAGE_NUMBER): void {
     this.loadingProducts = true;
     this.productsClient.getProductsOfOwner(pageSize, pageNumber)
       .subscribe((res) => {
@@ -43,10 +41,6 @@ export class ProductsComponent implements OnInit {
         this.loadingProducts = false;
         console.error(error);
       });
-  }
-
-  public onPageChange($event): void {
-    console.log($event);
   }
 
 }
