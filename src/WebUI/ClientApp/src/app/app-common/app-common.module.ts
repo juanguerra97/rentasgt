@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginatorNavComponent } from './paginator-nav/paginator-nav.component';
-import { ButtonModule, FileUploadModule, MultiSelectModule } from 'primeng';
+import {
+  ButtonModule, FileUploadModule, MultiSelectModule,
+  OrderListModule, PaginatorModule
+} from 'primeng';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ImgCropperComponent } from './img-cropper/img-cropper.component';
@@ -23,6 +26,8 @@ import { AgmCoreModule } from '@agm/core';
     ButtonModule,
     FileUploadModule,
     MultiSelectModule,
+    OrderListModule,
+    PaginatorModule,
     ModalModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: '<API_KEY>',
@@ -40,6 +45,8 @@ import { AgmCoreModule } from '@agm/core';
     ButtonModule,
     FileUploadModule,
     MultiSelectModule,
+    OrderListModule,
+    PaginatorModule,
     SelectLocationComponent,
   ]
 })

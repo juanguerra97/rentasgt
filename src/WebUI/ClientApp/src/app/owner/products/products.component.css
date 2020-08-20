@@ -12,3 +12,144 @@
 .noproducts-message-container > button {
   margin-top: 15px;
 }
+
+.product-item {
+  display: flex;
+  align-items: center;
+  padding: .5rem;
+  width: 100%;
+}
+
+.product-item img {
+  width: 75px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  margin-right: 1rem;
+}
+
+.product-item .product-list-detail {
+  flex: 1 1 0;
+}
+
+.product-item .product-list-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.product-item .product-category-icon {
+  vertical-align: middle;
+  margin-right: .5rem;
+}
+
+.product-item .product-category {
+  vertical-align: middle;
+  line-height: 1;
+}
+
+@media screen and (max-width: 576px) {
+  .product-item {
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+
+  .p-orderlist-item {
+    /*box-shadow: #495057 0px 0px 5px;*/
+    border-bottom: #495057 solid 1px;
+    /*box-shadow: #495057 0px 1px 5px;*/
+  }
+
+  .product-item * {
+    text-align: center;
+  }
+
+  .product-item .image-container {
+    width: 100%;
+  }
+
+  .product-item img {
+    margin: 0 0 1rem 0;
+    width: 100px;
+  }
+
+  .product-item .product-list-detail {
+
+  }
+
+  .product-item .product-list-action {
+    align-items: center;
+    justify-items: center;
+  }
+
+  .product-item .product-list-detail h5 {
+    text-align: center;
+  }
+}
+
+.p-orderlist {
+  display: flex;
+}
+
+.p-orderlist-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.p-orderlist-list-container {
+  flex: 1 1 auto;
+}
+
+.p-orderlist-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  /*overflow: auto;*/
+  min-height: 12rem;
+  max-height: 24rem;
+}
+
+.p-orderlist-item {
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+}
+
+.p-orderlist-item:hover {
+  background: #e9ecef;
+  /*color: #495057;*/
+}
+
+.p-orderlist.p-state-disabled .p-orderlist-item,
+.p-orderlist.p-state-disabled .p-button {
+  cursor: default;
+}
+
+.p-orderlist.p-state-disabled .p-orderlist-list {
+  overflow: hidden;
+}
+
+.p-orderlist-filter {
+  position: relative;
+}
+
+.p-orderlist-filter-icon {
+  position: absolute;
+  top: 50%;
+  margin-top: -.5rem;
+}
+
+.p-orderlist-filter-input {
+  width: 100%;
+}
+
+.p-orderlist-controls-right .p-orderlist-controls {
+  order: 2;
+}
+
+.p-orderlist-controls-right .p-orderlist-list-container {
+  order: 1;
+}
+
+.p-orderlist-droppoint {
+  height: 6px;
+}

@@ -1,9 +1,37 @@
 
 <div class="row">
+
   <div *ngIf="products.length > 0"
        class="col-12">
     <h2 class="pantalla-title">Productos</h2>
+
+
+    <div class="p-orderlist-list-container">
+      <ul class="p-orderlist-list" [ngStyle]="{'height':'auto'}">
+
+        <li *ngFor="let product of products" [routerLink]="['/propietario/productos/detalle/', product.id]" class="p-orderlist-item">
+          <div  class="product-item">
+            <div class="image-container">
+              <img src="{{product.pictures[0].pictureContent}}" [alt]="product.name" class="product-image" />
+            </div>
+            <div class="product-list-detail">
+              <h5 class="p-mb-2">{{ product.name }}</h5>
+            </div>
+            <div class="product-list-action">
+              <h6 class="p-mb-2">{{ product.costPerDay|currency }}</h6>
+              <span [class]="'product-badge status-'">{{ PRODUCT_STATES[product.status] }}</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <p-paginator *ngIf="pageInfo !== null"
+                 [rows]="products.length"
+                 [totalRecords]="pageInfo.totalCount" [alwaysShow]="false" (onPageChange)="onPageChange($event.page)"></p-paginator>
+
   </div>
+
   <div *ngIf="products.length <= 0" class="col-12 d-flex justify-content-center align-content-center">
     <div class="noproducts-message-container">
 
