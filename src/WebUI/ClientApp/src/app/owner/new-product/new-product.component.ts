@@ -132,7 +132,7 @@ export class NewProductComponent implements OnInit {
     try {
       for (const img of this.uploadedImages) {
         pics.push(await this.picturesClient.uploadPublicPicture({
-          data: img.file,
+          data: img.contentCropped,
           fileName: img.file.name,
         }).toPromise());
       }
