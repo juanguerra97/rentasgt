@@ -3,9 +3,10 @@ import { RouterModule } from '@angular/router';
 import { AppCommonModule } from '../app-common/app-common.module';
 import { ProductsComponent } from './products/products.component';
 import { NewProductComponent } from './new-product/new-product.component';
+import { DetailProductComponent } from './detail-product/detail-product.component';
 
 @NgModule({
-  declarations: [ProductsComponent, NewProductComponent],
+  declarations: [ProductsComponent, NewProductComponent, DetailProductComponent],
   imports: [
     AppCommonModule,
     RouterModule.forChild([
@@ -21,6 +22,10 @@ import { NewProductComponent } from './new-product/new-product.component';
       {
         path: 'productos/nuevo',
         component: NewProductComponent,
+      },
+      {
+        path: 'productos/detalle/:id',
+        component: DetailProductComponent,
       }
     ]),
   ]
