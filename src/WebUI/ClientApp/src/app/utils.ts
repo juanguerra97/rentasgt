@@ -34,12 +34,14 @@ export function getAddressFromCoordinates(latitude: number, longitude: number, m
               // this.address = results[0].formatted_address;
               const countryComponent = results[0].address_components.find(c => c.types.includes('country'));
               const stateComponent = results[0].address_components.find(c => c.types.includes('administrative_area_level_1'));
+              const cityComponent = results[0].address_components.find(c => c.types.includes('locality'));
               resolve({
                 formattedAddress: results[0].formatted_address,
                 latitude: latitude,
                 longitude: longitude,
                 country: countryComponent.long_name,
-                state: stateComponent.long_name
+                state: stateComponent.long_name,
+                city: cityComponent.long_name,
               });
             } else {
               reject();
