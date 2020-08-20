@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
@@ -15,7 +15,6 @@ import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { OnlyAdminGuard } from '../api-authorization/only-admin.guard';
 import { AppCommonModule } from './app-common/app-common.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -31,7 +30,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     FontAwesomeModule,
     HttpClientModule,
-    FormsModule,
     ApiAuthorizationModule,
     AppCommonModule,
     RouterModule.forRoot([
@@ -42,7 +40,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
         canActivate: [OnlyAdminGuard], canActivateChild: [OnlyAdminGuard], },
       { path: 'propietario', loadChildren: () => import('./owner/owner.module').then(m => m.OwnerModule),
-        canActivate: [AuthorizeGuard], canActivateChild: [AuthorizeGuard]},
+        canActivate: [AuthorizeGuard], canActivateChild: [AuthorizeGuard]
+      },
     ]),
   ],
   providers: [

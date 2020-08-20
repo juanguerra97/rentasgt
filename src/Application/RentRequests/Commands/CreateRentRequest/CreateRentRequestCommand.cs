@@ -92,7 +92,8 @@ namespace rentasgt.Application.RentRequests.Commands.CreateRentRequest
                 Requestor = currentUser,
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,
-                Place = request.Place
+                Place = request.Place,
+                EstimatedCost = EstimateCost(request, productEntity),
             };
 
             await this.context.RentRequests.AddAsync(newRentRequest);
@@ -100,6 +101,30 @@ namespace rentasgt.Application.RentRequests.Commands.CreateRentRequest
 
             return newRentRequest.Id;
         }
+
+        private decimal EstimateCost(CreateRentRequestCommand command, Product product)
+        {
+            decimal total = 0;
+            var span = command.EndDate - command.StartDate;
+            var days = span.Days;
+
+            var months = span.Days / 31;
+            if (product.CostPerMonth != null)
+            {
+                total += months * (decimal)product.CostPerMonth;
+                days = span.Days - months * 31;
+            }
+            
+            var weeks = days / 7;
+            if (product.CostPerWeek != null)
+            {
+                total += weeks * (decimal)product.CostPerWeek;
+                days = days - weeks * 7;
+            }
+            total += days * product.CostPerDay;
+            return total;
+        }
+
     }
 
 }

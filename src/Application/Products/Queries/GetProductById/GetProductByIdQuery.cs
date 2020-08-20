@@ -32,7 +32,6 @@ namespace rentasgt.Application.Products.Queries.GetProductById
         {
             var entity = await this.context.Products.Include(p => p.Owner)
                 .Include(p => p.Pictures).ThenInclude(pp => pp.Picture)
-                .Include(p => p.Costs)
                 .Include(p => p.Categories).ThenInclude(pc => pc.Category)
                 .FirstOrDefaultAsync(p => p.Id == request.Id);
             if (entity == null)

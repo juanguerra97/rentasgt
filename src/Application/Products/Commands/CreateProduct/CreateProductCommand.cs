@@ -21,7 +21,9 @@ namespace rentasgt.Application.Products.Commands.CreateProduct
         public Ubicacion Location { get; set; }
         public List<long> Categories { get; set; }
         public List<long> Pictures { get; set; }
-        public List<RentCostCommand> Costs { get; set; }
+        public decimal CostPerDay { get; set; }
+        public decimal? CostPerWeek { get; set; }
+        public decimal? CostPerMonth { get; set; }
 
     }
 
@@ -52,7 +54,10 @@ namespace rentasgt.Application.Products.Commands.CreateProduct
                 Status = ProductStatus.Available,
                 Description = request.Description,
                 OtherNames = request.OtherNames,
-                Location = request.Location
+                Location = request.Location,
+                CostPerDay = request.CostPerDay,
+                CostPerWeek = request.CostPerMonth,
+                CostPerMonth = request.CostPerMonth,
             };
 
             Address addr = this.locationService.GetAddress(new Geolocation.Coordinate
@@ -70,7 +75,6 @@ namespace rentasgt.Application.Products.Commands.CreateProduct
 
             await AddUserToProduct(newProduct);
             AddPicturesToProduct(newProduct, request.Pictures);
-            AddCostsToProduct(newProduct, request.Costs);
 
             await this.context.Products.AddAsync(newProduct);
             await this.context.SaveChangesAsync(cancellationToken);
@@ -131,18 +135,6 @@ namespace rentasgt.Application.Products.Commands.CreateProduct
             }
         }
 
-        private void AddCostsToProduct(Product product, List<RentCostCommand> rentCosts)
-        {
-            foreach (var cost in rentCosts)
-            {
-                product.Costs.Add(new RentCost
-                {
-                    Duration = (RentDuration) cost.Duration,
-                    Cost = cost.Cost,
-                    Product = product
-                });
-            }
-        }
     }
 
 }

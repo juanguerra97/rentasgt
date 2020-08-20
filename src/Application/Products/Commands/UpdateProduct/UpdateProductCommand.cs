@@ -19,6 +19,9 @@ namespace rentasgt.Application.Products.Commands.UpdateProduct
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? OtherNames { get; set; }
+        public decimal? CostPerDay { get; set; }
+        public decimal? CostPerWeek { get; set; }
+        public decimal? CostPerMonth { get; set; }
         public Ubicacion? Location { get; set; }
 
     }
@@ -67,6 +70,24 @@ namespace rentasgt.Application.Products.Commands.UpdateProduct
             if (request.OtherNames != null)
             {
                 entity.OtherNames = request.OtherNames;
+                fieldUpdated = true;
+            }
+
+            if (request.CostPerDay != null)
+            {
+                entity.CostPerDay = (decimal)request.CostPerDay;
+                fieldUpdated = true;
+            }
+
+            if (entity.CostPerWeek != request.CostPerWeek)
+            {
+                entity.CostPerWeek = request.CostPerWeek;
+                fieldUpdated = true;
+            }
+
+            if (entity.CostPerMonth != request.CostPerMonth)
+            {
+                entity.CostPerMonth = request.CostPerMonth;
                 fieldUpdated = true;
             }
 

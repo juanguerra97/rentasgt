@@ -25,6 +25,15 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
                 .HasMaxLength(Product.MAX_DESCRIPTION_LENGTH)
                 .IsRequired();
 
+            builder.Property(p => p.CostPerDay)
+                .IsRequired();
+
+            builder.Property(p => p.CostPerMonth)
+                .IsRequired(false);
+
+            builder.Property(p => p.CostPerMonth)
+                .IsRequired(false);
+
             builder.HasOne(p => p.Owner)
                 .WithMany(u => u.Products)
                 .IsRequired()
@@ -33,12 +42,6 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
             builder.HasMany(p => p.Pictures)
                 .WithOne(pp => pp.Product)
                 .HasForeignKey(pp => pp.ProductId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasMany(p => p.Costs)
-                .WithOne(c => c.Product)
-                .HasForeignKey(c => c.ProductId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 

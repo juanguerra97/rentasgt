@@ -12,15 +12,15 @@ namespace rentasgt.Domain.Entities
         public ChatRoom()
         {
             Messages = new List<ChatMessage>();
-            Users = new List<UserChatRoom>();
         }
 
         public long Id { get; set; }
 
-        /// <summary>
-        /// Users in the chat room
-        /// </summary>
-        public List<UserChatRoom> Users { get; set; }
+        public long ProductId { get; set; }
+        public Product Product { get; set; }
+
+        public string UserId { get; set; }
+        public AppUser User { get; set; }
 
         /// <summary>
         /// List of messages between the users in the chat room

@@ -45,7 +45,6 @@ namespace rentasgt.Application.Products.Queries.GetProducts
             var products = this.context.Products
                 .Include(p => p.Owner)
                 .Include(p => p.Pictures).ThenInclude(pp => pp.Picture)
-                .Include(p => p.Costs)
                 .Include(p => p.Categories).ThenInclude(pc => pc.Category)
                 .Where(p => p.Status != ProductStatus.Inactive && p.Status != ProductStatus.Incomplete);
 

@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-12">
+
+    <div class="form-group">
+      <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()"
+             placeholder="Buscar..." autocorrect="off" autocapitalize="off" spellcheck="off" type="text"
+             #search>
+    </div>
+
+    <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom"
+              [restriction]="{ latLngBounds: {north: 17.806880, south: 13.748223, west: -92.210494, east: -88.177616 }, strictBounds: false}">
+      <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+                  (dragEnd)="markerDragEnd($event)" (dragStart)="markerDragStart($event)"></agm-marker>
+    </agm-map>
+
+  </div>
+  <div class="col-12 d-flex justify-content-end mt-2">
+    <button [disabled]="gettingCoordinates"
+            (click)="onSelectLocation()"
+            pButton label="Listo" icon="pi pi-check"
+            class="p-button-sm"></button>
+  </div>
+</div>

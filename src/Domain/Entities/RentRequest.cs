@@ -68,6 +68,11 @@ namespace rentasgt.Domain.Entities
         public string? Place { get; set; }
 
         /// <summary>
+        /// Estimated rent cost based on StartDate and EndDate
+        /// </summary>
+        public decimal EstimatedCost { get; set; }
+
+        /// <summary>
         /// List of events related to the request 
         /// </summary>
         public List<RequestEvent> Events { get; set; }

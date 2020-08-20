@@ -40,6 +40,12 @@ namespace rentasgt.Domain.Entities
         public DateTime? EndDate { get; set; }
 
         /// <summary>
+        /// Cost of the rent, calculated based on the StartDate and EndDate 
+        /// and includes fines for delays, etc.
+        /// </summary>
+        public decimal? TotalCost { get; set; }
+
+        /// <summary>
         /// Chat room where the owner and the requestor can send messages to each other
         /// </summary>
         public ChatRoom? ChatRoom { get; set; }

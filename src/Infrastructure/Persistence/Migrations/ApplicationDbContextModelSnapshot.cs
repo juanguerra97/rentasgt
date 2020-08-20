@@ -417,7 +417,18 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("ProductId", "UserId")
+                        .IsUnique();
 
                     b.ToTable("ChatRooms");
                 });
@@ -460,6 +471,15 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    b.Property<decimal>("CostPerDay")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal?>("CostPerMonth")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal?>("CostPerWeek")
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime(6)");
@@ -564,6 +584,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<decimal?>("TotalCost")
+                        .HasColumnType("decimal(65,30)");
+
                     b.HasKey("RequestId");
 
                     b.HasIndex("ChatRoomId");
@@ -595,6 +618,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("EstimatedCost")
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("Place")
                         .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
@@ -889,6 +915,20 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("rentasgt.Domain.Entities.ChatRoom", b =>
+                {
+                    b.HasOne("rentasgt.Domain.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("rentasgt.Domain.Entities.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("rentasgt.Domain.Entities.DpiPicture", b =>
                 {
                     b.HasOne("rentasgt.Domain.Entities.Picture", "Picture")
@@ -1002,7 +1042,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("rentasgt.Domain.Entities.RentCost", b =>
                 {
                     b.HasOne("rentasgt.Domain.Entities.Product", "Product")
-                        .WithMany("Costs")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1044,7 +1084,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("rentasgt.Domain.Entities.UserChatRoom", b =>
                 {
                     b.HasOne("rentasgt.Domain.Entities.ChatRoom", "Room")
-                        .WithMany("Users")
+                        .WithMany()
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

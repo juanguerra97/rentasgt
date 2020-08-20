@@ -11,11 +11,11 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
 
             builder.HasKey(ur => new { ur.UserId, ur.RoomId });
 
-            builder.HasOne(ur => ur.Room)
-                .WithMany(cr => cr.Users)
-                .HasForeignKey(ur => ur.RoomId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+            //builder.HasOne(ur => ur.Room)
+            //    .WithMany(cr => cr.Users)
+            //    .HasForeignKey(ur => ur.RoomId)
+            //    .IsRequired()
+            //    .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(ur => ur.User)
                 .WithMany()
