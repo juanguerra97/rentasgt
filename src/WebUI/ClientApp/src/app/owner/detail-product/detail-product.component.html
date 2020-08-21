@@ -1,1 +1,65 @@
-<p>detail-product works!</p>
+
+<div *ngIf="!loadingProduct" class="row">
+  <div class="col-12">
+
+    <div class="d-flex flex-column flex-md-row">
+      <h2 class="pantalla-title flex-md-fill">{{ product.name }}</h2>
+
+      <div class="d-flex justify-content-end">
+        <button pButton icon="pi pi-pencil" label="Modificar"
+                class="p-button-sm p-button-warning"></button>
+        <button pButton icon="pi pi-times" label="Eliminar"
+                class="p-button-sm p-button-danger ml-2"></button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-12 mt-2">
+
+    <div class="row">
+      <div class="col-12 col-md-6">
+
+        <p *ngIf="product.otherNames.length > 0">{{ product.otherNames }}</p>
+
+        <section class="field-descripcion-container">
+          <h5 class="field-description-title">Descripci&oacute;n</h5>
+          <p class="field-descripcion-content">{{ product.description }}</p>
+        </section>
+
+        <section class="field-costos-container">
+          <h5 class="field-costos-title">Costos</h5>
+          <div class="d-flex justify-content-center">
+            <div class="d-flex flex-column justify-content-center align-items-center cost-container">
+              <p>{{ product.costPerDay|currency }}</p>
+              <p>Diario</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="d-flex align-items-center mt-1">
+          <span class="pi pi-map-marker"></span>
+          <p class="flex-fill m-0 ml-1">{{ product.location.city + ', ' + product.location.state }}</p>
+        </section>
+
+      </div>
+      <div *ngIf="product.pictures.length > 0" class="col-12 col-md-6 mt-2 mt-md-0">
+
+        <p-carousel [value]="product.pictures" [numVisible]="1" [numScroll]="1" [circular]="true">
+          <ng-template let-pic pTemplate="item">
+            <div class="product-item">
+              <div class="product-item-content">
+                <div class="p-mb-3">
+                  <img [src]="pic.pictureContent" [alt]="product.name" class="product-image" />
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </p-carousel>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

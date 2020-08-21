@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginatorNavComponent } from './paginator-nav/paginator-nav.component';
 import {
   ButtonModule, FileUploadModule, MultiSelectModule,
-  OrderListModule, PaginatorModule
+  OrderListModule, PaginatorModule, CarouselModule,
 } from 'primeng';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -28,6 +28,7 @@ import { AgmCoreModule } from '@agm/core';
     MultiSelectModule,
     OrderListModule,
     PaginatorModule,
+    CarouselModule,
     ModalModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: '<API_KEY>',
@@ -47,6 +48,7 @@ import { AgmCoreModule } from '@agm/core';
     MultiSelectModule,
     OrderListModule,
     PaginatorModule,
+    CarouselModule,
     SelectLocationComponent,
   ]
 })

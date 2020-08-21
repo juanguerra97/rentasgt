@@ -1,0 +1,41 @@
+
+.field-descripcion-container, .field-costos-container {
+  position: relative;
+  margin-top: 20px;
+  border: #333333 solid 1px;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.field-description-title, .field-costos-title {
+  padding: 3px;
+  position: absolute;
+  background-color: white;
+  top: -20px;
+  left: 3px;
+}
+
+
+.field-descripcion-container .field-descripcion-content {
+  margin-top: 15px;
+}
+
+.cost-container {
+  padding: 0;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+
+.product-item-content {
+  /*border: 1px solid var(--surface-d);*/
+  border-radius: 3px;
+  margin: .3rem;
+  text-align: center;
+  padding: 0;
+}
+
+.product-image {
+  width: 100%;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+}
