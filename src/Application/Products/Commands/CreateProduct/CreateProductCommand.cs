@@ -56,17 +56,17 @@ namespace rentasgt.Application.Products.Commands.CreateProduct
                 OtherNames = request.OtherNames,
                 Location = request.Location,
                 CostPerDay = request.CostPerDay,
-                CostPerWeek = request.CostPerMonth,
+                CostPerWeek = request.CostPerWeek,
                 CostPerMonth = request.CostPerMonth,
             };
 
-            Address addr = this.locationService.GetAddress(new Geolocation.Coordinate
-            {
-                Latitude = request.Location.Latitude,
-                Longitude = request.Location.Longitude
-            });
-            newProduct.Location.City = addr.City;
-            newProduct.Location.State = addr.State;
+            //Address addr = this.locationService.GetAddress(new Geolocation.Coordinate
+            //{
+            //    Latitude = request.Location.Latitude,
+            //    Longitude = request.Location.Longitude
+            //});
+            //newProduct.Location.City = addr.City;
+            //newProduct.Location.State = addr.State;
 
             if (request.Categories != null)
             {
