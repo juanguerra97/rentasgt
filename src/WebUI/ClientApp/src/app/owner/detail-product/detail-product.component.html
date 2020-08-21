@@ -29,10 +29,18 @@
 
         <section class="field-costos-container">
           <h5 class="field-costos-title">Costos</h5>
-          <div class="d-flex justify-content-center">
+          <div class="d-flex justify-content-center p-2">
             <div class="d-flex flex-column justify-content-center align-items-center cost-container">
               <p>{{ product.costPerDay|currency }}</p>
               <p>Diario</p>
+            </div>
+            <div *ngIf="product.costPerWeek !== null" class="d-flex p-2 flex-column justify-content-center align-items-center cost-container">
+              <p>{{ product.costPerWeek|currency }}</p>
+              <p>Semanal</p>
+            </div>
+            <div *ngIf="product.costPerMonth !== null" class="d-flex p-2 flex-column justify-content-center align-items-center cost-container">
+              <p>{{ product.costPerMonth|currency }}</p>
+              <p>Mensual</p>
             </div>
           </div>
         </section>
