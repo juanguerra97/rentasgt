@@ -20,7 +20,7 @@ namespace rentasgt.Application.Products.Queries.GetProducts
         public UbicacionDto Location { get; set; }
         public decimal CostPerDay { get; set; }
         public decimal? CostPerWeek { get; set; }
-        public decimal? CostPerYear { get; set; }
+        public decimal? CostPerMonth { get; set; }
         public List<ProductPictureDto> Pictures { get; set; }
 
         public void Mapping(Profile profile)

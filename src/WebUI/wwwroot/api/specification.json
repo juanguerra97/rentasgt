@@ -1700,7 +1700,7 @@
             "format": "decimal",
             "nullable": true
           },
-          "costPerYear": {
+          "costPerMonth": {
             "type": "number",
             "format": "decimal",
             "nullable": true
