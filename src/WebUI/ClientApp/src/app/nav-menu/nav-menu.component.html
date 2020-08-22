@@ -1,7 +1,52 @@
 <header>
-  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+
+  <nav class="d-flex flex-column flex-md-row">
+
+    <div class="d-flex align-items-center pr-2 pr-md-0">
+      <a class="menu-button">
+        <i class="pi pi-bars"></i>
+      </a>
+      <div class="d-flex flex-fill justify-content-center">
+        <a class="logo" [routerLink]="['/']">RentasGT</a>
+      </div>
+      <p-button icon="pi pi-search" class="p-button-raised ml-0 ml-md-3 p-button-sm"></p-button>
+    </div>
+
+    <ul class="d-flex flex-fill justify-content-end align-items-stretch nav-list navbar-bottom-container">
+      <li *ngIf="isModerador | async" (click)="onSubmenuClicked($event)" class="nav-list-item">
+        <a class="nav-list-link">Moderador</a>
+        <ul class="submenu">
+
+        </ul>
+      </li>
+      <li *ngIf="isAdmin | async" (click)="onSubmenuClicked($event)" class="nav-list-item">
+        <a class="nav-list-link">Admin</a>
+        <ul class="submenu">
+          <li class="submenu-item"><a [routerLink]='["/admin/categorias"]' class="submenu-link">Categorias</a></li>
+        </ul>
+      </li>
+      <ng-container *ngIf="isAuthenticated | async;else notAuthenticated">
+        <li class="nav-list-item">
+          <a [routerLink]='["/authentication/profile"]' title="Perfil" class="nav-list-link">{{ userName | async }}</a>
+        </li>
+        <li class="nav-list-item">
+          <a [routerLink]='["/authentication/logout"]' [state]='{ local: true }' class="nav-list-link" title="Logout"><i class="pi pi-sign-out"></i>&nbsp;Salir</a>
+        </li>
+      </ng-container>
+      <ng-template #notAuthenticated>
+        <li class="nav-list-item">
+          <a [routerLink]='["/authentication/register"]' class="nav-list-link">Crear cuenta</a>
+        </li>
+        <li class="nav-list-item">
+          <a [routerLink]='["/authentication/login"]' class="nav-list-link">Entrar</a>
+        </li>
+      </ng-template>
+    </ul>
+  </nav>
+
+  <!--<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">rentasgt.WebUI</a>
+      <a class="navbar-brand" [routerLink]="['/']">RentasGT</a>
       <button class="navbar-toggler"
               type="button"
               data-toggle="collapse"
@@ -35,5 +80,5 @@
         </ul>
       </div>
     </div>
-  </nav>
+  </nav>-->
 </header>
