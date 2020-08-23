@@ -20,7 +20,7 @@ namespace rentasgt.WebUI.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<List<ProductDto>>> Get(int pageSize = 15,
+        public async Task<ActionResult<PaginatedListResponse<ProductDto>>> Get(int pageSize = 15,
             int pageNumber = 1, double? lon = null, double? lat = null,
             int d = 10, string? city = null, string? state = null)
         {

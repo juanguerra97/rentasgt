@@ -4,15 +4,15 @@ using Geolocation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using rentasgt.Application.Common.Interfaces;
+using rentasgt.Application.Common.Models;
 using rentasgt.Domain.Enums;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace rentasgt.Application.Products.Queries.GetProducts
 {
-    public class GetProductsQuery : IRequest<List<ProductDto>>
+    public class GetProductsQuery : IRequest<PaginatedListResponse<ProductDto>>
     {
 
         public int PageNumber { get; set; }
@@ -28,7 +28,7 @@ namespace rentasgt.Application.Products.Queries.GetProducts
 
     }
 
-    public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, List<ProductDto>>
+    public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, PaginatedListResponse<ProductDto>>
     {
         private readonly IApplicationDbContext context;
         private readonly IMapper mapper;
@@ -39,7 +39,7 @@ namespace rentasgt.Application.Products.Queries.GetProducts
             this.mapper = mapper;
         }
 
-        public async Task<List<ProductDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedListResponse<ProductDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
 
             var products = this.context.Products
@@ -67,12 +67,10 @@ namespace rentasgt.Application.Products.Queries.GetProducts
 
             }
 
-            return await products
-                .OrderBy(p => p.Id)
-                .Skip(request.PageSize * (request.PageNumber - 1))
-                .Take(request.PageSize)
-                .ProjectTo<ProductDto>(this.mapper.ConfigurationProvider)
-                .ToListAsync();
+            return PaginatedListResponse<ProductDto>.ToPaginatedListResponse(
+                products.OrderBy(p => p.Id)
+                .ProjectTo<ProductDto>(this.mapper.ConfigurationProvider),
+                request.PageNumber, request.PageSize);
         }
     }
 

@@ -507,10 +507,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductDto"
-                  }
+                  "$ref": "#/components/schemas/PaginatedListResponseOfProductDto"
                 }
               }
             }
