@@ -2,14 +2,15 @@
 
   <nav class="d-flex flex-column flex-md-row">
 
-    <div class="d-flex align-items-center pr-2 pr-md-0">
-      <a class="menu-button">
-        <i class="pi pi-bars"></i>
-      </a>
-      <div class="d-flex flex-fill justify-content-center">
+    <div class="d-flex flex-fill align-items-center pl-2 pl-md-0">
+      <div class="d-flex justify-content-center">
         <a class="logo" [routerLink]="['/']">RentasGT</a>
       </div>
-      <p-button icon="pi pi-search" class="p-button-raised ml-0 ml-md-3 p-button-sm"></p-button>
+<!--      <p-button icon="pi pi-search" class="p-button-raised ml-0 ml-md-3 p-button-sm"></p-button>-->
+      <div class="p-inputgroup flex-fill pl-3 pr-2 pr-md-0">
+        <input [(ngModel)]="searchText" type="text" pInputText placeholder="Qu&eacute; buscas?" style="max-width: 520px">
+        <button [routerLink]="['/articulos', {s: searchText}]" type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-warn"></button>
+      </div>
     </div>
 
     <ul class="d-flex flex-fill justify-content-end align-items-stretch nav-list navbar-bottom-container">
@@ -34,6 +35,12 @@
         </li>
       </ng-container>
       <ng-template #notAuthenticated>
+        <li class="nav-list-item">
+          <a [routerLink]='["/authentication/register"]' class="nav-list-link">Crear cuenta</a>
+        </li>
+        <li class="nav-list-item">
+          <a [routerLink]='["/authentication/login"]' class="nav-list-link">Entrar</a>
+        </li>
         <li class="nav-list-item">
           <a [routerLink]='["/authentication/register"]' class="nav-list-link">Crear cuenta</a>
         </li>

@@ -17,6 +17,7 @@ export class NavMenuComponent implements OnInit {
   public isAdmin: Observable<boolean>;
   public isModerador: Observable<boolean>;
   public userName: Observable<string>;
+  public searchText = '';
 
   constructor(
     private authorizeService: AuthorizeService,
