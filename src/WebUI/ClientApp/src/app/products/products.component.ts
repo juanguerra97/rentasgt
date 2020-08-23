@@ -50,6 +50,7 @@ export class ProductsComponent implements OnInit {
         if (this.searchText.length === 0) {
           name = undefined;
         }
+        this.searchingProducts = true;
         this.productsClient.get(this.PAGE_SIZE, this.DEFAULT_PAGE_NUMBER, name,
           undefined, undefined, undefined, undefined, undefined, undefined)
           .subscribe((res) => {
