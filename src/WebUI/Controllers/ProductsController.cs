@@ -21,13 +21,16 @@ namespace rentasgt.WebUI.Controllers
         [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<PaginatedListResponse<ProductDto>>> Get(int pageSize = 15,
-            int pageNumber = 1, double? lon = null, double? lat = null,
+            int pageNumber = 1, string? name = null, long? category = null, 
+            double? lon = null, double? lat = null,
             int d = 10, string? city = null, string? state = null)
         {
             return await Mediator.Send(new GetProductsQuery
             {
                 PageSize = pageSize,
                 PageNumber = pageNumber,
+                Name = name,
+                Category = category,
                 Longitude = lon,
                 Latitude = lat,
                 Distance = d,

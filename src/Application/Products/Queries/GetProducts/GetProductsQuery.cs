@@ -17,6 +17,8 @@ namespace rentasgt.Application.Products.Queries.GetProducts
 
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
+        public string? Name { get; set; }
+        public long? Category { get; set; }
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
         public int Distance { get; set; }
@@ -47,6 +49,16 @@ namespace rentasgt.Application.Products.Queries.GetProducts
                 .Include(p => p.Pictures).ThenInclude(pp => pp.Picture)
                 .Include(p => p.Categories).ThenInclude(pc => pc.Category)
                 .Where(p => p.Status != ProductStatus.Inactive && p.Status != ProductStatus.Incomplete);
+
+            if (request.Category != null && request.Category > 0) 
+            { 
+                products = products.Where(p => p.Categories.Any(pc => pc.CategoryId == request.Category));
+            }
+
+            if (request.Name != null)
+            {
+                products = products.Where(p => EF.Functions.Like(p.Name.ToUpper(), $"%{request.Name.ToUpper()}%"));
+            }
 
             if (request.Latitude != null && request.Longitude != null)
             {
