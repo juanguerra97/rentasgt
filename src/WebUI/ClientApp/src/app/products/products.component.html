@@ -28,7 +28,31 @@
 
   </div>
   <div class="col-12 col-sm-6 col-md-8 col-lg-9 col-xl-10">
+    <div class="d-flex flex-wrap justify-content-center align-items-center">
+      <div *ngFor="let product of products" [routerLink]="['/articulos/detalle/', product.id]" class="product-item">
+        <div class="product-item-content">
+          <div class="p-mb-3">
+            <img [src]="product.pictures[0].pictureContent" [alt]="product.name" class="product-image" />
+          </div>
+          <div>
+            <h4 class="p-mb-1">{{product.name}}</h4>
+            <h6 class="p-mt-0 p-mb-3">{{product.costPerDay|currency}}</h6>
+<!--            <span [class]="'product-badge status-'+product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>-->
+<!--            <div class="car-buttons p-mt-5">-->
+<!--              <p-button type="button" styleClass="p-button p-button-rounded p-mr-2" icon="pi pi-search"></p-button>-->
+<!--              <p-button type="button" styleClass="p-button-success p-button-rounded p-mr-2" icon="pi pi-star"></p-button>-->
+<!--              <p-button type="button" styleClass="p-button-help p-button-rounded" icon="pi pi-cog"></p-button>-->
+<!--            </div>-->
+          </div>
+        </div>
+      </div>
+      <p-paginator *ngIf="pageInfo !== null"
+                   [rows]="PAGE_SIZE"
+                   [totalRecords]="pageInfo.totalCount"
+                   [alwaysShow]="false"
+                   (onPageChange)="loadProducts(PAGE_SIZE, $event.page + 1)"></p-paginator>
 
+    <p *ngIf="products.length === 0 && !searchingProducts" class="text-center">No se encontraron art&iacute;culos</p>
   </div>
 </div>
 

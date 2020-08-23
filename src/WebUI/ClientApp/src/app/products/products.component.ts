@@ -1,8 +1,9 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import {CategoriesClient, CategoryDto} from '../rentasgt-api';
+import { CategoriesClient, CategoryDto, ProductDto, ProductsClient} from '../rentasgt-api';
 import { LocationInfo } from '../models/LocationInfo';
+import { PageInfo } from '../models/PageInfo';
 
 @Component({
   selector: 'app-products',
@@ -10,6 +11,9 @@ import { LocationInfo } from '../models/LocationInfo';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
+
+  public PAGE_SIZE = 10;
+  public DEFAULT_PAGE_NUMBER = 1;
 
   public searchText = '';
   public category: CategoryDto = null;
@@ -25,8 +29,13 @@ export class ProductsComponent implements OnInit {
   public locationModalRef: BsModalRef|null = null;
 
   public searchingProducts = false;
+  public products: ProductDto[] = [];
+  public pageInfo: PageInfo = null;
+
+  public filter: ProductFilter = {};
 
   constructor(
+    private productsClient: ProductsClient,
     private categoriesClient: CategoriesClient,
     private activatedRoute: ActivatedRoute,
     private bsModalService: BsModalService,
@@ -35,8 +44,38 @@ export class ProductsComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params) => {
       this.searchText = params.get('s');
+      if (this.searchText !== null && this.searchText !== undefined) {
+        this.searchText = this.searchText.trim();
+        let name = this.searchText;
+        if (this.searchText.length === 0) {
+          name = undefined;
+        }
+        this.productsClient.get(this.PAGE_SIZE, this.DEFAULT_PAGE_NUMBER, name,
+          undefined, undefined, undefined, undefined, undefined, undefined)
+          .subscribe((res) => {
+            this.products = res.items;
+            this.pageInfo = new PageInfo(res.currentPage, res.totalPages, res.pageSize, res.totalCount);
+            this.searchingProducts = false;
+          }, error => {
+            this.searchingProducts = false;
+            console.error(error);
+          });
+      }
     }, console.error);
     this.loadCategories();
+  }
+
+  private loadProducts(pageSize: number = this.PAGE_SIZE, pageNumber = this.DEFAULT_PAGE_NUMBER): void {
+    this.productsClient.get(pageSize, pageNumber, this.filter.name, this.filter.category, this.filter.longitude,
+      this.filter.latitude, this.filter.distance, this.filter.city, this.filter.state)
+      .subscribe((res) => {
+        this.products = res.items;
+        this.pageInfo = new PageInfo(res.currentPage, res.totalPages, res.pageSize, res.totalCount);
+        this.searchingProducts = false;
+      }, error => {
+        this.searchingProducts = false;
+        console.error(error);
+      });
   }
 
   private loadCategories(): void {
@@ -48,15 +87,15 @@ export class ProductsComponent implements OnInit {
 
   public onFiltrar(): void {
     this.searchingProducts = true;
-    let name = this.searchText.trim();
-    if (name.length === 0) {
-      name = undefined;
+    this.filter.name = this.searchText.trim();
+    if (this.filter.name.length === 0) {
+      this.filter.name = undefined;
     }
-    const latitude = this.location.latitude !== null ? this.location.latitude : undefined;
-    const longitude = this.location.longitude !== null ? this.location.longitude : undefined;
-    const category = this.category !== null ? this.category.id : undefined;
-    // TODO: make call to retrieve products
-    this.searchingProducts = false;
+    this.filter.latitude = this.location.latitude !== null ? this.location.latitude : undefined;
+    this.filter.longitude = this.location.longitude !== null ? this.location.longitude : undefined;
+    this.filter.category = this.category !== null ? this.category.id : undefined;
+
+    this.loadProducts();
   }
 
   public onSelectLocation(template: TemplateRef<any>): void {
@@ -79,4 +118,14 @@ export class ProductsComponent implements OnInit {
     };
   }
 
+}
+
+class ProductFilter {
+  category?: number;
+  name?: string;
+  latitude?: number;
+  longitude?: number;
+  city?: string;
+  state?: string;
+  distance?: number;
 }
