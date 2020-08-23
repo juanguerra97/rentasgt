@@ -13,13 +13,15 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
 import { OnlyAdminGuard } from '../api-authorization/only-admin.guard';
 import { AppCommonModule } from './app-common/app-common.module';
 import { ProductsComponent } from './products/products.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    ProductsComponent
+    ProductsComponent,
+    ProductDetailComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -36,6 +38,7 @@ import { ProductsComponent } from './products/products.component';
         canActivate: [AuthorizeGuard], canActivateChild: [AuthorizeGuard]
       },
       { path: 'articulos', component: ProductsComponent },
+      { path: 'articulos/detalle/:id', component: ProductDetailComponent },
     ]),
   ],
   providers: [
