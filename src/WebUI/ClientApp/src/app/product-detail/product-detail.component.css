@@ -1,0 +1,35 @@
+
+.product-pictures-container, .product-info {
+  box-shadow: #333333 0 0 3px;
+}
+
+.product-info {
+  padding: 0.5rem;
+  border-radius: 3px 3px;
+}
+
+.product-info .product-name {
+  font-size: 1.5rem;
+  border-bottom: #e9ecef solid 1px;
+}
+
+.product-info .product-description {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.product-cost-container {
+  margin: 0;
+}
+
+.product-cost-container .product-cost {
+  margin: 0;
+  padding: 0;
+  font-size: 0.75rem;
+}
+
+@media only screen and(min-width: 768px) {
+
+}
