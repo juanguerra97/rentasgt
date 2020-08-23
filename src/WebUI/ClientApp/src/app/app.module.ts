@@ -13,16 +13,12 @@ import { AuthorizeInterceptor } from 'src/api-authorization/authorize.intercepto
 import { OnlyAdminGuard } from '../api-authorization/only-admin.guard';
 import { AppCommonModule } from './app-common/app-common.module';
 import { ProductsComponent } from './products/products.component';
-import { ProductsListComponent } from './products-list/products-list.component';
-import { ProductsFilterComponent } from './products-filter/products-filter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    ProductsListComponent,
-    ProductsFilterComponent,
     ProductsComponent
   ],
   imports: [
