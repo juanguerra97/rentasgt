@@ -12,12 +12,18 @@ import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { OnlyAdminGuard } from '../api-authorization/only-admin.guard';
 import { AppCommonModule } from './app-common/app-common.module';
+import { ProductsComponent } from './products/products.component';
+import { ProductsListComponent } from './products-list/products-list.component';
+import { ProductsFilterComponent } from './products-filter/products-filter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
+    ProductsListComponent,
+    ProductsFilterComponent,
+    ProductsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -33,6 +39,7 @@ import { AppCommonModule } from './app-common/app-common.module';
       { path: 'propietario', loadChildren: () => import('./owner/owner.module').then(m => m.OwnerModule),
         canActivate: [AuthorizeGuard], canActivateChild: [AuthorizeGuard]
       },
+      { path: 'articulos', component: ProductsComponent },
     ]),
   ],
   providers: [
