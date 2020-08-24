@@ -27,11 +27,16 @@
         </ul>
       </li>
       <ng-container *ngIf="isAuthenticated | async;else notAuthenticated">
-        <li class="nav-list-item">
-          <a [routerLink]='["/authentication/profile"]' title="Perfil" class="nav-list-link">{{ userName | async }}</a>
-        </li>
-        <li class="nav-list-item">
-          <a [routerLink]='["/authentication/logout"]' [state]='{ local: true }' class="nav-list-link" title="Logout"><i class="pi pi-sign-out"></i>&nbsp;Salir</a>
+        <li (click)="onSubmenuClicked($event)" class="nav-list-item">
+          <a class="nav-list-link">{{ userName | async }}</a>
+          <ul class="submenu">
+            <li class="submenu-item">
+              <a [routerLink]='["/authentication/profile"]' title="Perfil" class="submenu-link"><i class="pi pi-user"></i>&nbsp;Perfil</a>
+            </li>
+            <li class="submenu-item">
+              <a [routerLink]='["/authentication/logout"]' [state]='{ local: true }' class="submenu-link" title="Logout"><i class="pi pi-sign-out"></i>&nbsp;Salir</a>
+            </li>
+          </ul>
         </li>
       </ng-container>
       <ng-template #notAuthenticated>
