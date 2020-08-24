@@ -15,6 +15,8 @@ import { AppCommonModule } from './app-common/app-common.module';
 import { ProductsComponent } from './products/products.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import {ChatsComponent} from './chats/chats.component';
+import { NbThemeModule, NbLayoutModule } from '@nebular/theme';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,9 @@ import {ChatsComponent} from './chats/chats.component';
       { path: 'articulos/detalle/:id', component: ProductDetailComponent },
       { path: 'mensajes', component: ChatsComponent }, // TODO: add AuthorizeGuard
     ]),
+    NbThemeModule.forRoot({ name: 'default' }),
+    NbLayoutModule,
+    NbEvaIconsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },

@@ -25,6 +25,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@nebular/theme/styles/prebuilt/default.css",
               "node_modules/primeicons/primeicons.css",
               "node_modules/croppie/croppie.css",
               "node_modules/primeng/resources/themes/saga-blue/theme.css",
