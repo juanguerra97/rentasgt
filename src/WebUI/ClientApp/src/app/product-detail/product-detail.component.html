@@ -1,20 +1,27 @@
 
 <div *ngIf="product !== null" class="container-fluid product-container">
   <div class="row mt-3">
-    <div class="col-12 col-md-8 product-pictures-container p-0">
+    <div class="col-12 col-md-8 p-0">
 
-      <p-galleria [(value)]="product.pictures" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '1280px'}" [numVisible]="5"
-                  [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="true" [showItemNavigatorsOnHover]="true"
-                  [showIndicatorsOnItem]="true">
-        <ng-template pTemplate="item" let-item>
-          <img [src]="item.pictureContent" style="width: 100%; display: block;" />
-        </ng-template>
-        <ng-template pTemplate="thumbnail" let-item>
-          <div class="p-grid p-nogutter p-justify-center">
-            <img [src]="item.pictureContent" style="display: block;" />
-          </div>
-        </ng-template>
-      </p-galleria>
+      <div class="product-pictures-container">
+        <p-galleria [(value)]="product.pictures" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '1280px'}" [numVisible]="5"
+                    [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="true" [showItemNavigatorsOnHover]="true"
+                    [showIndicatorsOnItem]="true">
+          <ng-template pTemplate="item" let-item>
+            <img [src]="item.pictureContent" style="width: 100%; display: block;" />
+          </ng-template>
+          <ng-template pTemplate="thumbnail" let-item>
+            <div class="p-grid p-nogutter p-justify-center">
+              <img [src]="item.pictureContent" style="display: block;" />
+            </div>
+          </ng-template>
+        </p-galleria>
+      </div>
+
+      <div class="owner-info">
+        <i class="pi pi-user"></i>&nbsp;
+        <span>{{ product.owner.firstName + ' ' + product.owner.lastName }}</span>
+      </div>
 
     </div>
     <div class="col-12 col-md-4 mt-2 mt-md-0 pr-0 pl-0 pl-md-2">
