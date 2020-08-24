@@ -6,6 +6,7 @@ import {
   ButtonModule, FileUploadModule, MultiSelectModule,
   OrderListModule, PaginatorModule, CarouselModule,
   InputTextModule, DropdownModule, GalleriaModule,
+  DialogModule, CalendarModule,
 } from 'primeng';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -33,6 +34,8 @@ import { AgmCoreModule } from '@agm/core';
     InputTextModule,
     DropdownModule,
     GalleriaModule,
+    DialogModule,
+    CalendarModule,
     ModalModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: '<API_KEY>',
@@ -56,6 +59,8 @@ import { AgmCoreModule } from '@agm/core';
     InputTextModule,
     DropdownModule,
     GalleriaModule,
+    DialogModule,
+    CalendarModule,
     SelectLocationComponent,
   ]
 })

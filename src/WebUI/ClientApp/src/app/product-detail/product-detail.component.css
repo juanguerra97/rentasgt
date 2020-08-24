@@ -50,6 +50,14 @@
   margin: 0;
 }
 
+.rent-date-modal {
+  width: 70vw;
+}
+
 @media only screen and(min-width: 768px) {
+
+  .rent-date-modal {
+    width: 50vw;
+  }
 
 }
