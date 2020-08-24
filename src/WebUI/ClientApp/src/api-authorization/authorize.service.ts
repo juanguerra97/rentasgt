@@ -30,6 +30,7 @@ export enum AuthenticationResultStatus {
 }
 
 export interface IUser {
+  sub: string;
   name: string;
   role: string | string[];
 }
@@ -72,7 +73,7 @@ export class AuthorizeService {
 
   public hasRole(role: string): Observable<boolean> {
     return this.getUser().pipe(map(u => {
-      if (u == null) {
+      if (u == null || !u.role) {
         return false;
       }
       return u.role.includes(role);
