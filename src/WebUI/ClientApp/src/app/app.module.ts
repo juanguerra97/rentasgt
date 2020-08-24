@@ -14,6 +14,7 @@ import { OnlyAdminGuard } from '../api-authorization/only-admin.guard';
 import { AppCommonModule } from './app-common/app-common.module';
 import { ProductsComponent } from './products/products.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
+import {ChatsComponent} from './chats/chats.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
       },
       { path: 'articulos', component: ProductsComponent },
       { path: 'articulos/detalle/:id', component: ProductDetailComponent },
+      { path: 'mensajes', component: ChatsComponent }, // TODO: add AuthorizeGuard
     ]),
   ],
   providers: [
