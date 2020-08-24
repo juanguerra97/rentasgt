@@ -2,6 +2,7 @@
 <div *ngIf="product !== null" class="container-fluid product-container">
   <div class="row mt-3">
     <div class="col-12 col-md-8 product-pictures-container p-0">
+
       <p-galleria [(value)]="product.pictures" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '1280px'}" [numVisible]="5"
                   [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="true" [showItemNavigatorsOnHover]="true"
                   [showIndicatorsOnItem]="true">
@@ -14,8 +15,10 @@
           </div>
         </ng-template>
       </p-galleria>
+
     </div>
     <div class="col-12 col-md-4 mt-2 mt-md-0 pr-0 pl-0 pl-md-2">
+
       <div class="product-info">
         <h2 class="pantalla-title product-name">{{ product.name }}</h2>
         <p class="product-description">{{ product.description }}</p>
@@ -31,6 +34,13 @@
           </div>
         </div>
       </div>
+
+      <div class="product-location mt-2">
+        <h3>Ubicaci&oacute;n</h3>
+        <img src="https://maps.googleapis.com/maps/api/staticmap?markers=|{{product.location.latitude + ',' + product.location.longitude }}&language=es&size=540x216&zoom=16&scale=1&key=" alt="Ubicaci&oacute;n">
+        <p>{{ product.location.city + ', ' + product.location.state }}</p>
+      </div>
+
     </div>
   </div>
 </div>

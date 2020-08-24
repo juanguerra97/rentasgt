@@ -1,9 +1,9 @@
 
-.product-pictures-container, .product-info {
+.product-pictures-container, .product-info, .product-location {
   box-shadow: #333333 0 0 3px;
 }
 
-.product-info {
+.product-info, .product-location {
   padding: 0.5rem;
   border-radius: 3px 3px;
 }
@@ -28,6 +28,26 @@
   margin: 0;
   padding: 0;
   font-size: 0.75rem;
+}
+
+.product-location {
+
+}
+
+.product-location h3 {
+  font-size: 0.95rem;
+}
+
+.product-location img {
+  width: 100%;
+}
+
+
+.product-location p {
+  font-size: 0.70rem;
+  text-align: right;
+  padding: 0;
+  margin: 0;
 }
 
 @media only screen and(min-width: 768px) {
