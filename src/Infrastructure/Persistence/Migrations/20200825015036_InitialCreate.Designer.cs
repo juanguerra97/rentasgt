@@ -4,13 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using rentasgt.Domain.Enums;
 using rentasgt.Infrastructure.Persistence;
 
 namespace rentasgt.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200817175350_InitialCreate")]
+    [Migration("20200825015036_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -380,12 +379,13 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("varchar(512) CHARACTER SET utf8mb4")
+                        .HasMaxLength(512);
+
                     b.Property<int>("MessageType")
                         .HasColumnType("int");
-
-                    b.Property<string>("RecipientId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<long>("RoomId")
                         .HasColumnType("bigint");
@@ -402,15 +402,11 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RecipientId");
-
                     b.HasIndex("RoomId");
 
                     b.HasIndex("SenderId");
 
                     b.ToTable("ChatMessages");
-
-                    b.HasDiscriminator<int>("MessageType").HasValue(0);
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.ChatRoom", b =>
@@ -818,18 +814,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.ToTable("UserProfileEvents");
                 });
 
-            modelBuilder.Entity("rentasgt.Domain.Entities.TextMessage", b =>
-                {
-                    b.HasBaseType("rentasgt.Domain.Entities.ChatMessage");
-
-                    b.Property<string>("TextContent")
-                        .IsRequired()
-                        .HasColumnType("varchar(512) CHARACTER SET utf8mb4")
-                        .HasMaxLength(512);
-
-                    b.HasDiscriminator().HasValue(1);
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -898,12 +882,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("rentasgt.Domain.Entities.ChatMessage", b =>
                 {
-                    b.HasOne("rentasgt.Domain.Entities.AppUser", "Recipient")
-                        .WithMany()
-                        .HasForeignKey("RecipientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("rentasgt.Domain.Entities.ChatRoom", "Room")
                         .WithMany("Messages")
                         .HasForeignKey("RoomId")

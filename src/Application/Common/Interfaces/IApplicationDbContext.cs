@@ -39,8 +39,6 @@ namespace rentasgt.Application.Common.Interfaces
 
         DbSet<RequestEvent> RequestEvents { get; set; }
 
-        DbSet<TextMessage> TextMessages { get; set; }
-
         DbSet<UserChatRoom> UserChatRooms { get; set; }
 
         DbSet<UserPicture> UserPictures { get; set; }

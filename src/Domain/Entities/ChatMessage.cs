@@ -6,31 +6,7 @@ namespace rentasgt.Domain.Entities
     public class ChatMessage
     {
 
-        public ChatMessage()
-        { }
-
-        public ChatMessage(ChatMessageStatus status, ChatRoom room, AppUser sender, AppUser recipient,
-            ChatMessageType messageType, DateTime sentDate)
-            : this()
-        {
-            Status = status;
-            Room = room;
-            Sender = sender;
-            Recipient = recipient;
-            MessageType = messageType;
-            SentDate = sentDate;
-        }
-
-        public ChatMessage(ChatMessageStatus status, ChatRoom room, AppUser sender, AppUser recipient,
-            ChatMessageType messageType)
-            : this()
-        {
-            Status = status;
-            Room = room;
-            Sender = sender;
-            Recipient = recipient;
-            MessageType = messageType;
-        }
+        public static readonly int MAX_MESSAGE_LENGTH = 512;
 
         public long Id { get; set; }
 
@@ -51,11 +27,6 @@ namespace rentasgt.Domain.Entities
         public AppUser Sender { get; set; }
 
         /// <summary>
-        /// The recipient of the message
-        /// </summary>
-        public AppUser Recipient { get; set; }
-
-        /// <summary>
         /// Type of message
         /// </summary>
         public ChatMessageType MessageType { get; set; }
@@ -64,6 +35,11 @@ namespace rentasgt.Domain.Entities
         /// Date and time when the message was sent
         /// </summary>
         public DateTime? SentDate { get; set; }
+
+        /// <summary>
+        /// Message's content
+        /// </summary>
+        public string Content { get; set; }
 
     }
 }

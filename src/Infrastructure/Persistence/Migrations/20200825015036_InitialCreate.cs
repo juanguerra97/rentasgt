@@ -563,20 +563,13 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     Status = table.Column<int>(nullable: false),
                     RoomId = table.Column<long>(nullable: false),
                     SenderId = table.Column<string>(nullable: false),
-                    RecipientId = table.Column<string>(nullable: false),
                     MessageType = table.Column<int>(nullable: false),
                     SentDate = table.Column<DateTime>(nullable: true),
-                    TextContent = table.Column<string>(maxLength: 512, nullable: true)
+                    Content = table.Column<string>(maxLength: 512, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ChatMessages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ChatMessages_AspNetUsers_RecipientId",
-                        column: x => x.RecipientId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ChatMessages_ChatRooms_RoomId",
                         column: x => x.RoomId,
@@ -718,11 +711,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 table: "Categories",
                 column: "Name",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ChatMessages_RecipientId",
-                table: "ChatMessages",
-                column: "RecipientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChatMessages_RoomId",
