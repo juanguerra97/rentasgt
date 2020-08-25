@@ -19,7 +19,7 @@
             "schema": {
               "type": "integer",
               "format": "int32",
-              "default": 15
+              "default": 25
             },
             "x-position": 1
           },
@@ -41,6 +41,63 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PaginatedListResponseOfChatRoomDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/ChatRooms/{id}/messages": {
+      "get": {
+        "tags": [
+          "ChatRooms"
+        ],
+        "operationId": "ChatRooms_GetMessages",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 35
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListResponseOfChatMessageDto"
                 }
               }
             }
@@ -1817,6 +1874,41 @@
           1,
           2
         ]
+      },
+      "PaginatedListResponseOfChatMessageDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "currentPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPrevious": {
+            "type": "boolean"
+          },
+          "hasNext": {
+            "type": "boolean"
+          },
+          "items": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ChatMessageDto"
+            }
+          }
+        }
       },
       "PaginatedListResponseOfCategoryDto": {
         "type": "object",
