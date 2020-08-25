@@ -36,13 +36,15 @@ namespace rentasgt.Application.ChatRooms.Queries.GetChatRoomsOfUser
         {
 
             var chatRooms = this.context.ChatRooms
+                .Include(cr => cr.Messages)
                 .Include(cr => cr.Product)
                 .ThenInclude(p => p.Owner)
                 .Include(cr => cr.User)
-                .Where(c => c.UserId == this.currentUserService.UserId || c.Product.Owner.Id == this.currentUserService.UserId);
+                .Where(c => c.UserId == this.currentUserService.UserId || c.Product.Owner.Id == this.currentUserService.UserId)
+                .Where(c => c.Messages.Count > 0);
 
             return PaginatedListResponse<ChatRoomDto>.ToPaginatedListResponse(
-                chatRooms.ProjectTo<ChatRoomDto>(this.mapper.ConfigurationProvider), 
+                chatRooms.ProjectTo<ChatRoomDto>(this.mapper.ConfigurationProvider).OrderByDescending(c => c.LastMessage.Id), 
                 request.PageSize, request.PageNumber);
         }
     }
