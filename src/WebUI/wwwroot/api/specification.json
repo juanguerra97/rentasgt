@@ -6,6 +6,53 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/api/ChatRooms": {
+      "get": {
+        "tags": [
+          "ChatRooms"
+        ],
+        "operationId": "ChatRooms_Get",
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 15
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListResponseOfChatRoomDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/Categories": {
       "get": {
         "tags": [
@@ -1614,6 +1661,163 @@
   },
   "components": {
     "schemas": {
+      "PaginatedListResponseOfChatRoomDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "currentPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPrevious": {
+            "type": "boolean"
+          },
+          "hasNext": {
+            "type": "boolean"
+          },
+          "items": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ChatRoomDto"
+            }
+          }
+        }
+      },
+      "ChatRoomDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "product": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ChatRoomProductDto"
+              }
+            ]
+          },
+          "user": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ChatUserDto"
+              }
+            ]
+          },
+          "lastMessage": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ChatMessageDto"
+              }
+            ]
+          }
+        }
+      },
+      "ChatRoomProductDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "owner": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ChatUserDto"
+              }
+            ]
+          }
+        }
+      },
+      "ChatUserDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ChatMessageDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "roomId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ChatMessageStatus"
+          },
+          "sender": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ChatUserDto"
+              }
+            ]
+          },
+          "sentDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ChatMessageStatus": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "SinEnviar",
+          "SinLeer",
+          "Leido"
+        ],
+        "enum": [
+          0,
+          1,
+          2
+        ]
+      },
       "PaginatedListResponseOfCategoryDto": {
         "type": "object",
         "additionalProperties": false,
