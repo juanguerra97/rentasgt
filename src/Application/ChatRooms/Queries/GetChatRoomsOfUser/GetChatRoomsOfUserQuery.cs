@@ -45,7 +45,7 @@ namespace rentasgt.Application.ChatRooms.Queries.GetChatRoomsOfUser
 
             return PaginatedListResponse<ChatRoomDto>.ToPaginatedListResponse(
                 chatRooms.ProjectTo<ChatRoomDto>(this.mapper.ConfigurationProvider).OrderByDescending(c => c.LastMessage.Id), 
-                request.PageSize, request.PageNumber);
+                request.PageNumber, request.PageSize);
         }
     }
 
