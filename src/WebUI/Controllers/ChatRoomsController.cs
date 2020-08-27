@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using Application.ChatRooms.Commands.CreateChatRoom;
+using Application.ChatRooms.Queries.GetChatRoom;
 using Application.ChatRooms.Queries.GetMessagesOfRoom;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +25,14 @@ namespace WebUI.Controllers
             });
         }
 
+        [HttpGet("product/{productId}")]
+        public async Task<ActionResult<ChatRoomDto>> GetRoomForProduct(long productId)
+        {
+            return await Mediator.Send(new GetChatRoomQuery {
+                ProductId = productId
+            });
+        }
+
         [HttpGet("{id}/messages")]
         public async Task<ActionResult<PaginatedListResponse<ChatMessageDto>>> GetMessages(
             long id,
@@ -33,6 +43,12 @@ namespace WebUI.Controllers
                 PageNumber = pageNumber,
                 ChatRoomId = id
             });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<long>> Create(CreateChatRoomCommand command)
+        {
+            return await Mediator.Send(command);
         }
 
     }
