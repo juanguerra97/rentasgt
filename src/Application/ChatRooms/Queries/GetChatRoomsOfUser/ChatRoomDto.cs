@@ -3,6 +3,7 @@ using AutoMapper;
 using rentasgt.Application.ChatRooms.Queries.GetMessagesOfRoom;
 using rentasgt.Application.Common.Mappings;
 using rentasgt.Domain.Entities;
+using System.Collections.Generic;
 
 namespace rentasgt.Application.ChatRooms.Queries.GetChatRoomsOfUser
 {
@@ -14,7 +15,7 @@ namespace rentasgt.Application.ChatRooms.Queries.GetChatRoomsOfUser
         public ChatUserDto User { get; set; }
         public ChatMessageDto? LastMessage { get; set; }
 
-        void Mapping(Profile profile)
+        public void Mapping(Profile profile)
         {
             profile.CreateMap<ChatRoom, ChatRoomDto>()
                 .ForMember(d => d.LastMessage, opt => opt.MapFrom(s => s.Messages.OrderByDescending(s => s.SentDate).FirstOrDefault()));
