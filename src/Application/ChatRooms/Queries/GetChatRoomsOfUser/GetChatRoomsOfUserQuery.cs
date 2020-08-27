@@ -41,11 +41,20 @@ namespace rentasgt.Application.ChatRooms.Queries.GetChatRoomsOfUser
                 .ThenInclude(p => p.Owner)
                 .Include(cr => cr.User)
                 .Where(c => c.UserId == this.currentUserService.UserId || c.Product.Owner.Id == this.currentUserService.UserId)
-                .Where(c => c.Messages.Count > 0);
+                .Where(c => c.Messages.Count > 0)
+                .ProjectTo<ChatRoomDto>(this.mapper.ConfigurationProvider)
+                .ToList()
+                .OrderByDescending(c => c.LastMessage.SentDate);
 
-            return PaginatedListResponse<ChatRoomDto>.ToPaginatedListResponse(
-                chatRooms.ProjectTo<ChatRoomDto>(this.mapper.ConfigurationProvider).OrderByDescending(c => c.LastMessage.Id), 
-                request.PageNumber, request.PageSize);
+
+            var pageSize = request.PageSize;
+            var pageNumber = request.PageNumber;
+            var count = chatRooms.Count();
+			var items = chatRooms.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+                
+            return new PaginatedListResponse<ChatRoomDto>(
+                items, count, pageNumber, pageSize
+            );
         }
     }
 
