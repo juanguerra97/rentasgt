@@ -1,1 +1,47 @@
-<p>chats works!</p>
+
+<div class="container-fluid mt-3">
+  <div class="row">
+    <div *ngIf="loadingChatRooms || this.chats.length > 0" class="col-4 p-0">
+      <h3 class="pantalla-title">Tus conversaciones</h3>
+      <div class="chat-rooms-container">
+
+        <div *ngFor="let chat of chats" (click)="selectChatRoom(chat)" [ngClass]="{'chat-room mb-1': true, 'current-room': selectedChatRoom === chat}" class="">
+          <h5 class="chat-room-title">{{ chat.product.name }}</h5>
+          <ng-container *ngIf="chat.lastMessage !== null">
+            <p class="msg-preview">{{ chat.lastMessage.content|slice:0:128 }}</p>
+            <p *ngIf="currentUser !== null && currentUser.sub !== chat.lastMessage.sender.id; else tu" class="msg-from">
+              {{ chat.lastMessage.sender.firstName }}
+            </p>
+            <ng-template #tu>
+              <p class="msg-preview">
+                T&uacute;
+              </p>
+            </ng-template>
+            <p class="date">{{ chat.lastMessage.sentDate }}</p>
+          </ng-container>
+        </div >
+
+      </div>
+    </div>
+
+    <div *ngIf="selectedChatRoom !== null" class="col-8 p-0">
+
+      <div class="messages-container" class="d-flex flex-column-reverse">
+        <div *ngFor="let msg of messages" class="msg-container">
+          <p class="msg-text">{{ msg.content }}</p>
+          <p class="msg-date">{{ msg.sentDate }}</p>
+        </div>
+      </div>
+
+      <div class="p-inputgroup flex-fill pl-3 pr-2 pr-md-0">
+        <input type="text" pInputText placeholder="Escribe tu mensaje...">
+        <button type="button" pButton pRipple icon="pi pi-arrow-right" styleClass="p-button-warn"></button>
+      </div>
+
+    </div>
+
+    <div *ngIf="!loadingChatRooms && this.chats.length === 0" class="col-12">
+      <p class="text-center">No tienes conversaciones.</p>
+    </div>
+  </div>
+</div>

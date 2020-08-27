@@ -27,6 +27,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "@fullcalendar/core": "^5.3.0",
+    "@microsoft/signalr": "^3.1.7",
     "@nebular/eva-icons": "6.0.0",
     "@nebular/theme": "^6.0.0",
     "@nguniversal/module-map-ngfactory-loader": "8.0.0-rc.1",

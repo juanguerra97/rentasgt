@@ -1,0 +1,47 @@
+
+.chat-rooms-container {
+
+}
+
+.chat-rooms-container .chat-room {
+  cursor: pointer;
+  padding: 0.5rem;
+  box-shadow: #495057 0 0 4px;
+  border-radius: 3px 3px;
+  max-height: 90vh;
+  min-height: 200px;
+  /*border: #1861ac solid 2px;*/
+}
+
+.current-room {
+  border-left: #1b6ec2 solid 2px;
+}
+
+.chat-room > p {
+  padding: 0;
+  margin: 0;
+}
+
+.chat-room .chat-room-title {
+  font-size: 0.95rem;
+}
+
+.chat-room .msg-preview {
+  font-weight: bold;
+  font-size: 0.85rem;
+}
+
+.chat-room .msg-from {
+  text-align: right;
+  font-size: 0.75rem;
+}
+
+.chat-room .date {
+  text-align: right;
+  font-size: 0.70rem;
+}
+
+.messages-container {
+  max-height: 90vh;
+  min-height: 200px;
+}
