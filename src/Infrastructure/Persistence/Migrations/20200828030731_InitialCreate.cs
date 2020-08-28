@@ -430,32 +430,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChatRooms",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    ProductId = table.Column<long>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ChatRooms", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ChatRooms_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ChatRooms_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ProductCategories",
                 columns: table => new
                 {
@@ -555,6 +529,28 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RequestEvents",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    EventType = table.Column<int>(nullable: false),
+                    RentRequestId = table.Column<long>(nullable: false),
+                    EventDate = table.Column<DateTime>(nullable: false),
+                    Message = table.Column<string>(maxLength: 128, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequestEvents", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RequestEvents_RentRequests_RentRequestId",
+                        column: x => x.RentRequestId,
+                        principalTable: "RentRequests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ChatMessages",
                 columns: table => new
                 {
@@ -571,12 +567,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_ChatMessages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ChatMessages_ChatRooms_RoomId",
-                        column: x => x.RoomId,
-                        principalTable: "ChatRooms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_ChatMessages_AspNetUsers_SenderId",
                         column: x => x.SenderId,
                         principalTable: "AspNetUsers",
@@ -585,23 +575,32 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserChatRooms",
+                name: "ChatRooms",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    RoomId = table.Column<long>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ProductId = table.Column<long>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    LastMessageId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserChatRooms", x => new { x.UserId, x.RoomId });
+                    table.PrimaryKey("PK_ChatRooms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserChatRooms_ChatRooms_RoomId",
-                        column: x => x.RoomId,
-                        principalTable: "ChatRooms",
+                        name: "FK_ChatRooms_ChatMessages_LastMessageId",
+                        column: x => x.LastMessageId,
+                        principalTable: "ChatMessages",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserChatRooms_AspNetUsers_UserId",
+                        name: "FK_ChatRooms_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ChatRooms_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -637,23 +636,25 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RequestEvents",
+                name: "UserChatRooms",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    EventType = table.Column<int>(nullable: false),
-                    RentRequestId = table.Column<long>(nullable: false),
-                    EventDate = table.Column<DateTime>(nullable: false),
-                    Message = table.Column<string>(maxLength: 128, nullable: true)
+                    UserId = table.Column<string>(nullable: false),
+                    RoomId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RequestEvents", x => x.Id);
+                    table.PrimaryKey("PK_UserChatRooms", x => new { x.UserId, x.RoomId });
                     table.ForeignKey(
-                        name: "FK_RequestEvents_RentRequests_RentRequestId",
-                        column: x => x.RentRequestId,
-                        principalTable: "RentRequests",
+                        name: "FK_UserChatRooms_ChatRooms_RoomId",
+                        column: x => x.RoomId,
+                        principalTable: "ChatRooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserChatRooms_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -721,6 +722,12 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 name: "IX_ChatMessages_SenderId",
                 table: "ChatMessages",
                 column: "SenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChatRooms_LastMessageId",
+                table: "ChatRooms",
+                column: "LastMessageId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChatRooms_UserId",
@@ -823,10 +830,34 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 name: "IX_UserProfileEvents_UserProfileId",
                 table: "UserProfileEvents",
                 column: "UserProfileId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_ChatMessages_ChatRooms_RoomId",
+                table: "ChatMessages",
+                column: "RoomId",
+                principalTable: "ChatRooms",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_ChatMessages_AspNetUsers_SenderId",
+                table: "ChatMessages");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_ChatRooms_AspNetUsers_UserId",
+                table: "ChatRooms");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Products_AspNetUsers_OwnerId",
+                table: "Products");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_ChatMessages_ChatRooms_RoomId",
+                table: "ChatMessages");
+
             migrationBuilder.DropTable(
                 name: "AddressPictures");
 
@@ -844,9 +875,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
-
-            migrationBuilder.DropTable(
-                name: "ChatMessages");
 
             migrationBuilder.DropTable(
                 name: "DeviceCodes");
@@ -900,16 +928,19 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 name: "TodoLists");
 
             migrationBuilder.DropTable(
-                name: "ChatRooms");
-
-            migrationBuilder.DropTable(
                 name: "Pictures");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "ChatRooms");
+
+            migrationBuilder.DropTable(
+                name: "ChatMessages");
+
+            migrationBuilder.DropTable(
+                name: "Products");
         }
     }
 }

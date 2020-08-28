@@ -9,7 +9,7 @@ using rentasgt.Infrastructure.Persistence;
 namespace rentasgt.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200825015036_InitialCreate")]
+    [Migration("20200828030731_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -415,6 +415,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("LastMessageId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
 
@@ -422,6 +425,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LastMessageId")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -897,6 +903,11 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("rentasgt.Domain.Entities.ChatRoom", b =>
                 {
+                    b.HasOne("rentasgt.Domain.Entities.ChatMessage", "LastMessage")
+                        .WithOne()
+                        .HasForeignKey("rentasgt.Domain.Entities.ChatRoom", "LastMessageId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("rentasgt.Domain.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")

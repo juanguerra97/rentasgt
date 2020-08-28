@@ -21,6 +21,12 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
                 .WithMany()
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasOne(c => c.LastMessage)
+                .WithOne()
+                .HasForeignKey<ChatRoom>(c => c.LastMessageId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasMany(c => c.Messages)
                 .WithOne(m => m.Room)
                 .HasForeignKey(m => m.RoomId)

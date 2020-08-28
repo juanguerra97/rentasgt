@@ -35,7 +35,7 @@ namespace Application.ChatRooms.Queries.GetChatRoom
         public async Task<ChatRoomDto> Handle(GetChatRoomQuery request, CancellationToken cancellationToken)
         {
             var userId = this.currentUserService.UserId;
-            var entity = this.context.ChatRooms
+            var entity = await this.context.ChatRooms
                 .Include(r => r.User)
                 .Include(r => r.Product).ThenInclude(p => p.Owner)
                 .FirstOrDefaultAsync(r => r.UserId == userId && r.ProductId == request.ProductId);

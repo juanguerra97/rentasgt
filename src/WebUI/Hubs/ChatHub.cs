@@ -114,6 +114,8 @@ namespace WebUI.Hubs
 
             await this.context.ChatMessages.AddAsync(message);
             await this.context.SaveChangesAsync(this.cancellationToken);
+            roomEntity.LastMessage = message;
+            await this.context.SaveChangesAsync(this.cancellationToken);
 
             return (this.mapper.Map<ChatMessageDto>(message), recipient.Id);
         }

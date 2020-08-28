@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using rentasgt.Application.Common.Exceptions;
 using rentasgt.Application.Common.Interfaces;
+using System.Linq;
 using rentasgt.Domain.Entities;
 using rentasgt.Domain.Enums;
 
@@ -66,6 +67,8 @@ namespace Application.ChatRooms.Commands.CreateChatRoom
             };
 
             await this.context.ChatRooms.AddAsync(room);
+            await this.context.SaveChangesAsync(cancellationToken);
+            room.LastMessage = room.Messages.FirstOrDefault();
             await this.context.SaveChangesAsync(cancellationToken);
 
             return room.Id;

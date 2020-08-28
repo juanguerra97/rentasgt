@@ -15,11 +15,5 @@ namespace rentasgt.Application.ChatRooms.Queries.GetChatRoomsOfUser
         public ChatUserDto User { get; set; }
         public ChatMessageDto? LastMessage { get; set; }
 
-        public void Mapping(Profile profile)
-        {
-            profile.CreateMap<ChatRoom, ChatRoomDto>()
-                .ForMember(d => d.LastMessage, opt => opt.MapFrom(s => s.Messages.OrderByDescending(s => s.SentDate).FirstOrDefault()));
-        }
-
     }
 }

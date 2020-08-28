@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using rentasgt.Application.ChatRooms.Queries.GetMessagesOfRoom;
 
 namespace rentasgt.Application.ChatRooms.Queries.GetChatRoomsOfUser
 {
@@ -35,17 +36,17 @@ namespace rentasgt.Application.ChatRooms.Queries.GetChatRoomsOfUser
         public async Task<PaginatedListResponse<ChatRoomDto>> Handle(GetChatRoomsOfUserQuery request, CancellationToken cancellationToken)
         {
 
-            var chatRooms = this.context.ChatRooms
-                .Include(cr => cr.Messages)
+            var chatRooms = await this.context.ChatRooms
                 .Include(cr => cr.Product)
                 .ThenInclude(p => p.Owner)
                 .Include(cr => cr.User)
+                .Include(cr => cr.LastMessage)
                 .Where(c => c.UserId == this.currentUserService.UserId || c.Product.Owner.Id == this.currentUserService.UserId)
-                .Where(c => c.Messages.Count > 0)
+                .Where(c => c.LastMessage != null)
                 .ProjectTo<ChatRoomDto>(this.mapper.ConfigurationProvider)
-                .ToList()
-                .OrderByDescending(c => c.LastMessage.SentDate);
+                .ToListAsync();
 
+            chatRooms = chatRooms.OrderByDescending(c => c.LastMessage, new MessageDtoComp()).ToList();
 
             var pageSize = request.PageSize;
             var pageNumber = request.PageNumber;
@@ -57,5 +58,14 @@ namespace rentasgt.Application.ChatRooms.Queries.GetChatRoomsOfUser
             );
         }
     }
+
+    public class MessageDtoComp : IComparer<ChatMessageDto> {
+
+        public int Compare(ChatMessageDto m1, ChatMessageDto m2) {
+            return DateTime.Compare((DateTime)m1.SentDate, (DateTime) m2.SentDate);
+        }
+
+    }
+
 
 }
