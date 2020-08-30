@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ChatMessageDto, ChatMessageStatus, ChatRoomDto, ChatRoomsClient } from '../rentasgt-api';
+import { ChatMessageDto, ChatMessageStatus, ChatRoomDto, ChatRoomsClient, ProductDto, ProductsClient, ChatUserDto } from '../rentasgt-api';
 import { PageInfo } from '../models/PageInfo';
 import { AuthorizeService, IUser } from '../../api-authorization/authorize.service';
 import { ActivatedRoute } from '@angular/router';
 import * as signalR from '@microsoft/signalr';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-chats',
@@ -20,18 +21,36 @@ export class ChatsComponent implements OnInit {
   public pageInfo: PageInfo = null;
   public loadingChatRooms = false;
   public selectedChatRoom: ChatRoomDto = null;
+  public product: ProductDto = null;
   public pageInfoMsg: PageInfo = null;
   public loadingMessages = false;
   public messages: ChatMessageDto[] = [];
   public currentUser: IUser = null;
+  public newMessage: string = '';
   public sendingMessage = false;
 
   public MSG_STATUS_LABELS = [];
 
   private hubConnection: signalR.HubConnection = null;
 
+  responsiveOptions: any[] = [
+    {
+      breakpoint: '1024px',
+      numVisible: 5
+    },
+    {
+      breakpoint: '768px',
+      numVisible: 3
+    },
+    {
+      breakpoint: '560px',
+      numVisible: 1
+    }
+  ];
+
   constructor(
     private chatRoomsClient: ChatRoomsClient,
+    private productsClient: ProductsClient,
     private authorizeService: AuthorizeService,
     private activatedRoute: ActivatedRoute,
   ) { }
@@ -44,14 +63,15 @@ export class ChatsComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       const id = Number.parseInt(params.get('room'));
       if (id) {
-        while (this.loadingChatRooms === true) {}
+        while (this.loadingChatRooms === true) { }
         // TODO: load
       }
     });
     this.authorizeService.getUser().subscribe((res) => {
       this.currentUser = res;
     }, console.error);
-    
+    this.connect();
+
   }
 
   public loadChatRooms(pageSize = this.ROOMS_PAGE_SIZE, pageNumber = this.ROOMS_DEFAULT_PAGE_NUMBER) {
@@ -73,7 +93,12 @@ export class ChatsComponent implements OnInit {
         accessTokenFactory: async () => `${await this.authorizeService.getAccessToken().toPromise()}`
       })
       .build();
-      this.hubConnection.on('receiveMessage', this.receiveMessage);
+    this.hubConnection.on('receiveMessage', (message: ChatMessageDto) => {
+      this.receiveMessage(message);
+    });
+    this.hubConnection.on('messageReadNotification', (message: ChatMessageDto) => {
+      this.messageReadNotification(message);
+    });
     this.hubConnection
       .start()
       .then(() => console.log('Connected to chathub'))
@@ -82,46 +107,114 @@ export class ChatsComponent implements OnInit {
 
   public receiveMessage(message: ChatMessageDto): void {
     const chatIndex = this.chats.findIndex(chat => chat.id === message.roomId);
-    if (chatIndex >= 0)
-    {
+    if (chatIndex >= 0) {
+      message.sentDate = new Date(message.sentDate);
       const chat = this.chats.splice(chatIndex, 1)[0];
       chat.lastMessage = message;
       this.chats.unshift(chat);
     }
+    if (this.selectedChatRoom && this.selectedChatRoom.id == message.roomId) {
+      this.messages.push(message);
+      setTimeout(this.scrollToBottomChat, 350);
+    }
   }
 
-  public async sendMessage(content: string): Promise<any> {
-    this.sendingMessage = true;
-    if (this.hubConnection !== null)
-    {
-      const msg: ChatMessageDto = await this.hubConnection.invoke('SendMessage', this.selectedChatRoom.id, content);
-      if (msg !== null)
-      {
-        this.messages.push(msg);
+  public messageReadNotification(message: ChatMessageDto): void {
+    message.sentDate = new Date(message.sentDate);
+    if (this.selectedChatRoom && this.selectedChatRoom.id == message.roomId) {
+      const msgIndex = this.messages.findIndex(msg => msg.id === message.id);
+      if (msgIndex >= 0) {
+        this.messages[msgIndex].status = message.status;
+        
+      }
+      if (this.selectedChatRoom.lastMessage.id === message.id) {
+        this.selectedChatRoom.lastMessage.status = message.status;
+      }
+    } else {
+      const chatIndex = this.chats.findIndex(chat => chat.lastMessage.id === message.id);
+      if (chatIndex >= 0) {
+        this.chats[chatIndex].lastMessage.status = message.status;
       }
     }
+
+  }
+
+  public async sendMessage(): Promise<any> {
+    this.sendingMessage = true;
+    if (this.hubConnection !== null) {
+      const msg: ChatMessageDto = await this.hubConnection.invoke('SendMessage', this.selectedChatRoom.id, this.newMessage);
+      if (msg !== null) {
+        msg.sentDate = new Date(msg.sentDate);
+        this.messages.push(msg);
+        setTimeout(this.scrollToBottomChat, 350);
+      }
+      this.newMessage = '';
+    }
+
     this.sendingMessage = false;
   }
 
+  public isValidNewMessage(): boolean {
+    return this.newMessage.trim().length > 0;
+  }
+
   public selectChatRoom(chatRoom: ChatRoomDto): void {
-    if (!this.selectedChatRoom || chatRoom.id !== this.selectedChatRoom.id) {
-      this.selectedChatRoom = chatRoom;
-      this.loadMessages(this.selectedChatRoom.id);
-    }
+    this.product = null;
+    this.selectedChatRoom = chatRoom;
+    this.loadMessages(this.selectedChatRoom.id);
+    this.loadProduct(this.selectedChatRoom.product.id);
+  }
+
+  private loadProduct(idProduct: number): void {
+    this.productsClient.getById(idProduct)
+      .subscribe((res: ProductDto) => {
+        this.product = res;
+      }, console.error);
+  }
+
+  public deselectChatRoom(): void {
+    this.selectedChatRoom = null;
+  }
+
+  public isFromOther(msg: ChatMessageDto): boolean {
+    return this.currentUser !== null && msg.sender.id !== this.currentUser.sub;
+  };
+
+  public formatDate(date: Date): string {
+    return DateTime.fromJSDate(date).toFormat('dd/MM/yyyy t');
   }
 
   private loadMessages(roomId: number, pageSize = this.MSG_PAGE_SIZE,
-                       pageNumber = this.MSG_DEFAULT_PAGE_NUMBER ): void {
+    pageNumber = this.MSG_DEFAULT_PAGE_NUMBER): void {
     this.loadingMessages = true;
     this.chatRoomsClient.getMessages(roomId, pageSize, pageNumber)
       .subscribe((res) => {
         this.pageInfoMsg = new PageInfo(res.currentPage, res.totalPages, res.pageSize, res.totalCount);
         this.messages = res.items;
+        setTimeout(this.scrollToBottomChat, 800);
         this.loadingMessages = false;
       }, error => {
         console.error(error);
         this.loadingMessages = false;
       });
+  }
+
+  public getOtherUserName(): string {
+    if (!this.selectedChatRoom || !this.currentUser) return 'Unknown';
+    let user: ChatUserDto = this.selectedChatRoom.user;
+    if (user.id === this.currentUser.sub) {
+      user = this.selectedChatRoom.product.owner;
+    }
+    return user.firstName + ' ' + user.lastName;
+  }
+
+  private scrollToBottomChat(): void {
+    const scroll = document.querySelector('#chat-scroll');
+    scroll.scrollTo({
+      top: scroll.scrollHeight,
+      left: 0,
+      behavior: 'smooth'
+    });
   }
 
 }

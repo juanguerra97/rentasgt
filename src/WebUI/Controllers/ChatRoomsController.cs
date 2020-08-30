@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Application.ChatRooms.Commands.CreateChatRoom;
+using Application.ChatRooms.Commands.ReadMessage;
 using Application.ChatRooms.Queries.GetChatRoom;
 using Application.ChatRooms.Queries.GetMessagesOfRoom;
 using Microsoft.AspNetCore.Authorization;
@@ -48,6 +49,11 @@ namespace WebUI.Controllers
         [HttpPost]
         public async Task<ActionResult<long>> Create(CreateChatRoomCommand command)
         {
+            return await Mediator.Send(command);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ChatMessageDto>> ReadMessage(ReadMessageCommand command) {
             return await Mediator.Send(command);
         }
 

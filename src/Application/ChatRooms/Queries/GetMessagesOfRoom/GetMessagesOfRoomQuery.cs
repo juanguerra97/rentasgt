@@ -51,7 +51,7 @@ namespace Application.ChatRooms.Queries.GetMessagesOfRoom
             }
             
             return PaginatedListResponse<ChatMessageDto>.ToPaginatedListResponse(
-                this.context.ChatMessages.Where(m => m.RoomId == entity.Id).OrderByDescending(m => m.Id).ProjectTo<ChatMessageDto>(this.mapper.ConfigurationProvider),
+                this.context.ChatMessages.Where(m => m.RoomId == entity.Id).OrderBy(m => m.Id).ProjectTo<ChatMessageDto>(this.mapper.ConfigurationProvider),
                 request.PageNumber, request.PageSize
             );
         }

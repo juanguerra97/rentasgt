@@ -14,7 +14,7 @@ using Microsoft.Extensions.Hosting;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using System.Linq;
-using WebUI.Hubs;
+using rentasgt.WebUI.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using WebUI.Services;
 
@@ -50,6 +50,7 @@ namespace rentasgt.WebUI
 
             services.AddSignalR();
             services.AddSingleton<IUserIdProvider, UserIdProvider>();
+            services.AddScoped<IChatRoomNotificator, ChatRoomNotificator>();
 
             services.AddControllersWithViews(options =>
                 options.Filters.Add(new ApiExceptionFilter()));

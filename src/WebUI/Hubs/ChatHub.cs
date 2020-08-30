@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Concurrent;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +11,7 @@ using rentasgt.Application.Common.Interfaces;
 using rentasgt.Domain.Entities;
 using rentasgt.Domain.Enums;
 
-namespace WebUI.Hubs
+namespace rentasgt.WebUI.Hubs
 {
 
     [Authorize]
@@ -22,18 +19,16 @@ namespace WebUI.Hubs
     {
 
         private CancellationToken cancellationToken = new CancellationTokenSource().Token;
-
-        private readonly ConcurrentDictionary<string, string> ActiveUsersByConId = new ConcurrentDictionary<string, string>();
-        private readonly ConcurrentDictionary<string, string> ActiveUsersByUserId = new ConcurrentDictionary<string, string>();
         private readonly IApplicationDbContext context;
         private readonly IDateTime dateTimeService;
         private readonly ICurrentUserService currentUserService;
         private readonly IMapper mapper;
 
-        public ChatHub(IApplicationDbContext context, IDateTime dateTimeService, ICurrentUserService currentUserService, IMapper mapper)
+        public ChatHub(IApplicationDbContext context, IDateTime dateTimeService,
+            ICurrentUserService currentUserService, IMapper mapper)
         {
-            this.mapper = mapper;
             this.currentUserService = currentUserService;
+            this.mapper = mapper;
             this.dateTimeService = dateTimeService;
             this.context = context;
         }
@@ -46,39 +41,20 @@ namespace WebUI.Hubs
 
             if (msg != null)
             {
-                
-                if (this.ActiveUsersByUserId.TryGetValue(recipientId, out string recipientConnectionId))
-                {
-                    await Clients.Client(recipientConnectionId).SendAsync("receiveMessage", msg);
-                } else 
-                {
-                    Console.WriteLine("# Recipient is not online!");
-                }
-            } else 
-            {
-                Console.WriteLine("# Message not saved!");
+                await Clients.User(recipientId).SendAsync("receiveMessage", msg);
             }
             return msg;
         }
 
         public override Task OnConnectedAsync()
         {
-            string userId = this.Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            // this.ActiveUsersByConId.TryAdd(this.Context.ConnectionId, userId);
-            if (this.ActiveUsersByUserId.ContainsKey(userId)) 
-            {
-                this.ActiveUsersByUserId.TryRemove(userId, out string v);
-            }
-            this.ActiveUsersByUserId.TryAdd(userId, this.Context.ConnectionId);
+            // string userId = this.Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             return Task.CompletedTask;
         }
 
         public override Task OnDisconnectedAsync(System.Exception exception)
         {
-            Console.WriteLine("# User disconnected");
-            string userId = this.Context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            this.ActiveUsersByUserId.TryRemove(userId, out string v);
-            // this.ActiveUsersByConId.TryRemove(this.Context.ConnectionId, out string v);
+            // TODO: send disconnect notification
             return Task.CompletedTask;
         }
 
@@ -103,7 +79,8 @@ namespace WebUI.Hubs
                 recipient = roomEntity.User;
             }
 
-            var message = new ChatMessage {
+            var message = new ChatMessage
+            {
                 Room = roomEntity,
                 Content = content,
                 Sender = sender,
@@ -113,10 +90,9 @@ namespace WebUI.Hubs
             };
 
             await this.context.ChatMessages.AddAsync(message);
-            await this.context.SaveChangesAsync(this.cancellationToken);
             roomEntity.LastMessage = message;
             await this.context.SaveChangesAsync(this.cancellationToken);
-
+            // message = await this.context.ChatMessages.FirstOrDefaultAsync(m => m.Id == message.Id);
             return (this.mapper.Map<ChatMessageDto>(message), recipient.Id);
         }
 
