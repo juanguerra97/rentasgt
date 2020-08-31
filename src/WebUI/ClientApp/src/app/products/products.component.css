@@ -1,6 +1,7 @@
 
 .product-item {
   max-width: 350px;
+  padding: 0;
   cursor: pointer;
 }
 
@@ -9,14 +10,20 @@
 }
 
 .product-item .product-item-content {
-  border: 1px solid #dee2e6;
-  border-radius: 3px;
-  margin: .3rem;
-  text-align: center;
-  padding: 2rem 0;
+  border: none;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 0.5rem 0 rgba(44, 51, 73, 0.4);
 }
 
 .product-item .product-image {
-  width: 85%;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+  width: 100%;
+  border-radius: 0.25rem;
+}
+
+.filtro-title {
+  font-size: 1rem;
+}
+
+.filtro-ubicacion {
+  font-size: 0.75rem;
 }

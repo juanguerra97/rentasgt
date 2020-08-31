@@ -25,6 +25,7 @@ export class ProductsComponent implements OnInit {
     longitude: null,
     latitude: null
   };
+  public distance: number = 10;
   public categories: CategoryDto[] = [];
   public locationModalRef: BsModalRef|null = null;
 
@@ -95,6 +96,7 @@ export class ProductsComponent implements OnInit {
     this.filter.latitude = this.location.latitude !== null ? this.location.latitude : undefined;
     this.filter.longitude = this.location.longitude !== null ? this.location.longitude : undefined;
     this.filter.category = this.category !== null ? this.category.id : undefined;
+    this.filter.distance = this.location.latitude !== null && this.location.longitude !== null ? this.distance : undefined;
 
     this.loadProducts();
   }

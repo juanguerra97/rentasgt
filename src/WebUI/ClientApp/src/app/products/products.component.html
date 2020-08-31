@@ -1,49 +1,56 @@
 
 <div class="row pt-3">
-  <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
 
+  <div class="col-12">
+    <h2 class="pantalla-title">Art&iacute;culos disponibles</h2>
+  </div>
+
+  <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+    <h3 class="filtro-title">B&uacute;squeda</h3>
     <div class="p-field mt-4">
       <span class="p-float-label">
-        <input [(ngModel)]="searchText" pInputText type="text" id="name" class="p-inputtext-sm">
+        <input [(ngModel)]="searchText" pInputText type="text" id="name" class="p-inputtext-sm w-100">
         <label for="name">Nombre</label>
       </span>
     </div>
 
     <div class="p-field mt-4">
       <span class="p-float-label">
-        <p-dropdown inputId="category" class="p-inputtext-sm" [options]="categories" [(ngModel)]="category" [autoDisplayFirst]="false" optionLabel="name" [showClear]="true"></p-dropdown>
-      <label for="category">Categor&iacute;a</label>
+        <p-dropdown inputId="category" class="p-inputtext-sm" [options]="categories" [(ngModel)]="category" [autoDisplayFirst]="false" optionLabel="name" [showClear]="true" styleClass="w-100"></p-dropdown>
+        <label for="category">Categor&iacute;a</label>
       </span>
     </div>
 
-    <div class="mt-4">
-      <label>Ubicaci&oacute;n</label>&nbsp;
-      <button (click)="onSelectLocation(locationModalTemplate)" pButton icon="pi pi-map-marker" class="p-button-sm p-button-raised" type="button"></button>
-      <button *ngIf="location.formattedAddress !== null" (click)="clearLocation()" type="button" pButton pRipple icon="pi pi-times" class="p-button-raised p-button-danger p-button-sm"></button>
-      <p *ngIf="location.formattedAddress !== null">{{ location.formattedAddress }}</p>
+    <div class="mt-2 d-flex flex-column">
+      <div class="d-flex">
+        <button (click)="onSelectLocation(locationModalTemplate)" pButton label="Ubicaci&oacute;n" icon="pi pi-map-marker" class="p-button-sm p-button-raised flex-fill" type="button"></button>
+        <button *ngIf="location.formattedAddress !== null" (click)="clearLocation()" type="button" pButton pRipple icon="pi pi-times" class="p-button-raised p-button-danger p-button-sm"></button>
+      </div>
+      <p *ngIf="location.formattedAddress !== null" class="filtro-ubicacion mt-1 mb-1">{{ location.formattedAddress }}</p>
+      <div *ngIf="location.formattedAddress !== null" class="p-field mt-4">
+        <span class="p-float-label">
+          <input disabled="true" type="text" pInputText [(ngModel)]="distance" class="w-100"/>
+          <label>Distancia</label>
+        </span>
+        <p-slider [(ngModel)]="distance" [min]="10" [max]="100"></p-slider>
+      </div>
+
     </div>
-    <div class="col-12 d-flex justify-content-center mt-4">
+    <div class="d-flex flex-column mt-3">
       <button (click)="onFiltrar()" [disabled]="searchingProducts" pButton icon="pi pi-filter" label="Filtrar" type="button" class="p-button-sm p-button-raised"></button>
     </div>
 
   </div>
-  <div class="col-12 col-sm-6 col-md-8 col-lg-9 col-xl-10">
-    <div class="d-flex flex-wrap justify-content-center align-items-center">
+
+  <div class="col-12 col-sm-6 col-md-8 col-lg-9 col-xl-10 mt-3 mt-md-0">
+    <div class="d-flex flex-wrap justify-content-center align-items-center" style="gap: 20px">
       <div *ngFor="let product of products" [routerLink]="['/articulos/detalle/', product.id]" class="product-item">
         <div class="product-item-content">
-          <div class="p-mb-3">
-            <img [src]="product.pictures[0].pictureContent" [alt]="product.name" class="product-image" />
-          </div>
-          <div>
-            <h4 class="p-mb-1">{{product.name}}</h4>
+          <div class="d-flex p-1" style="gap: 10px;">
+            <h4 class="p-mb-1 flex-fill">{{product.name}}</h4>
             <h6 class="p-mt-0 p-mb-3">{{product.costPerDay|currency}}</h6>
-<!--            <span [class]="'product-badge status-'+product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>-->
-<!--            <div class="car-buttons p-mt-5">-->
-<!--              <p-button type="button" styleClass="p-button p-button-rounded p-mr-2" icon="pi pi-search"></p-button>-->
-<!--              <p-button type="button" styleClass="p-button-success p-button-rounded p-mr-2" icon="pi pi-star"></p-button>-->
-<!--              <p-button type="button" styleClass="p-button-help p-button-rounded" icon="pi pi-cog"></p-button>-->
-<!--            </div>-->
           </div>
+          <img [src]="product.pictures[0].pictureContent" [alt]="product.name" class="product-image" />
         </div>
       </div>
       <p-paginator *ngIf="pageInfo !== null"
