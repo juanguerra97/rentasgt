@@ -22,6 +22,9 @@ namespace rentasgt.Domain.Entities
         public string UserId { get; set; }
         public AppUser User { get; set; }
 
+        public long? LastMessageId { get; set; }
+        public ChatMessage? LastMessage { get; set; }
+
         /// <summary>
         /// List of messages between the users in the chat room
         /// </summary>

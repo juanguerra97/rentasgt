@@ -12,10 +12,6 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
 
             builder.Property(m => m.Id).ValueGeneratedOnAdd();
 
-            builder.HasDiscriminator(m => m.MessageType)
-                .HasValue<ChatMessage>(ChatMessageType.Generic)
-                .HasValue<TextMessage>(ChatMessageType.Text);
-
             builder.Property(m => m.MessageType)
                 .IsRequired();
 
@@ -25,6 +21,10 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
             builder.Property(m => m.SentDate)
                 .IsRequired(false);
 
+            builder.Property(m => m.Content)
+                .HasMaxLength(ChatMessage.MAX_MESSAGE_LENGTH)
+                .IsRequired();
+
             builder.HasOne(m => m.Room)
                 .WithMany(r => r.Messages)
                 .HasForeignKey(m => m.RoomId)
@@ -32,11 +32,6 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(m => m.Sender)
-                .WithMany()
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasOne(m => m.Recipient)
                 .WithMany()
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CreateRentRequestCommand, ProductDto, ProductsClient, RentRequestsClient } from '../rentasgt-api';
+import { CreateRentRequestCommand, ProductDto, ProductsClient, RentRequestsClient, ChatRoomDto, ChatRoomsClient, CreateChatRoomCommand } from '../rentasgt-api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DateTime } from 'luxon';
 import { AuthorizeService, IUser } from '../../api-authorization/authorize.service';
@@ -12,6 +12,7 @@ import { AuthorizeService, IUser } from '../../api-authorization/authorize.servi
 export class ProductDetailComponent implements OnInit {
 
   public product: ProductDto = null;
+  public chatRoom: ChatRoomDto = null;
   public loadingProduct = false;
   public notFound = false;
   public displaySelectDateModal = false;
@@ -21,6 +22,9 @@ export class ProductDetailComponent implements OnInit {
   public esCalendarLocale: any;
   public creatingRequest = false;
   public currentUser: IUser = null;
+  public displayMessageModal = false;
+  public firstMessage = '';
+  public submittingMessage = false;
 
   responsiveOptions: any[] = [
     {
@@ -39,6 +43,7 @@ export class ProductDetailComponent implements OnInit {
 
   constructor(
     private productsClient: ProductsClient,
+    private chatRoomsClient: ChatRoomsClient,
     private rentRequestsClient: RentRequestsClient,
     public authService: AuthorizeService,
     private router: Router,
@@ -77,11 +82,55 @@ export class ProductDetailComponent implements OnInit {
       .subscribe((res) => {
         this.product = res;
         this.loadingProduct = false;
-        console.log('Owner\'s id=' + this.product.owner.id);
+        this.loadChatRoom();
     }, error => {
         this.loadingProduct = false;
         this.notFound = error.status == 404;
       });
+  }
+
+  private loadChatRoom(): void {
+    this.chatRoomsClient.getRoomForProduct(this.product.id)
+      .subscribe()
+  }
+
+  public onMandarMensaje(): void 
+  {
+    if (this.chatRoom !== null)
+    {
+      this.redirectToMessages();
+    } else {
+        this.displayMessageModal = true;
+    }
+  }
+
+  private redirectToMessages(): void 
+  {
+    this.router.navigate['/mensajes'];
+  }
+
+  public closeMessageModal(): void {
+    this.displayMessageModal = false;
+  }
+
+  public onSubmitMessage(): void {
+    this.submittingMessage = true;
+    const firstMessageCommand = new CreateChatRoomCommand();
+    firstMessageCommand.firstMessage = this.firstMessage;
+    firstMessageCommand.productId = this.product.id;
+    this.chatRoomsClient.create(firstMessageCommand)
+      .subscribe((res) => {
+        this.submittingMessage = false;
+        this.closeMessageModal();
+        this.redirectToMessages();
+      }, error => {
+        console.error(error);
+        this.submittingMessage = false;
+      });
+  }
+  
+  public isOwner(): boolean {
+    return this.currentUser && this.product.owner.id === this.currentUser.sub;
   }
 
   public showSelectDateModal(): void {

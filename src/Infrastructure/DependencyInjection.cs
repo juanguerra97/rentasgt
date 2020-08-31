@@ -14,6 +14,7 @@ using IdentityServer4.Services;
 using IdentityModel;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
+using System.Threading.Tasks;
 
 namespace rentasgt.Infrastructure
 {
@@ -72,6 +73,24 @@ namespace rentasgt.Infrastructure
                         ValidateIssuerSigningKey = false,
                         ValidateIssuer = false,
                         ValidateAudience = false
+                    };
+                    x.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+
+                            // If the request is for our hub...
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty(accessToken) &&
+                                (path.StartsWithSegments("/chathub")))
+                            {
+                                // Read the token out of the query 
+                                System.Console.WriteLine($"{accessToken}");
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
+                        }
                     };
                 });
 

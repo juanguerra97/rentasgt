@@ -48,7 +48,8 @@
         <p>{{ product.location.city + ', ' + product.location.state }}</p>
       </div>
 
-      <button (click)="showSelectDateModal()" [disabled]="!currentUser || product.owner.id === currentUser.sub" pButton label="Rentar" type="button" class="p-button-raised p-button-info p-button-sm ml-auto mr-auto w-100 mt-2"></button>
+      <button (click)="showSelectDateModal()" [disabled]="isOwner()" pButton label="Rentar" type="button" class="p-button-raised p-button-info p-button-sm ml-auto mr-auto w-100 mt-2"></button>
+      <button (click)="onMandarMensaje()" [disabled]="isOwner()" pButton label="Enviar mensaje" type="button" icon="pi pi-comments" class="p-button-raised p-button-info p-button-sm ml-auto mr-auto w-100 mt-2"></button>
 
     </div>
   </div>
@@ -65,5 +66,16 @@
   <ng-template pTemplate="footer">
     <p-button (click)="onCreateRentRequest()" [disabled]="!isValidRentDate() || creatingRequest" icon="pi pi-check" label="Solicitar renta" styleClass="p-button-sm p-button-info p-button-raised"></p-button>
     <button (click)="cancelDateSelection()" [disabled]="creatingRequest" pButton label="Cancelar" icon="pi pi-times-circle" type="button" class="p-button-sm p-button-raised p-button-danger"></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog  [(visible)]="displayMessageModal" [modal]="true" [draggable]="false" [showHeader]="false" styleClass="" [baseZIndex]="10000">
+  <div class="form-group">
+    <label for="firstMessage">Mensaje</label>
+    <textarea [(ngModel)]="firstMessage" class="form-control" id="firstMessage" cols="30" rows="10"></textarea>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button (click)="onSubmitMessage()" [disabled]="!firstMessage || submittingMessage" icon="pi pi-check" label="Enviar" styleClass="p-button-sm p-button-info p-button-raised"></p-button>
+    <button (click)="closeMessageModal()" [disabled]="submittingMessage" pButton label="Cancelar" icon="pi pi-times-circle" type="button" class="p-button-sm p-button-raised p-button-danger"></button>
   </ng-template>
 </p-dialog>

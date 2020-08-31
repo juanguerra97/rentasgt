@@ -19,7 +19,7 @@ import { AgmCoreModule } from '@agm/core';
     PaginatorNavComponent,
     ConfirmationModalComponent,
     ImgCropperComponent,
-    SelectLocationComponent
+    SelectLocationComponent,
   ],
   imports: [
     CommonModule,
@@ -38,7 +38,7 @@ import { AgmCoreModule } from '@agm/core';
     CalendarModule,
     ModalModule.forRoot(),
     AgmCoreModule.forRoot({
-      apiKey: '<API_KEY>',
+      apiKey: 'AIzaSyCir67E-b2FdkVB6nbJ1pEYON_llhZPO-A',
       libraries: ['places']
     })
   ],

@@ -1,0 +1,156 @@
+<div class="container-fluid ">
+
+
+  <div class="row mt-3" style="">
+    <div *ngIf="selectedChatRoom === null" class="col-12 col-md-5 col-lg-6">
+
+      <h3 class="pantalla-title">Tus conversaciones</h3>
+      <div *ngIf="!loadingChatRooms && this.chats.length > 0">
+
+        <div class="chat-rooms-container scrollable">
+
+          <div *ngFor="let chat of chats" (click)="selectChatRoom(chat)"
+            [ngClass]="{'chat-room mb-1': true, 'current-room': selectedChatRoom === chat}" class="">
+            <h5 class="chat-room-title">{{ chat.product.name }}</h5>
+            <ng-container *ngIf="chat.lastMessage !== null">
+              <p [ngClass]="{'msg-preview': true, 'msg-preview-read': chat.lastMessage.status == MSG_STATUS_NOTREAD}" class="msg-preview">
+              {{ chat.lastMessage.content|slice:0:128 }}
+              </p>
+              <p *ngIf="currentUser !== null && currentUser.sub !== chat.lastMessage.sender.id; else tu"
+                class="msg-from">
+                {{ chat.lastMessage.sender.firstName }}&nbsp;<time>{{ formatDate(chat.lastMessage.sentDate) }}</time>
+              </p>
+              <ng-template #tu>
+                <p class="msg-preview">
+                  T&uacute;&nbsp;<time>{{ formatDate(chat.lastMessage.sentDate) }}</time>
+                </p>
+              </ng-template>
+            </ng-container>
+          </div>
+
+        </div>
+      </div>
+
+      <div *ngIf="!loadingChatRooms && this.chats.length === 0" class="col-12">
+        <p class="text-center">No tienes conversaciones.</p>
+      </div>
+
+    </div>
+
+    <!-- Displays product's information -->
+    <div *ngIf="selectedChatRoom !== null && product !== null" class="col-12 col-md-5 col-lg-6">
+
+      <div class="d-flex justify-content-start">
+        <a (click)="deselectChatRoom()" style="cursor: pointer;">
+          <li class="pi pi-arrow-left"></li>
+        </a>
+      </div>
+
+      <div class="d-flex flex-column align-items-center product-container p-3 mt-2">
+
+        <h4 class="">{{ selectedChatRoom.product.name }}</h4>
+
+        <div class="gallery-container">
+          <p-galleria [value]="product.pictures" [responsiveOptions]="responsiveOptions"
+            [containerStyle]="{'max-width': '1280px'}" [numVisible]="5" [circular]="true" [showItemNavigators]="true"
+            [showThumbnails]="false" [showIndicators]="false" [showItemNavigatorsOnHover]="true"
+            [showIndicatorsOnItem]="true">
+            <ng-template pTemplate="item" let-item>
+              <img [src]="item.pictureContent" style="width: 100%; display: block;" />
+            </ng-template>
+            <ng-template pTemplate="thumbnail" let-item>
+              <div class="p-grid p-nogutter p-justify-center">
+                <img [src]="item.pictureContent" style="display: block;" />
+              </div>
+            </ng-template>
+          </p-galleria>
+        </div>
+
+        <p class="mt-3 w-100">
+          {{ product.description }}
+        </p>
+
+        <d class="d-flex justify-content-center" style="gap: 25px">
+          <div class="d-flex flex-column cost-container">
+            <p class="text-center">D&iacute;a</p>
+            <p class="text-center">{{ product.costPerDay|currency }}</p>
+          </div>
+          <div *ngIf="product.costPerWeek" class="d-flex flex-column cost-container">
+            <p class="text-center">Semana</p>
+            <p class="text-center">{{ product.costPerWeek|currency }}</p>
+          </div>
+          <div *ngIf="product.costPerMonth" class="d-flex flex-column cost-container">
+            <p class="text-center">Mes</p>
+            <p class="text-center">{{ product.costPerMonth|currency }}</p>
+          </div>
+        </d>
+
+      </div>
+
+    </div>
+
+
+    <!-- Chat room -->
+    <div *ngIf="selectedChatRoom !== null" class="chat col-12 col-md-7 col-lg-6 ">
+      <div class="chat-header">
+        <h3>{{ getOtherUserName() }}</h3>
+      </div>
+      <div id="chat-scroll" class="scrollable">
+        <div class="messages">
+
+          <ng-container *ngFor="let mess of messages">
+
+            <div *ngIf="isFromOther(mess) else fromMe" class="chat-message">
+
+              <div class="avatar">
+                {{ (mess.sender.firstName|slice:0:1) + (mess.sender.lastName|slice:0:1) }}
+              </div>
+              <div class="message">
+                <div class="message-text">
+                  <p class="sender">
+                    {{ mess.sender.firstName + ' ' + mess.sender.lastName }},&nbsp;<time>{{formatDate(mess.sentDate)}}</time>
+                  </p>
+                  <p class="text">
+                    {{ mess.content }}
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+            <ng-template #fromMe>
+              <div class="chat-message chat-message-reply">
+                <div class="message message-reply">
+                  <div class="message-text message-text-reply">
+                    <p class="sender">
+                      T&uacute;,&nbsp;<time>{{formatDate(mess.sentDate)}}</time>
+                    </p>
+                    <p class="text text-reply">
+                      {{ mess.content }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+
+          </ng-container>
+
+        </div>
+      </div>
+
+      <div class="form">
+        <div class="chat-form">
+          <div class="message-row">
+            <input type="text" [(ngModel)]="newMessage" pInputText placeholder="Escribe tu mensaje..."
+              class="flex-fill">
+            <button type="button" (click)="sendMessage()" [disabled]="!isValidNewMessage()" pButton pRipple icon="pi pi-arrow-right"
+              styleClass="p-button-warn"></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

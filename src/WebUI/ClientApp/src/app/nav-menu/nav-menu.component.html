@@ -31,6 +31,9 @@
           <a class="nav-list-link">{{ userName | async }}</a>
           <ul class="submenu">
             <li class="submenu-item">
+              <a [routerLink]='["/mensajes"]' title="Perfil" class="submenu-link"><i class="pi pi-comments"></i>&nbsp;Mensajes</a>
+            </li>
+            <li class="submenu-item">
               <a [routerLink]='["/authentication/profile"]' title="Perfil" class="submenu-link"><i class="pi pi-user"></i>&nbsp;Perfil</a>
             </li>
             <li class="submenu-item">

@@ -14,6 +14,9 @@ using Microsoft.Extensions.Hosting;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using System.Linq;
+using rentasgt.WebUI.Hubs;
+using Microsoft.AspNetCore.SignalR;
+using WebUI.Services;
 
 namespace rentasgt.WebUI
 {
@@ -39,7 +42,18 @@ namespace rentasgt.WebUI
             services.AddHealthChecks()
                 .AddDbContextCheck<ApplicationDbContext>();
 
-            services.AddControllersWithViews(options => 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            });
+
+            services.AddSignalR();
+            services.AddSingleton<IUserIdProvider, UserIdProvider>();
+
+            services.AddScoped<IChatRoomNotifier, ChatRoomNotifier>();
+
+            services.AddControllersWithViews(options =>
                 options.Filters.Add(new ApiExceptionFilter()));
 
             services.AddRazorPages();
@@ -102,6 +116,8 @@ namespace rentasgt.WebUI
 
             app.UseRouting();
 
+            app.UseCors("CorsPolicy");
+
             app.UseAuthentication();
             app.UseIdentityServer();
             app.UseAuthorization();
@@ -111,6 +127,7 @@ namespace rentasgt.WebUI
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<ChatHub>("/chathub");
             });
 
             app.UseSpa(spa =>

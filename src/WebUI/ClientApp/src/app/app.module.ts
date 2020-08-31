@@ -14,6 +14,9 @@ import { OnlyAdminGuard } from '../api-authorization/only-admin.guard';
 import { AppCommonModule } from './app-common/app-common.module';
 import { ProductsComponent } from './products/products.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { ChatsComponent } from './chats/chats.component';
+import { NbThemeModule, NbLayoutModule } from '@nebular/theme';
+import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
     HomeComponent,
     ProductsComponent,
     ProductDetailComponent,
+    ChatsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -39,7 +43,11 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
       },
       { path: 'articulos', component: ProductsComponent },
       { path: 'articulos/detalle/:id', component: ProductDetailComponent },
+      { path: 'mensajes', component: ChatsComponent, canActivate: [AuthorizeGuard] },
     ]),
+    NbThemeModule.forRoot({ name: 'default' }),
+    NbLayoutModule,
+    NbEvaIconsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },

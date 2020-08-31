@@ -61,8 +61,6 @@ namespace rentasgt.Infrastructure.Persistence
 
         public DbSet<RequestEvent> RequestEvents { get; set; }
 
-        public DbSet<TextMessage> TextMessages { get; set; }
-
         public DbSet<UserChatRoom> UserChatRooms { get; set; }
 
         public DbSet<UserPicture> UserPictures { get; set; }
