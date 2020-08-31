@@ -37,8 +37,11 @@
 }
 
 .chat-room .msg-preview {
-  font-weight: bold;
   font-size: 0.85rem;
+}
+
+.chat-room .msg-preview-read {
+  font-weight: bold;
 }
 
 .chat-room .msg-from {

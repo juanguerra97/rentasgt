@@ -50,7 +50,8 @@ namespace rentasgt.WebUI
 
             services.AddSignalR();
             services.AddSingleton<IUserIdProvider, UserIdProvider>();
-            services.AddScoped<IChatRoomNotificator, ChatRoomNotificator>();
+
+            services.AddScoped<IChatRoomNotifier, ChatRoomNotifier>();
 
             services.AddControllersWithViews(options =>
                 options.Filters.Add(new ApiExceptionFilter()));

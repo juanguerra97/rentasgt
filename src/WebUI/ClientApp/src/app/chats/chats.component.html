@@ -13,7 +13,9 @@
             [ngClass]="{'chat-room mb-1': true, 'current-room': selectedChatRoom === chat}" class="">
             <h5 class="chat-room-title">{{ chat.product.name }}</h5>
             <ng-container *ngIf="chat.lastMessage !== null">
-              <p class="msg-preview">{{ chat.lastMessage.content|slice:0:128 }}</p>
+              <p [ngClass]="{'msg-preview': true, 'msg-preview-read': chat.lastMessage.status == MSG_STATUS_NOTREAD}" class="msg-preview">
+              {{ chat.lastMessage.content|slice:0:128 }}
+              </p>
               <p *ngIf="currentUser !== null && currentUser.sub !== chat.lastMessage.sender.id; else tu"
                 class="msg-from">
                 {{ chat.lastMessage.sender.firstName }}&nbsp;<time>{{ formatDate(chat.lastMessage.sentDate) }}</time>

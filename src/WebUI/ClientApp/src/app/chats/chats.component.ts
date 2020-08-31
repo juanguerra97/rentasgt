@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChatMessageDto, ChatMessageStatus, ChatRoomDto, ChatRoomsClient, ProductDto, ProductsClient, ChatUserDto } from '../rentasgt-api';
+import { ChatMessageDto, ChatMessageStatus, ChatRoomDto, ChatRoomsClient, ProductDto, ProductsClient, ChatUserDto, ReadMessageCommand } from '../rentasgt-api';
 import { PageInfo } from '../models/PageInfo';
 import { AuthorizeService, IUser } from '../../api-authorization/authorize.service';
 import { ActivatedRoute } from '@angular/router';
@@ -30,6 +30,7 @@ export class ChatsComponent implements OnInit {
   public sendingMessage = false;
 
   public MSG_STATUS_LABELS = [];
+  public MSG_STATUS_NOTREAD = ChatMessageStatus.SinLeer;
 
   private hubConnection: signalR.HubConnection = null;
 
@@ -124,7 +125,16 @@ export class ChatsComponent implements OnInit {
     if (this.selectedChatRoom && this.selectedChatRoom.id == message.roomId) {
       const msgIndex = this.messages.findIndex(msg => msg.id === message.id);
       if (msgIndex >= 0) {
-        this.messages[msgIndex].status = message.status;
+        let i = msgIndex;
+        while (i >= 0) {
+          const currMsg = this.messages[i];
+          if (currMsg.status == ChatMessageStatus.SinLeer
+            && currMsg.sender.id == message.sender.id) {
+            this.messages[msgIndex].status = ChatMessageStatus.Leido;
+          }          
+          --i;
+        }
+        
         
       }
       if (this.selectedChatRoom.lastMessage.id === message.id) {
@@ -191,7 +201,21 @@ export class ChatsComponent implements OnInit {
       .subscribe((res) => {
         this.pageInfoMsg = new PageInfo(res.currentPage, res.totalPages, res.pageSize, res.totalCount);
         this.messages = res.items;
-        setTimeout(this.scrollToBottomChat, 800);
+        setTimeout(() => {
+          this.scrollToBottomChat();
+          if (this.messages.length > 0) {
+            const lastMessage = this.messages[this.messages.length - 1];
+            if (lastMessage.sender.id !== this.currentUser.sub
+              && lastMessage.status == ChatMessageStatus.SinLeer) {
+              const readMessageCommand = new ReadMessageCommand();
+              readMessageCommand.messageId = lastMessage.id;
+              this.chatRoomsClient.readMessage(readMessageCommand)
+                .subscribe((msg: ChatMessageDto) => {
+                  this.messageReadNotification(msg);
+                }, console.error);
+            }
+          }
+        }, 800);
         this.loadingMessages = false;
       }, error => {
         console.error(error);

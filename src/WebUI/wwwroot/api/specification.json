@@ -183,6 +183,43 @@
         ]
       }
     },
+    "/api/ChatRooms/messages/read": {
+      "post": {
+        "tags": [
+          "ChatRooms"
+        ],
+        "operationId": "ChatRooms_ReadMessage",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReadMessageCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatMessageDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/Categories": {
       "get": {
         "tags": [
@@ -1994,6 +2031,16 @@
           "firstMessage": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "ReadMessageCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "messageId": {
+            "type": "integer",
+            "format": "int64"
           }
         }
       },
