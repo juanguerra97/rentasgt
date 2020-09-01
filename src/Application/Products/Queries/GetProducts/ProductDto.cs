@@ -21,6 +21,7 @@ namespace rentasgt.Application.Products.Queries.GetProducts
         public decimal CostPerDay { get; set; }
         public decimal? CostPerWeek { get; set; }
         public decimal? CostPerMonth { get; set; }
+        public double? DistanceInKm { get; set; }
         public List<ProductPictureDto> Pictures { get; set; }
 
         public void Mapping(Profile profile)

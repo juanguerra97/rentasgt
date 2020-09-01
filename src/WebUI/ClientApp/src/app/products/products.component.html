@@ -32,7 +32,7 @@
           <input disabled="true" type="text" pInputText [(ngModel)]="distance" class="w-100"/>
           <label>Distancia</label>
         </span>
-        <p-slider [(ngModel)]="distance" [min]="10" [max]="100"></p-slider>
+        <p-slider [(ngModel)]="distance" [min]="10" [max]="180"></p-slider>
       </div>
 
     </div>
@@ -48,7 +48,10 @@
         <div class="product-item-content">
           <div class="d-flex p-1" style="gap: 10px;">
             <h4 class="p-mb-1 flex-fill">{{product.name}}</h4>
-            <h6 class="p-mt-0 p-mb-3">{{product.costPerDay|currency}}</h6>
+            <div class="d-flex flex-column align-items-end">
+              <h6 class="p-mt-0 p-mb-3">{{product.costPerDay|currency}}</h6>
+              <p class="m-0 mt-1 p-0 product-distance">{{ product.distanceInKm }}&nbsp;Km</p>
+            </div>
           </div>
           <img [src]="product.pictures[0].pictureContent" [alt]="product.name" class="product-image" />
         </div>

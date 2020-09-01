@@ -10,6 +10,7 @@ using System.Data;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using rentasgt.Application.Common.DB;
 
 namespace rentasgt.Infrastructure.Persistence
 {
@@ -140,7 +141,7 @@ namespace rentasgt.Infrastructure.Persistence
         {
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
+            builder.HasDbFunction(() => CustomDbFunctions.CalculateDistance(0, 0, 0, 0));
             builder.Entity<AppUser>(userBuilder =>
             {
                 userBuilder.Property(u => u.ProfileStatus)

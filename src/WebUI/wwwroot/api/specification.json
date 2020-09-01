@@ -2151,6 +2151,11 @@
             "format": "decimal",
             "nullable": true
           },
+          "distanceInKm": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
           "pictures": {
             "type": "array",
             "nullable": true,
