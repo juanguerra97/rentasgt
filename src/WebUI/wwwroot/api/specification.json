@@ -183,6 +183,43 @@
         ]
       }
     },
+    "/api/ChatRooms/{id}": {
+      "get": {
+        "tags": [
+          "ChatRooms"
+        ],
+        "operationId": "ChatRooms_GetById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatRoomDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/ChatRooms/messages/read": {
       "post": {
         "tags": [

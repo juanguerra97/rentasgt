@@ -5,6 +5,7 @@ using Application.ChatRooms.Queries.GetMessagesOfRoom;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using rentasgt.Application.ChatRooms.Commands.ReadMessage;
+using rentasgt.Application.ChatRooms.Queries.GetChatRoomById;
 using rentasgt.Application.ChatRooms.Queries.GetChatRoomsOfUser;
 using rentasgt.Application.ChatRooms.Queries.GetMessagesOfRoom;
 using rentasgt.Application.Common.Models;
@@ -43,6 +44,15 @@ namespace WebUI.Controllers
                 PageSize = pageSize,
                 PageNumber = pageNumber,
                 ChatRoomId = id
+            });
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ChatRoomDto>> GetById(long id)
+        {
+            return await Mediator.Send(new GetChatRoomByIdQuery
+            {
+                RoomId = id
             });
         }
 
