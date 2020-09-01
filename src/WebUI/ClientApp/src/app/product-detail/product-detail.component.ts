@@ -25,6 +25,7 @@ export class ProductDetailComponent implements OnInit {
   public displayMessageModal = false;
   public firstMessage = '';
   public submittingMessage = false;
+  public messageModalTitle: string = '';
 
   responsiveOptions: any[] = [
     {
@@ -94,17 +95,18 @@ export class ProductDetailComponent implements OnInit {
       .subscribe()
   }
 
-  public onMandarMensaje(): void 
+  public onMandarMensaje(): void
   {
     if (this.chatRoom !== null)
     {
       this.redirectToMessages();
     } else {
         this.displayMessageModal = true;
+        this.messageModalTitle = `Envíale un mensaje a ${this.product.owner.firstName}`;
     }
   }
 
-  private redirectToMessages(): void 
+  private redirectToMessages(): void
   {
     this.router.navigate['/mensajes'];
   }
@@ -128,7 +130,7 @@ export class ProductDetailComponent implements OnInit {
         this.submittingMessage = false;
       });
   }
-  
+
   public isOwner(): boolean {
     return this.currentUser && this.product.owner.id === this.currentUser.sub;
   }

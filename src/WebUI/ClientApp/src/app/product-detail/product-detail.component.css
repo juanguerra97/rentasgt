@@ -54,6 +54,10 @@
   width: 70vw;
 }
 
+.fecha-renta-chooser {
+  max-height: 10rem;
+}
+
 @media only screen and(min-width: 768px) {
 
   .rent-date-modal {
