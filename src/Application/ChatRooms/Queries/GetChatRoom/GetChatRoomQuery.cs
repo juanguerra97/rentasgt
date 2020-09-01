@@ -38,7 +38,7 @@ namespace Application.ChatRooms.Queries.GetChatRoom
             var entity = await this.context.ChatRooms
                 .Include(r => r.User)
                 .Include(r => r.Product).ThenInclude(p => p.Owner)
-                .FirstOrDefaultAsync(r => r.UserId == userId && r.ProductId == request.ProductId);
+                .FirstOrDefaultAsync(r => (r.UserId == userId || r.Product.Owner.Id == userId) && r.ProductId == request.ProductId);
 
             if (entity == null)
             {
