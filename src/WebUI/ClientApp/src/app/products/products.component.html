@@ -50,7 +50,7 @@
             <h4 class="p-mb-1 flex-fill">{{product.name}}</h4>
             <div class="d-flex flex-column align-items-end">
               <h6 class="p-mt-0 p-mb-3">{{product.costPerDay|currency}}</h6>
-              <p class="m-0 mt-1 p-0 product-distance">{{ product.distanceInKm }}&nbsp;Km</p>
+              <p *ngIf="product.distanceInKm || product.distanceInKm === 0" class="m-0 mt-1 p-0 product-distance">{{ product.distanceInKm }}&nbsp;Km</p>
             </div>
           </div>
           <img [src]="product.pictures[0].pictureContent" [alt]="product.name" class="product-image" />
