@@ -62,10 +62,18 @@ export class ChatsComponent implements OnInit {
     this.MSG_STATUS_LABELS[ChatMessageStatus.Leido] = 'Visto';
     this.loadChatRooms();
     this.activatedRoute.paramMap.subscribe(params => {
-      const id = Number.parseInt(params.get('room'));
-      if (id) {
-        while (this.loadingChatRooms === true) { }
-        // TODO: load
+      const roomId = Number.parseInt(params.get('roomId'));
+      const msg = params.get('msg');
+      if (roomId) {
+
+        this.chatRoomsClient.getById(roomId)
+          .subscribe(async (res) => {
+            this.selectChatRoom(res);
+            if (msg && msg.trim().length > 0) {
+              this.newMessage = msg;
+              await this.sendMessage();
+            }
+          }, console.error);
       }
     });
     this.authorizeService.getUser().subscribe((res) => {
@@ -131,11 +139,11 @@ export class ChatsComponent implements OnInit {
           if (currMsg.status == ChatMessageStatus.SinLeer
             && currMsg.sender.id == message.sender.id) {
             this.messages[msgIndex].status = ChatMessageStatus.Leido;
-          }          
+          }
           --i;
         }
-        
-        
+
+
       }
       if (this.selectedChatRoom.lastMessage.id === message.id) {
         this.selectedChatRoom.lastMessage.status = message.status;
@@ -184,6 +192,7 @@ export class ChatsComponent implements OnInit {
 
   public deselectChatRoom(): void {
     this.selectedChatRoom = null;
+    this.loadChatRooms();
   }
 
   public isFromOther(msg: ChatMessageDto): boolean {

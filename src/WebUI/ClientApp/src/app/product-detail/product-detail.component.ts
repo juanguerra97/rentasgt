@@ -92,23 +92,20 @@ export class ProductDetailComponent implements OnInit {
 
   private loadChatRoom(): void {
     this.chatRoomsClient.getRoomForProduct(this.product.id)
-      .subscribe()
+      .subscribe(async (res) => {
+        this.chatRoom = res;
+      }, console.error);
   }
 
-  public onMandarMensaje(): void
-  {
-    if (this.chatRoom !== null)
-    {
-      this.redirectToMessages();
+  public async onMandarMensaje(): Promise<any> {
+    if (this.chatRoom !== null) {
+      await this.router.navigate(['/mensajes', {
+        roomId: this.chatRoom.id
+      }]);
     } else {
         this.displayMessageModal = true;
         this.messageModalTitle = `Envíale un mensaje a ${this.product.owner.firstName}`;
     }
-  }
-
-  private redirectToMessages(): void
-  {
-    this.router.navigate['/mensajes'];
   }
 
   public closeMessageModal(): void {
@@ -121,10 +118,13 @@ export class ProductDetailComponent implements OnInit {
     firstMessageCommand.firstMessage = this.firstMessage;
     firstMessageCommand.productId = this.product.id;
     this.chatRoomsClient.create(firstMessageCommand)
-      .subscribe((res) => {
+      .subscribe(async (res) => {
         this.submittingMessage = false;
         this.closeMessageModal();
-        this.redirectToMessages();
+        await this.router.navigate(['/mensajes', {
+          roomId: res,
+          // msg: `Hola ${this.product.owner.firstName}! He visto tu anuncio de "${this.product.name}" y estoy interesado.`
+        }]);
       }, error => {
         console.error(error);
         this.submittingMessage = false;
