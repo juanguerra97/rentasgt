@@ -1,73 +1,61 @@
 
-<div *ngIf="!loadingProduct" class="row">
-  <div class="col-12">
+<div *ngIf="!loadingProduct" class="row mt-3">
 
-    <div class="d-flex flex-column flex-md-row">
-      <h2 class="pantalla-title flex-md-fill">{{ product.name }}</h2>
+  <div class="col-12 col-md-8 p-0 mt-2">
 
-      <div class="d-flex justify-content-end">
-        <button pButton icon="pi pi-pencil" label="Modificar"
-                class="p-button-sm p-button-warning"></button>
-        <button pButton icon="pi pi-times" label="Eliminar"
-                class="p-button-sm p-button-danger ml-2"></button>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="col-12 mt-2">
-
-    <div class="row">
-      <div class="col-12 col-md-6">
-
-        <p *ngIf="product.otherNames.length > 0">{{ product.otherNames }}</p>
-
-        <section class="field-descripcion-container">
-          <h5 class="field-description-title">Descripci&oacute;n</h5>
-          <p class="field-descripcion-content">{{ product.description }}</p>
-        </section>
-
-        <section class="field-costos-container">
-          <h5 class="field-costos-title">Costos</h5>
-          <div class="d-flex justify-content-center p-2">
-            <div class="d-flex flex-column justify-content-center align-items-center cost-container">
-              <p>{{ product.costPerDay|currency }}</p>
-              <p>Diario</p>
-            </div>
-            <div *ngIf="product.costPerWeek !== null" class="d-flex p-2 flex-column justify-content-center align-items-center cost-container">
-              <p>{{ product.costPerWeek|currency }}</p>
-              <p>Semanal</p>
-            </div>
-            <div *ngIf="product.costPerMonth !== null" class="d-flex p-2 flex-column justify-content-center align-items-center cost-container">
-              <p>{{ product.costPerMonth|currency }}</p>
-              <p>Mensual</p>
-            </div>
+    <div class="product-pictures-container">
+      <p-galleria [(value)]="product.pictures" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '1280px'}" [numVisible]="5"
+                  [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="false" [showItemNavigatorsOnHover]="true"
+                  [showIndicatorsOnItem]="true">
+        <ng-template pTemplate="item" let-item>
+          <img [src]="item.pictureContent" style="width: 100%; display: block;" />
+        </ng-template>
+        <ng-template pTemplate="thumbnail" let-item>
+          <div class="p-grid p-nogutter p-justify-center">
+            <img [src]="item.pictureContent" style="display: block;" />
           </div>
-        </section>
+        </ng-template>
+      </p-galleria>
+    </div>
 
-        <section class="d-flex align-items-center mt-1">
-          <span class="pi pi-map-marker"></span>
-          <p class="flex-fill m-0 ml-1">{{ product.location.city + ', ' + product.location.state }}</p>
-        </section>
-
-      </div>
-      <div *ngIf="product.pictures.length > 0" class="col-12 col-md-6 mt-2 mt-md-0">
-
-        <p-carousel [value]="product.pictures" [numVisible]="1" [numScroll]="1" [circular]="true">
-          <ng-template let-pic pTemplate="item">
-            <div class="product-item">
-              <div class="product-item-content">
-                <div class="p-mb-3">
-                  <img [src]="pic.pictureContent" [alt]="product.name" class="product-image" />
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </p-carousel>
-
-      </div>
+    <div class="owner-info">
+      <i class="pi pi-user"></i>&nbsp;
+      <span>{{ product.owner.firstName + ' ' + product.owner.lastName }}</span>
     </div>
 
   </div>
+  <div class="col-12 col-md-4 mt-2 pr-0 pl-0 pl-md-2">
+
+    <div class="product-info">
+      <h2 class="pantalla-title product-name">{{ product.name }}</h2>
+      <p class="product-description">{{ product.description }}</p>
+      <div class="d-flex justify-content-start align-items-stretch flex-wrap">
+        <div class="product-cost-container pr-2">
+          <p class="product-cost"><span>{{product.costPerDay|currency}}</span>/D&iacute;a</p>
+        </div>
+        <div *ngIf="product.costPerWeek !== null" class="product-cost-container pr-2">
+          <p class="product-cost"><span>{{product.costPerWeek|currency}}</span>/Semana</p>
+        </div>
+        <div *ngIf="product.costPerMonth !== null" class="product-cost-container pr-2">
+          <p class="product-cost"><span>{{product.costPerWeek|currency}}</span>/Mes</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-location mt-2">
+      <h3>Ubicaci&oacute;n</h3>
+      <img src="https://maps.googleapis.com/maps/api/staticmap?markers=|{{product.location.latitude + ',' + product.location.longitude }}&language=es&size=540x216&zoom=16&scale=1&key=" alt="Ubicaci&oacute;n">
+      <p>{{ product.location.city + ', ' + product.location.state }}</p>
+    </div>
+
+    <div class="d-flex justify-content-end mt-2">
+      <button pButton icon="pi pi-pencil" label="Modificar"
+              class="p-button-sm p-button-warning"></button>
+      <button pButton icon="pi pi-times" label="Eliminar"
+              class="p-button-sm p-button-danger ml-2"></button>
+    </div>
+
+  </div>
+
 
 </div>
