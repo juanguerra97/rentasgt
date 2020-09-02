@@ -72,7 +72,7 @@ namespace rentasgt.Application.RentRequests.Commands.CreateRentRequest
                 throw new InvalidRentRequestException("Conflicto de fechas");
             }
 
-            if (await this.context.RentRequests.Where(rq => rq.RequestorId == this.currentUserService.UserId).Where(rq => rq.Status == RequestStatus.Pending || rq.Status == RequestStatus.Viewed).AnyAsync())
+            if (await this.context.RentRequests.Where(rq => rq.RequestorId == this.currentUserService.UserId).Where(rq => rq.Product.Id == productEntity.Id  && (rq.Status == RequestStatus.Pending || rq.Status == RequestStatus.Viewed)).AnyAsync())
             {
                 throw new OperationForbidenException();
             }
