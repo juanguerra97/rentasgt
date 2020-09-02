@@ -5,6 +5,7 @@ using rentasgt.Application.Common.Interfaces;
 using rentasgt.Domain.Entities;
 using rentasgt.Domain.Enums;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,6 +24,10 @@ namespace rentasgt.Application.Products.Commands.UpdateProduct
         public decimal? CostPerWeek { get; set; }
         public decimal? CostPerMonth { get; set; }
         public Ubicacion? Location { get; set; }
+        public List<long> CategoriesToRemove { get; set; }
+        public List<long> NewCategories { get; set; }
+        public List<long> PicturesToRemove { get; set; }
+        public List<long> NewPictures { get; set; }
 
     }
 
@@ -39,7 +44,10 @@ namespace rentasgt.Application.Products.Commands.UpdateProduct
         public async Task<Unit> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
 
-            var entity = await this.context.Products.Where(p => p.Id == request.Id)
+            var entity = await this.context.Products
+                .Include(p => p.Pictures)
+                .Include(p => p.Categories)
+                .Where(p => p.Id == request.Id)
                 .SingleOrDefaultAsync();
 
             if (entity == null)
@@ -97,10 +105,10 @@ namespace rentasgt.Application.Products.Commands.UpdateProduct
                 fieldUpdated = true;
             }
 
-            if (fieldUpdated)
-            {
-                await this.context.SaveChangesAsync(cancellationToken);
-            }
+            await UpdateProductCategories(entity, request.CategoriesToRemove, request.NewCategories);
+            await UpdateProductPictures(entity, request.PicturesToRemove, request.NewPictures);
+            
+            await this.context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
         }
@@ -114,6 +122,101 @@ namespace rentasgt.Application.Products.Commands.UpdateProduct
             else
             {
                 throw new Exception("El nuevo estado es invalido");
+            }
+        }
+
+        private async Task UpdateProductCategories(Product product, List<long> catsToDelete, List<long> catsToAdd)
+        {
+            var catsCount = product.Categories.Count - catsToDelete.Count + catsToAdd.Count;
+            foreach(var catId in catsToDelete)
+            {
+                var prodCatEntity = await this.context.ProductCategories
+                        .FirstOrDefaultAsync(pc => pc.CategoryId == catId
+                            && pc.ProductId == product.Id);
+                if (prodCatEntity != null)
+                {
+                    this.context.ProductCategories
+                    .Remove(prodCatEntity);
+                } else
+                {
+                    throw new NotFoundException(nameof(ProductCategory), $"{product.Id}, {catId}");
+                }
+            }
+            foreach(var catId in catsToAdd)
+            {
+                var prodCatEntity = await this.context.ProductCategories
+                        .FirstOrDefaultAsync(pc => pc.CategoryId == catId
+                            && pc.ProductId == product.Id);
+                
+                if (prodCatEntity == null)
+                {
+                    var catEntity = await this.context.Categories
+                    .FirstOrDefaultAsync(cat => cat.Id == catId);
+                    if (catEntity != null)
+                    {
+                        await this.context.ProductCategories
+                        .AddAsync(new ProductCategory
+                        {
+                            Product = product,
+                            Category = catEntity
+                        });
+                    } else
+                    {
+                        throw new NotFoundException(nameof(Category), catId);
+                    }
+                    
+                } else
+                {
+                    throw new DuplicateDataException($"ProductoCategoria duplicado");
+                }
+            }
+        }
+
+        private async Task UpdateProductPictures(Product product, List<long> picturesToDelete, List<long> picturesToAdd)
+        {
+            var picsCount = product.Pictures.Count - picturesToDelete.Count + picturesToAdd.Count;
+            if (picsCount > 0 && picsCount <= 3)
+            {
+                foreach (var picId in picturesToDelete)
+                {
+                    var prodPicEntity = await this.context.ProductPictures
+                        .Include(pc => pc.Picture)
+                        .FirstOrDefaultAsync(pc => pc.ProductId == product.Id && pc.PictureId == picId);
+                    if (prodPicEntity != null)
+                    {
+                        var pic = prodPicEntity.Picture;
+                        this.context.ProductPictures.Remove(prodPicEntity);
+                        this.context.Pictures.Remove(pic);
+                    } else
+                    {
+                        throw new NotFoundException(nameof(ProductPicture), $"{product.Id}, {picId}");
+                    }
+                }
+                foreach (var picId in picturesToAdd)
+                {
+                    var picEntity = await this.context.Pictures
+                        .FirstOrDefaultAsync(p => p.Id == picId);
+                    if (picEntity != null)
+                    {
+                        var prodPicEntity = await this.context.ProductPictures
+                            .FirstOrDefaultAsync(pp => pp.PictureId == picId);
+                        if (prodPicEntity == null)
+                        {
+                            await this.context.ProductPictures
+                                .AddAsync(new ProductPicture
+                                {
+                                    Picture = picEntity,
+                                    Product = product
+                                });
+                        } else
+                        {
+                            throw new DuplicateDataException($"ProductoImagen duplicado");
+                        }
+                    } else
+                    {
+                        throw new NotFoundException(nameof(Picture), picId);
+                    }
+                }
             }
         }
 

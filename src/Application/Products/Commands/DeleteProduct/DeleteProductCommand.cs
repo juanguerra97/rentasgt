@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using rentasgt.Application.Common.Exceptions;
 using rentasgt.Application.Common.Interfaces;
+using rentasgt.Domain.Enums;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +33,8 @@ namespace rentasgt.Application.Products.Commands.DeleteProduct
                 throw new NotFoundException(nameof(Products), request.Id);
             }
 
-            this.context.Products.Remove(entity);
+            //this.context.Products.Remove(entity);
+            entity.Status = ProductStatus.Inactive;
 
             await this.context.SaveChangesAsync(cancellationToken);
 

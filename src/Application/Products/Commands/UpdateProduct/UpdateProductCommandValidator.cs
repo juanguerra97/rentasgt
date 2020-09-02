@@ -36,11 +36,11 @@ namespace rentasgt.Application.Products.Commands.UpdateProduct
                 .When(p => p.CostPerDay != null);
 
             RuleFor(p => p.CostPerDay)
-                .LessThan(p => p.CostPerWeek)
+                .LessThan(p => p.CostPerWeek).WithMessage("El costo diario debe ser menor al costo semanal")
                 .When(p => p.CostPerDay != null && p.CostPerWeek != null);
 
             RuleFor(p => p.CostPerDay)
-                .LessThan(p => p.CostPerMonth)
+                .LessThan(p => p.CostPerMonth).WithMessage("El costo diario debe ser menor al costo mensual")
                 .When(p => p.CostPerDay != null && p.CostPerMonth != null);
 
             RuleFor(p => p.CostPerWeek)
@@ -48,7 +48,7 @@ namespace rentasgt.Application.Products.Commands.UpdateProduct
                 .When(p => p.CostPerWeek != null);
 
             RuleFor(p => p.CostPerWeek)
-                .LessThan(p => p.CostPerMonth)
+                .LessThan(p => p.CostPerMonth).WithMessage("El costo semanal debe ser menor al costo mensual")
                 .When(p => p.CostPerWeek != null && p.CostPerMonth != null);
 
             RuleFor(p => p.CostPerMonth)
