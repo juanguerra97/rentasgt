@@ -6,10 +6,10 @@ using rentasgt.Application.RentRequests.Commands.CancelRentRequest;
 using rentasgt.Application.RentRequests.Commands.CreateRentRequest;
 using rentasgt.Application.RentRequests.Commands.RejectRentRequest;
 using rentasgt.Application.RentRequests.Commands.ViewRentRequest;
-using rentasgt.Application.RentRequests.Queries.GetAllRentRequests;
 using rentasgt.Application.RentRequests.Queries.GetAllRentRequestsOfRequestor;
 using rentasgt.Application.RentRequests.Queries.GetPendingRentRequests;
 using rentasgt.Application.RentRequests.Queries.GetRentRequests;
+using rentasgt.Application.RentRequests.Queries.GetRentRequestsOfOwner;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -54,12 +54,6 @@ namespace rentasgt.WebUI.Controllers
             return NoContent();
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<RentRequestDto>>> GetAll(int pageSize = 10, int pageNumber = 1)
-        {
-            return await Mediator.Send(new GetAllRentRequestsQuery { PageSize = pageSize, PageNumber = pageNumber });
-        }
-
         [HttpGet("pending")]
         public async Task<ActionResult<List<RentRequestDto>>> GetPending(int pageSize = 10, int pageNumber = 1)
         {
@@ -70,6 +64,15 @@ namespace rentasgt.WebUI.Controllers
         public async Task<ActionResult<PaginatedListResponse<RentRequestDto>>> GetOfRequestor(int pageSize = 10, int pageNumber = 1)
         {
             return await Mediator.Send(new GetAllRentRequestsOfRequestorQuery { PageSize = pageSize, PageNumber = pageNumber });
+        }
+
+        [HttpGet("owner")]
+        public async  Task<ActionResult<PaginatedListResponse<RentRequestDto>>> GetOfOwner(int pageSize = 10, int pageNumber = 1)
+        {
+            return await Mediator.Send(new GetRentRequestsOfOwnerQuery {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+            });
         }
 
         [HttpPost]
