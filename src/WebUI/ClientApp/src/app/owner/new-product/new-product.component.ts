@@ -11,6 +11,7 @@ import {
   PicturesClient,
   ProductsClient
 } from '../../rentasgt-api';
+import { Img } from '../../models/Img';
 
 @Component({
   selector: 'app-new-product',
@@ -164,11 +165,4 @@ export class NewProductComponent implements OnInit {
     }
   }
 
-}
-
-class Img {
-  file: File;
-  origContent: string|ArrayBuffer = null;
-  contentCropped: Blob = null;
-  imgCropped: string|ArrayBuffer = null;
 }

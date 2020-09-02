@@ -4,9 +4,10 @@ import { AppCommonModule } from '../app-common/app-common.module';
 import { ProductsComponent } from './products/products.component';
 import { NewProductComponent } from './new-product/new-product.component';
 import { DetailProductComponent } from './detail-product/detail-product.component';
+import { EditProductComponent } from './edit-product/edit-product.component';
 
 @NgModule({
-  declarations: [ProductsComponent, NewProductComponent, DetailProductComponent],
+  declarations: [ProductsComponent, NewProductComponent, DetailProductComponent, EditProductComponent],
   imports: [
     AppCommonModule,
     RouterModule.forChild([
@@ -26,6 +27,10 @@ import { DetailProductComponent } from './detail-product/detail-product.componen
       {
         path: 'productos/detalle/:id',
         component: DetailProductComponent,
+      },
+      {
+        path: 'productos/editar/:id',
+        component: EditProductComponent,
       }
     ]),
   ]

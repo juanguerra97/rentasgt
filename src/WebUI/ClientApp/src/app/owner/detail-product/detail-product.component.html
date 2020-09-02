@@ -37,7 +37,7 @@
           <p class="product-cost"><span>{{product.costPerWeek|currency}}</span>/Semana</p>
         </div>
         <div *ngIf="product.costPerMonth !== null" class="product-cost-container pr-2">
-          <p class="product-cost"><span>{{product.costPerWeek|currency}}</span>/Mes</p>
+          <p class="product-cost"><span>{{product.costPerMonth|currency}}</span>/Mes</p>
         </div>
       </div>
     </div>
@@ -49,10 +49,10 @@
     </div>
 
     <div class="d-flex justify-content-end mt-2">
-      <button pButton icon="pi pi-pencil" label="Modificar"
-              class="p-button-sm p-button-warning"></button>
-      <button pButton icon="pi pi-times" label="Eliminar"
-              class="p-button-sm p-button-danger ml-2"></button>
+      <button [routerLink]="['/propietario/productos/editar', product.id]" pButton icon="pi pi-pencil" label="Modificar"
+              class="p-button-sm p-button-raised p-button-warning"></button>
+      <button (click)="showDeleteConfirmationModal()" pButton icon="pi pi-times" label="Eliminar"
+              class="p-button-sm p-button-raised p-button-danger ml-2"></button>
     </div>
 
   </div>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductDto, ProductsClient } from '../../rentasgt-api';
+import { BsModalService } from 'ngx-bootstrap';
+import { ConfirmationModalComponent } from '../../app-common/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-detail-product',
@@ -31,6 +33,7 @@ export class DetailProductComponent implements OnInit {
     private productsClient: ProductsClient,
     private route: ActivatedRoute,
     private router: Router,
+    private bsModalService: BsModalService,
   ) { }
 
   ngOnInit(): void {
@@ -53,6 +56,24 @@ export class DetailProductComponent implements OnInit {
       this.loadingProduct = false;
       console.error(error);
       this.router.navigate(['/propietario/productos']);
+    });
+  }
+
+  public showDeleteConfirmationModal(): void {
+    const modal = this.bsModalService.show(ConfirmationModalComponent);
+    (<ConfirmationModalComponent>modal.content).showConfirmationModal(
+      'Eliminación',
+      '¿Estás seguro que quieres eliminar este artículo?'
+    );
+
+    (<ConfirmationModalComponent>modal.content).onClose.subscribe(result => {
+      if (result === true) {
+        this.productsClient.delete(this.product.id)
+          .subscribe(async (res) => {
+            await this.router.navigate(['/propietario/productos']);
+          }, console.error);
+
+      }
     });
   }
 
