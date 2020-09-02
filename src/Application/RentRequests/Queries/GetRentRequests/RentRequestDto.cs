@@ -15,6 +15,7 @@ namespace rentasgt.Application.RentRequests.Queries.GetRentRequests
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string? Place { get; set; }
+        public decimal EstimatedCost { get; set; }
         public RentRequestProductOwnerDto Requestor { get; set; }
         public RentRequestProductDto Product { get; set; }
         public List<RequestEventDto> Events { get; set; }

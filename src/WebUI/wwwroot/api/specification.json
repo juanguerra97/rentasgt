@@ -2575,6 +2575,10 @@
             "type": "string",
             "nullable": true
           },
+          "estimatedCost": {
+            "type": "number",
+            "format": "decimal"
+          },
           "requestor": {
             "nullable": true,
             "oneOf": [
