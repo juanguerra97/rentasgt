@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using rentasgt.Application.Common.Models;
 using rentasgt.Application.RentRequests.Commands.AcceptRentRequest;
 using rentasgt.Application.RentRequests.Commands.CancelRentRequest;
 using rentasgt.Application.RentRequests.Commands.CreateRentRequest;
@@ -66,7 +67,7 @@ namespace rentasgt.WebUI.Controllers
         }
 
         [HttpGet("requestor")]
-        public async Task<ActionResult<List<RentRequestDto>>> GetOfRequestor(int pageSize = 10, int pageNumber = 1)
+        public async Task<ActionResult<PaginatedListResponse<RentRequestDto>>> GetOfRequestor(int pageSize = 10, int pageNumber = 1)
         {
             return await Mediator.Send(new GetAllRentRequestsOfRequestorQuery { PageSize = pageSize, PageNumber = pageNumber });
         }

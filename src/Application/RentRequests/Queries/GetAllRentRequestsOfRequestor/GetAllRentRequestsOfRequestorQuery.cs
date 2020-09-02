@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using rentasgt.Application.Common.Interfaces;
+using rentasgt.Application.Common.Models;
 using rentasgt.Application.RentRequests.Queries.GetRentRequests;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace rentasgt.Application.RentRequests.Queries.GetAllRentRequestsOfRequestor
 {
-    public class GetAllRentRequestsOfRequestorQuery : IRequest<List<RentRequestDto>>
+    public class GetAllRentRequestsOfRequestorQuery : IRequest<PaginatedListResponse<RentRequestDto>>
     {
 
         public int PageSize { get; set; }
@@ -19,7 +20,7 @@ namespace rentasgt.Application.RentRequests.Queries.GetAllRentRequestsOfRequesto
 
     }
 
-    public class GetAllRentRequestsOfRequestorQueryHandler : IRequestHandler<GetAllRentRequestsOfRequestorQuery, List<RentRequestDto>>
+    public class GetAllRentRequestsOfRequestorQueryHandler : IRequestHandler<GetAllRentRequestsOfRequestorQuery, PaginatedListResponse<RentRequestDto>>
     {
         private readonly IApplicationDbContext context;
         private readonly ICurrentUserService currentUserService;
@@ -33,16 +34,17 @@ namespace rentasgt.Application.RentRequests.Queries.GetAllRentRequestsOfRequesto
             this.mapper = mapper;
         }
 
-        public async Task<List<RentRequestDto>> Handle(GetAllRentRequestsOfRequestorQuery request, CancellationToken cancellationToken)
+        public async Task<PaginatedListResponse<RentRequestDto>> Handle(GetAllRentRequestsOfRequestorQuery request, CancellationToken cancellationToken)
         {
-            return await this.context.RentRequests
+            var rentRequests = this.context.RentRequests
+                .Include(rq => rq.Requestor)
                 .Include(rq => rq.Product)
+                .ThenInclude(rq => rq.Owner)
                 .Where(rq => rq.RequestorId == currentUserService.UserId)
-                .OrderByDescending(rq => rq.RequestDate)
-                .Skip((request.PageNumber - 1) * request.PageSize)
-                .Take(request.PageSize)
                 .ProjectTo<RentRequestDto>(mapper.ConfigurationProvider)
-                .ToListAsync();
+                .OrderByDescending(rq => rq.RequestDate);
+            return  PaginatedListResponse<RentRequestDto>
+                .ToPaginatedListResponse(rentRequests, request.PageNumber, request.PageSize);
         }
     }
 
