@@ -40,6 +40,7 @@ namespace rentasgt.Application.RentRequests.Queries.GetAllRentRequestsOfRequesto
                 .Include(rq => rq.Requestor)
                 .Include(rq => rq.Product)
                 .ThenInclude(rq => rq.Owner)
+                .Include(rq => rq.Product.Pictures)
                 .Where(rq => rq.RequestorId == currentUserService.UserId)
                 .ProjectTo<RentRequestDto>(mapper.ConfigurationProvider)
                 .OrderByDescending(rq => rq.RequestDate);

@@ -2661,6 +2661,14 @@
                 "$ref": "#/components/schemas/RentRequestProductOwnerDto"
               }
             ]
+          },
+          "picture": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ProductPictureDto"
+              }
+            ]
           }
         }
       },
