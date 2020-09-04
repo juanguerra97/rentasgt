@@ -15,6 +15,7 @@ import { AppCommonModule } from './app-common/app-common.module';
 import { ProductsComponent } from './products/products.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ChatsComponent } from './chats/chats.component';
+import { RentRequestsRequestorComponent } from './rent-requests-requestor/rent-requests-requestor.component';
 import { NbThemeModule, NbLayoutModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 
@@ -26,6 +27,7 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
     ProductsComponent,
     ProductDetailComponent,
     ChatsComponent,
+    RentRequestsRequestorComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -44,6 +46,7 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
       { path: 'articulos', component: ProductsComponent },
       { path: 'articulos/detalle/:id', component: ProductDetailComponent },
       { path: 'mensajes', component: ChatsComponent, canActivate: [AuthorizeGuard] },
+      { path: 'solicitudes', component: RentRequestsRequestorComponent, canActivate: [AuthorizeGuard] },
     ]),
     NbThemeModule.forRoot({ name: 'default' }),
     NbLayoutModule,

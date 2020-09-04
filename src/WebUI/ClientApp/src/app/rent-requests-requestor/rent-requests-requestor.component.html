@@ -1,0 +1,115 @@
+
+<div class="container-fluid p-0 m-0">
+
+  <div class="row mt-3">
+    <div class="col-12 p-0">
+      <h2 class="pantalla-title">Solicitudes de renta</h2>
+    </div>
+
+    <div *ngIf="!selectedRentRequest" class="col-12 p-0">
+      <div class="d-flex flex-column flex-fill">
+
+        <div *ngFor="let req of rentRequests" (click)="selectRentRequest(req)" class="rent-request d-flex">
+
+          <div class="d-flex flex-column flex-fill">
+            <div class="d-flex flex-column flex-fill justify-content-start">
+              <p class="req-status">{{ REQ_STATUS_LABELS[req.status] }}</p>
+              <div class="d-flex flex-column flex-fill">
+                <h3 class="req-product-name text-center mt-auto mb-auto">{{ req.product.name }}</h3>
+              </div>
+              <p class="req-estimated-cost">{{ req.estimatedCost|currency }}</p>
+            </div>
+          </div>
+
+          <div class="flex flex-column ml-1">
+            <p class="req-owner-name text-center">{{ req.product.owner.firstName + ' ' + req.product.owner.lastName }}</p>
+            <img src="{{req.product.picture.pictureContent}}" alt="req.product.name">
+            <p class="req-date text-center"><time>{{ formatDate(req.requestDate) }}</time></p>
+          </div>
+
+        </div>
+
+      </div>
+      <p-paginator *ngIf="pageInfo !== null"
+                   [rows]="DEFAULT_PAGE_SIZE"
+                   [totalRecords]="pageInfo.totalCount"
+                   [alwaysShow]="false"
+                   (onPageChange)="loadRentRequests(DEFAULT_PAGE_SIZE, $event.page + 1)"></p-paginator>
+    </div>
+
+    <div *ngIf="selectedRentRequest" class="col-12 col-md-6 p-0">
+
+      <div class="d-flex align-content-center align-items-center">
+        <a (click)="selectRentRequest(null)" style="cursor: pointer;">
+          <li class="pi pi-arrow-left"></li>
+        </a>
+        <div *ngIf="requestCanBeCancelled()" class="d-flex flex-fill justify-content-end">
+          <button (click)="confirmCancelRequest()" [disabled]="cancellingRequest" pButton label="Cancelar solicitud" icon="pi pi-times-circle" class="p-button-rounded p-button-danger p-button-sm"></button>
+        </div>
+      </div>
+
+      <div class="rent-request d-flex mt-1">
+
+        <div class="d-flex flex-column flex-fill">
+          <div class="d-flex flex-column flex-fill justify-content-start">
+            <p class="req-status">{{ REQ_STATUS_LABELS[selectedRentRequest.status] }}</p>
+            <div class="d-flex flex-column flex-fill">
+              <h3 class="req-product-name text-center mt-auto mb-auto">{{ selectedRentRequest.product.name }}</h3>
+            </div>
+            <p class="req-estimated-cost">{{ selectedRentRequest.estimatedCost|currency }}</p>
+          </div>
+        </div>
+
+        <div class="flex flex-column ml-1">
+          <p class="req-owner-name text-center">{{ selectedRentRequest.product.owner.firstName + ' ' + selectedRentRequest.product.owner.lastName }}</p>
+          <img src="{{selectedRentRequest.product.picture.pictureContent}}" alt="req.product.name">
+          <p class="req-date text-center"><time>{{ formatDate(selectedRentRequest.requestDate) }}</time></p>
+        </div>
+
+      </div>
+
+      <div class="mt-2">
+        <h3 class="">Historial</h3>
+
+        <div class="d-flex flex-column events-container">
+          <div *ngFor="let event of rentRequestEvents"
+               [ngClass]="{'rq-event d-flex flex-column flex-fill': true,
+                  'rq-event-viewed': event.eventType === REQUEST_EVENT_VIEWED,
+                  'rq-event-cancelled': event.eventType === REQUEST_EVENT_CANCELLED,
+                  'rq-event-accepted': event.eventType === REQUEST_EVENT_ACCEPTED,
+                  'rq-event-rejected': event.eventType === REQUEST_EVENT_REJECTED}">
+            <p><time>{{ formatDate(event.eventDate) }}</time></p>
+            <p class="rq-event-text" [ngSwitch]="event.eventType">
+              <ng-template [ngSwitchCase]="REQUEST_EVENT_VIEWED">
+                ¡{{ selectedRentRequest.product.owner.firstName }}&nbsp;ha visto tu solicitud!
+              </ng-template>
+              <ng-template [ngSwitchCase]="REQUEST_EVENT_CANCELLED">
+                Cancelaste la solicitud.
+              </ng-template>
+              <ng-template [ngSwitchCase]="REQUEST_EVENT_ACCEPTED">
+                ¡{{ selectedRentRequest.product.owner.firstName }}&nbsp;acept&oacute; tu solicitud!
+              </ng-template>
+              <ng-template ngSwitchDefault="REQUEST_EVENT_REJECTED">
+                {{ selectedRentRequest.product.owner.firstName }}&nbsp;rechaz&oacute; tu solicitud.
+                <ng-template [ngIf]="event.message">
+                  &nbsp;"{{ event.message }}"
+                </ng-template>
+              </ng-template>
+
+            </p>
+          </div>
+
+          <div class="rq-event d-flex flex-column flex-fill">
+            <p><time>{{ formatDate(selectedRentRequest.requestDate) }}</time></p>
+            <p class="rq-event-text">Creaste la solicitud</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
