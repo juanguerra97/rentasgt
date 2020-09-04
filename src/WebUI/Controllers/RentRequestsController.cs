@@ -8,6 +8,7 @@ using rentasgt.Application.RentRequests.Commands.RejectRentRequest;
 using rentasgt.Application.RentRequests.Commands.ViewRentRequest;
 using rentasgt.Application.RentRequests.Queries.GetAllRentRequestsOfRequestor;
 using rentasgt.Application.RentRequests.Queries.GetPendingRentRequests;
+using rentasgt.Application.RentRequests.Queries.GetRentRequestEvents;
 using rentasgt.Application.RentRequests.Queries.GetRentRequests;
 using rentasgt.Application.RentRequests.Queries.GetRentRequestsOfOwner;
 using System.Collections.Generic;
@@ -72,6 +73,15 @@ namespace rentasgt.WebUI.Controllers
             return await Mediator.Send(new GetRentRequestsOfOwnerQuery {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
+            });
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<RequestEventDto>>> GetHistory(long id)
+        {
+            return await Mediator.Send(new GetRentRequestEventsQuery
+            {
+                RentRequestId = id
             });
         }
 

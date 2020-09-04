@@ -1327,6 +1327,46 @@
         ]
       }
     },
+    "/api/RentRequests/{id}": {
+      "get": {
+        "tags": [
+          "RentRequests"
+        ],
+        "operationId": "RentRequests_GetHistory",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RequestEventDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/RentRequests": {
       "post": {
         "tags": [
@@ -2677,6 +2717,10 @@
         "additionalProperties": false,
         "properties": {
           "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rentRequestId": {
             "type": "integer",
             "format": "int64"
           },
