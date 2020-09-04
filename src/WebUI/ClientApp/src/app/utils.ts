@@ -9,6 +9,8 @@ export function getErrorsFromResponse(errorResponse): string[] {
         errors.push(error);
       }
     }
+  } else if (errorResponse.detail) {
+    errors.push(errorResponse.detail);
   }
   return errors;
 }
