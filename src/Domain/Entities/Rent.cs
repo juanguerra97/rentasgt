@@ -13,10 +13,9 @@ namespace rentasgt.Domain.Entities
         public Rent()
         { }
 
-        public Rent(RentStatus status, ChatRoom? chatRoom = null, DateTime? startDate = null, DateTime? endDate = null)
+        public Rent(RentStatus status, DateTime? startDate = null, DateTime? endDate = null)
         {
             Status = status;
-            ChatRoom = chatRoom;
             StartDate = startDate;
             EndDate = endDate;
         }
@@ -44,11 +43,6 @@ namespace rentasgt.Domain.Entities
         /// and includes fines for delays, etc.
         /// </summary>
         public decimal? TotalCost { get; set; }
-
-        /// <summary>
-        /// Chat room where the owner and the requestor can send messages to each other
-        /// </summary>
-        public ChatRoom? ChatRoom { get; set; }
 
     }
 }

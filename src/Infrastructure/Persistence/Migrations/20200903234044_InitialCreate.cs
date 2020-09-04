@@ -529,6 +529,27 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Rents",
+                columns: table => new
+                {
+                    RequestId = table.Column<long>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
+                    StartDate = table.Column<DateTime>(nullable: true),
+                    EndDate = table.Column<DateTime>(nullable: true),
+                    TotalCost = table.Column<decimal>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rents", x => x.RequestId);
+                    table.ForeignKey(
+                        name: "FK_Rents_RentRequests_RequestId",
+                        column: x => x.RequestId,
+                        principalTable: "RentRequests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RequestEvents",
                 columns: table => new
                 {
@@ -603,34 +624,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         name: "FK_ChatRooms_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Rents",
-                columns: table => new
-                {
-                    RequestId = table.Column<long>(nullable: false),
-                    Status = table.Column<int>(nullable: false),
-                    StartDate = table.Column<DateTime>(nullable: true),
-                    EndDate = table.Column<DateTime>(nullable: true),
-                    TotalCost = table.Column<decimal>(nullable: true),
-                    ChatRoomId = table.Column<long>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rents", x => x.RequestId);
-                    table.ForeignKey(
-                        name: "FK_Rents_ChatRooms_ChatRoomId",
-                        column: x => x.ChatRoomId,
-                        principalTable: "ChatRooms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Rents_RentRequests_RequestId",
-                        column: x => x.RequestId,
-                        principalTable: "RentRequests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -795,11 +788,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 name: "IX_RentRequests_RequestorId",
                 table: "RentRequests",
                 column: "RequestorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Rents_ChatRoomId",
-                table: "Rents",
-                column: "ChatRoomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RequestEvents_RentRequestId",

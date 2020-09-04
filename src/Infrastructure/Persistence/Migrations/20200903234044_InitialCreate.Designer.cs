@@ -9,7 +9,7 @@ using rentasgt.Infrastructure.Persistence;
 namespace rentasgt.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200828030731_InitialCreate")]
+    [Migration("20200903234044_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -576,9 +576,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.Property<long>("RequestId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("ChatRoomId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime(6)");
 
@@ -592,8 +589,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.HasKey("RequestId");
-
-                    b.HasIndex("ChatRoomId");
 
                     b.ToTable("Rents");
                 });
@@ -1018,11 +1013,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("rentasgt.Domain.Entities.Rent", b =>
                 {
-                    b.HasOne("rentasgt.Domain.Entities.ChatRoom", "ChatRoom")
-                        .WithMany()
-                        .HasForeignKey("ChatRoomId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("rentasgt.Domain.Entities.RentRequest", "Request")
                         .WithOne("Rent")
                         .HasForeignKey("rentasgt.Domain.Entities.Rent", "RequestId")

@@ -75,8 +75,7 @@ namespace rentasgt.Application.RentRequests.Commands.AcceptRentRequest
             entity.Status = RequestStatus.Accepted;
             entity.Rent = new Rent
             {
-                Status = RentStatus.Pending,
-                ChatRoom = new ChatRoom()
+                Status = RentStatus.Pending
             };
             entity.Events.Add(new RequestEvent
             {

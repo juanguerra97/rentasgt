@@ -25,11 +25,6 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(r => r.ChatRoom)
-                .WithMany()
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.Cascade);
-
         }
     }
 }
