@@ -1,0 +1,99 @@
+
+
+.rent-request {
+  margin: 0;
+  padding: 0.3rem;
+  box-shadow: #8f9bb3 0 0 3px;
+  border-radius: 4px;
+  border-bottom: #333 solid 2px;
+}
+
+.rent-request img {
+  width: 128px;
+  border-radius: 2px;
+}
+
+.rent-request:hover {
+  cursor: pointer;
+  background-color: rgba(143,155,179, 0.15);
+}
+
+.rent-request p {
+  margin: 0;
+  padding: 0;
+}
+
+.rent-request .req-product-name {
+  font-size: 1.15rem;
+  padding: 0;
+  margin: 0;
+}
+
+.rent-request .req-owner-name {
+  font-size: 0.90rem;
+}
+
+.rent-request .req-estimated-cost {
+  font-size: 0.85rem;
+}
+
+.rent-request .req-date {
+  font-size: 0.75rem;
+}
+
+.rent-request .req-status {
+  font-size: 0.8rem;
+}
+
+.events-container .rq-event {
+  text-align: center;
+  margin: 0 auto;
+
+}
+
+.rq-event {
+
+}
+
+.rq-event time {
+
+}
+
+.rq-event-viewed, .rq-event-accepted, .rq-event-rejected {
+
+}
+
+.rq-event-viewed time, .rq-event-accepted time, .rq-event-rejected time {
+
+}
+
+.rq-event * {
+  padding: 0;
+  margin: 0;
+}
+
+.rq-event .rq-event-text {
+  background-color: #edf1f7;
+  border-radius: 15px;
+  padding: 0.1rem 0.75rem;
+}
+.rq-event time {
+  font-size: 0.75rem;
+}
+
+.rq-event-viewed .rq-event-text {
+  background-color: #212121;
+  color: #edf1f7;
+}
+
+.rq-event-cancelled .rq-event-text {
+  background-color: #FFF176;
+}
+
+.rq-event-rejected .rq-event-text {
+  background-color: #EF9A9A;
+}
+
+.rq-event-accepted .rq-event-text {
+  background-color: #9CCC65;
+}

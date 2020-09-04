@@ -5,9 +5,10 @@ import { ProductsComponent } from './products/products.component';
 import { NewProductComponent } from './new-product/new-product.component';
 import { DetailProductComponent } from './detail-product/detail-product.component';
 import { EditProductComponent } from './edit-product/edit-product.component';
+import { RentRequestsComponent } from './rent-requests/rent-requests.component';
 
 @NgModule({
-  declarations: [ProductsComponent, NewProductComponent, DetailProductComponent, EditProductComponent],
+  declarations: [ProductsComponent, NewProductComponent, DetailProductComponent, EditProductComponent, RentRequestsComponent],
   imports: [
     AppCommonModule,
     RouterModule.forChild([
@@ -31,6 +32,10 @@ import { EditProductComponent } from './edit-product/edit-product.component';
       {
         path: 'productos/editar/:id',
         component: EditProductComponent,
+      },
+      {
+        path: 'solicitudes',
+        component: RentRequestsComponent,
       }
     ]),
   ]
