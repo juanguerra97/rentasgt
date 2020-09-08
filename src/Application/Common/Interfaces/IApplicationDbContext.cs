@@ -47,6 +47,10 @@ namespace rentasgt.Application.Common.Interfaces
 
         DbSet<UserProfileEvent> UserProfileEvents { get; set; }
 
+        DbSet<Conflict> Conflicts { get; set; }
+
+        DbSet<ConflictRecord> ConflictRecords { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

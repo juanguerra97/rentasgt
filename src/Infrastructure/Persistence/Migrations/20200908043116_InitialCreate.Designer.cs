@@ -9,7 +9,7 @@ using rentasgt.Infrastructure.Persistence;
 namespace rentasgt.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200908024213_InitialCreate")]
+    [Migration("20200908043116_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -435,6 +435,82 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("ChatRooms");
+                });
+
+            modelBuilder.Entity("rentasgt.Domain.Entities.Conflict", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ComplainantId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("ConflictDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("varchar(1024) CHARACTER SET utf8mb4")
+                        .HasMaxLength(1024);
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ModeratorId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<long>("RentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ComplainantId");
+
+                    b.HasIndex("ModeratorId");
+
+                    b.HasIndex("RentId")
+                        .IsUnique();
+
+                    b.ToTable("Conflicts");
+                });
+
+            modelBuilder.Entity("rentasgt.Domain.Entities.ConflictRecord", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ConflictId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("varchar(1024) CHARACTER SET utf8mb4")
+                        .HasMaxLength(1024);
+
+                    b.Property<DateTime>("RecordDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConflictId");
+
+                    b.ToTable("ConflictRecords");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.DpiPicture", b =>
@@ -963,6 +1039,36 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("rentasgt.Domain.Entities.Conflict", b =>
+                {
+                    b.HasOne("rentasgt.Domain.Entities.AppUser", "Complainant")
+                        .WithMany()
+                        .HasForeignKey("ComplainantId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("rentasgt.Domain.Entities.AppUser", "Moderator")
+                        .WithMany()
+                        .HasForeignKey("ModeratorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("rentasgt.Domain.Entities.Rent", "Rent")
+                        .WithOne()
+                        .HasForeignKey("rentasgt.Domain.Entities.Conflict", "RentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("rentasgt.Domain.Entities.ConflictRecord", b =>
+                {
+                    b.HasOne("rentasgt.Domain.Entities.Conflict", "Conflict")
+                        .WithMany("ConflictRecords")
+                        .HasForeignKey("ConflictId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.DpiPicture", b =>

@@ -70,6 +70,10 @@ namespace rentasgt.Infrastructure.Persistence
 
         public DbSet<UserProfileEvent> UserProfileEvents { get; set; }
 
+        public DbSet<Conflict> Conflicts { get; set; }
+
+        public DbSet<ConflictRecord> ConflictRecords { get; set; }
+
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             foreach (var entry in ChangeTracker.Entries<AuditableEntity>())

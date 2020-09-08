@@ -580,6 +580,46 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Conflicts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    Created = table.Column<DateTime>(nullable: false),
+                    LastModifiedBy = table.Column<string>(nullable: true),
+                    LastModified = table.Column<DateTime>(nullable: true),
+                    Status = table.Column<int>(nullable: false),
+                    RentId = table.Column<long>(nullable: false),
+                    ModeratorId = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(maxLength: 1024, nullable: false),
+                    ComplainantId = table.Column<string>(nullable: false),
+                    ConflictDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Conflicts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Conflicts_AspNetUsers_ComplainantId",
+                        column: x => x.ComplainantId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Conflicts_AspNetUsers_ModeratorId",
+                        column: x => x.ModeratorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Conflicts_Rents_RentId",
+                        column: x => x.RentId,
+                        principalTable: "Rents",
+                        principalColumn: "RequestId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RentEvents",
                 columns: table => new
                 {
@@ -598,6 +638,27 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         column: x => x.RentId,
                         principalTable: "Rents",
                         principalColumn: "RequestId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ConflictRecords",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ConflictId = table.Column<long>(nullable: false),
+                    Description = table.Column<string>(maxLength: 1024, nullable: false),
+                    RecordDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConflictRecords", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ConflictRecords_Conflicts_ConflictId",
+                        column: x => x.ConflictId,
+                        principalTable: "Conflicts",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -764,6 +825,27 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_ConflictRecords_ConflictId",
+                table: "ConflictRecords",
+                column: "ConflictId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Conflicts_ComplainantId",
+                table: "Conflicts",
+                column: "ComplainantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Conflicts_ModeratorId",
+                table: "Conflicts",
+                column: "ModeratorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Conflicts_RentId",
+                table: "Conflicts",
+                column: "RentId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DeviceCodes_DeviceCode",
                 table: "DeviceCodes",
                 column: "DeviceCode",
@@ -900,6 +982,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ConflictRecords");
+
+            migrationBuilder.DropTable(
                 name: "DeviceCodes");
 
             migrationBuilder.DropTable(
@@ -942,16 +1027,19 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Conflicts");
 
             migrationBuilder.DropTable(
-                name: "Rents");
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "TodoLists");
 
             migrationBuilder.DropTable(
                 name: "Pictures");
+
+            migrationBuilder.DropTable(
+                name: "Rents");
 
             migrationBuilder.DropTable(
                 name: "RentRequests");
