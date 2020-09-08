@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using rentasgt.Domain.Enums;
 using System.Collections.Generic;
-using System.Runtime.ExceptionServices;
 
 namespace rentasgt.Domain.Entities
 {
@@ -56,12 +55,12 @@ namespace rentasgt.Domain.Entities
         /// <summary>
         /// Picture of the official id document of the user
         /// </summary>
-        public DpiPicture DpiPicture { get; set; }
+        public DpiPicture? DpiPicture { get; set; }
 
         /// <summary>
         /// User's picture, this is used to verify against the picture in the official document and is kept private
         /// </summary>
-        public UserPicture UserPicture { get; set; }
+        public UserPicture? UserPicture { get; set; }
 
         /// <summary>
         /// User's public profile picture
@@ -76,7 +75,7 @@ namespace rentasgt.Domain.Entities
         /// <summary>
         /// Picture of a receipt or bill that demonstrates the user's address
         /// </summary>
-        public AddressPicture AddressPicture { get; set; }
+        public AddressPicture? AddressPicture { get; set; }
 
         /// <summary>
         /// Products the user owns

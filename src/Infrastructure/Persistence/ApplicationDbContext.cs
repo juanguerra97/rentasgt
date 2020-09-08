@@ -175,13 +175,13 @@ namespace rentasgt.Infrastructure.Persistence
                 userBuilder.HasOne(u => u.DpiPicture)
                     .WithOne(p => p.User)
                     .HasForeignKey((DpiPicture p) => p.UserId)
-                    .IsRequired()
+                    .IsRequired(false)
                     .OnDelete(DeleteBehavior.Cascade);
 
                 userBuilder.HasOne(u => u.UserPicture)
                     .WithOne(p => p.User)
                     .HasForeignKey((UserPicture p) => p.UserId)
-                    .IsRequired()
+                    .IsRequired(false)
                     .OnDelete(DeleteBehavior.Cascade);
 
                 userBuilder.HasOne(u => u.ProfilePicture)
@@ -193,7 +193,7 @@ namespace rentasgt.Infrastructure.Persistence
                 userBuilder.HasOne(u => u.AddressPicture)
                     .WithOne(p => p.User)
                     .HasForeignKey((AddressPicture p) => p.UserId)
-                    .IsRequired()
+                    .IsRequired(false)
                     .OnDelete(DeleteBehavior.Cascade);
 
                 userBuilder.HasMany(u => u.Products)

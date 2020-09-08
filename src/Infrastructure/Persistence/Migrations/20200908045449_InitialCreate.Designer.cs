@@ -9,7 +9,7 @@ using rentasgt.Infrastructure.Persistence;
 namespace rentasgt.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200908043116_InitialCreate")]
+    [Migration("20200908045449_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1003,8 +1003,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.HasOne("rentasgt.Domain.Entities.AppUser", "User")
                         .WithOne("AddressPicture")
                         .HasForeignKey("rentasgt.Domain.Entities.AddressPicture", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.ChatMessage", b =>
@@ -1082,8 +1081,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.HasOne("rentasgt.Domain.Entities.AppUser", "User")
                         .WithOne("DpiPicture")
                         .HasForeignKey("rentasgt.Domain.Entities.DpiPicture", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.Product", b =>
@@ -1253,8 +1251,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.HasOne("rentasgt.Domain.Entities.AppUser", "User")
                         .WithOne("UserPicture")
                         .HasForeignKey("rentasgt.Domain.Entities.UserPicture", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.UserProfileEvent", b =>
