@@ -36,7 +36,7 @@ namespace rentasgt.WebUI
 
                     await ApplicationDbContextSeed.SeedUserRoles(roleManager);
                     await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager);
-                    await ApplicationDbContextSeed.SeedSampleDataAsync(context);
+                    await ApplicationDbContextSeed.SeedSampleDataAsync(context, userManager);
                 }
                 catch (Exception ex)
                 {
