@@ -1,4 +1,5 @@
-﻿using rentasgt.Domain.Enums;
+﻿using rentasgt.Domain.Common;
+using rentasgt.Domain.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -8,7 +9,7 @@ namespace rentasgt.Domain.Entities
     /// Class to store information about a rent request made by a requestor 
     /// to the owner of the product they want to rent
     /// </summary>
-    public class RentRequest
+    public class RentRequest : AuditableEntity
     {
 
         public static readonly int MAX_PLACE_LENGTH = 128;

@@ -33,6 +33,8 @@ namespace rentasgt.Application.Common.Interfaces
 
         DbSet<Rent> Rents { get; set; }
 
+        DbSet<RentEvent> RentEvents { get; set; }
+
         DbSet<RentCost> RentCosts { get; set; }
 
         DbSet<RentRequest> RentRequests { get; set; }

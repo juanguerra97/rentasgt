@@ -25,6 +25,12 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasMany(r => r.Events)
+                .WithOne(re => re.Rent)
+                .HasForeignKey(re => re.RentId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

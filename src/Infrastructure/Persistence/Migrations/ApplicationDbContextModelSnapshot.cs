@@ -574,8 +574,20 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.Property<long>("RequestId")
                         .HasColumnType("bigint");
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime(6)");
@@ -607,17 +619,55 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.ToTable("RentCosts");
                 });
 
+            modelBuilder.Entity("rentasgt.Domain.Entities.RentEvent", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("EventDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("EventType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
+                        .HasMaxLength(128);
+
+                    b.Property<long>("RentId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RentId");
+
+                    b.ToTable("RentEvents");
+                });
+
             modelBuilder.Entity("rentasgt.Domain.Entities.RentRequest", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<decimal>("EstimatedCost")
                         .HasColumnType("decimal(65,30)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Place")
                         .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
@@ -1023,6 +1073,15 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.HasOne("rentasgt.Domain.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("rentasgt.Domain.Entities.RentEvent", b =>
+                {
+                    b.HasOne("rentasgt.Domain.Entities.Rent", "Rent")
+                        .WithMany("Events")
+                        .HasForeignKey("RentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

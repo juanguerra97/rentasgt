@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using rentasgt.Domain.Common;
 using rentasgt.Domain.Enums;
 
 namespace rentasgt.Domain.Entities
@@ -7,7 +9,7 @@ namespace rentasgt.Domain.Entities
     /// <summary>
     /// Information about the rent process
     /// </summary>
-    public class Rent
+    public class Rent : AuditableEntity
     {
 
         public Rent()
@@ -43,6 +45,8 @@ namespace rentasgt.Domain.Entities
         /// and includes fines for delays, etc.
         /// </summary>
         public decimal? TotalCost { get; set; }
+
+        public List<RentEvent> Events { get; set; }
 
     }
 }

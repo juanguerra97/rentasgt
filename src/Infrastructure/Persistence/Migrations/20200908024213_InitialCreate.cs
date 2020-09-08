@@ -502,6 +502,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    Created = table.Column<DateTime>(nullable: false),
+                    LastModifiedBy = table.Column<string>(nullable: true),
+                    LastModified = table.Column<DateTime>(nullable: true),
                     Status = table.Column<int>(nullable: false),
                     RequestDate = table.Column<DateTime>(nullable: false),
                     ProductId = table.Column<long>(nullable: false),
@@ -533,6 +537,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 columns: table => new
                 {
                     RequestId = table.Column<long>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    Created = table.Column<DateTime>(nullable: false),
+                    LastModifiedBy = table.Column<string>(nullable: true),
+                    LastModified = table.Column<DateTime>(nullable: true),
                     Status = table.Column<int>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: true),
                     EndDate = table.Column<DateTime>(nullable: true),
@@ -568,6 +576,28 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         column: x => x.RentRequestId,
                         principalTable: "RentRequests",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RentEvents",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    EventType = table.Column<int>(nullable: false),
+                    RentId = table.Column<long>(nullable: false),
+                    EventDate = table.Column<DateTime>(nullable: false),
+                    Message = table.Column<string>(maxLength: 128, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RentEvents", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RentEvents_Rents_RentId",
+                        column: x => x.RentId,
+                        principalTable: "Rents",
+                        principalColumn: "RequestId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -780,6 +810,11 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 column: "PictureId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RentEvents_RentId",
+                table: "RentEvents",
+                column: "RentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RentRequests_ProductId",
                 table: "RentRequests",
                 column: "ProductId");
@@ -886,7 +921,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 name: "RentCosts");
 
             migrationBuilder.DropTable(
-                name: "Rents");
+                name: "RentEvents");
 
             migrationBuilder.DropTable(
                 name: "RequestEvents");
@@ -910,13 +945,16 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "RentRequests");
+                name: "Rents");
 
             migrationBuilder.DropTable(
                 name: "TodoLists");
 
             migrationBuilder.DropTable(
                 name: "Pictures");
+
+            migrationBuilder.DropTable(
+                name: "RentRequests");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

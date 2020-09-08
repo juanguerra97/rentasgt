@@ -56,6 +56,8 @@ namespace rentasgt.Infrastructure.Persistence
 
         public DbSet<Rent> Rents { get; set; }
 
+        public DbSet<RentEvent> RentEvents { get; set; }
+
         public DbSet<RentCost> RentCosts { get; set; }
 
         public DbSet<RentRequest> RentRequests { get; set; }
