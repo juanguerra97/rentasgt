@@ -42,7 +42,7 @@ namespace rentasgt.Application.Rents.Commands.CancelRent
 
             if (entity.Status != RentStatus.Pending)
             {
-                throw new InvalidStateException($"No se puede iniciar una renta en estado {entity.Status}");
+                throw new InvalidStateException($"No se puede cancelar una renta en estado {entity.Status}");
             }
 
             var userId = this.currentUserService.UserId;
