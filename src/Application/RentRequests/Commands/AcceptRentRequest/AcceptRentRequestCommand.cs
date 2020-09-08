@@ -67,7 +67,7 @@ namespace rentasgt.Application.RentRequests.Commands.AcceptRentRequest
                 throw new InvalidStateException("Hay conflicto con la fecha actual");
             }
 
-            if (await this.context.RentRequests.Where(rq => rq.Status == RequestStatus.Accepted).Where(rq => (entity.StartDate.CompareTo(rq.StartDate) >= 0 && entity.StartDate.CompareTo(rq.EndDate) <= 0) || (entity.EndDate.CompareTo(rq.StartDate) >= 0 && entity.EndDate.CompareTo(rq.EndDate) <= 0) || (entity.StartDate.CompareTo(rq.StartDate) <= 0 && (entity.EndDate.CompareTo(rq.EndDate) >= 0))).AnyAsync())
+            if (await this.context.RentRequests.Where(rq => rq.Status == RequestStatus.Accepted && rq.Product.Id == entity.Product.Id).Where(rq => (entity.StartDate.CompareTo(rq.StartDate) >= 0 && entity.StartDate.CompareTo(rq.EndDate) <= 0) || (entity.EndDate.CompareTo(rq.StartDate) >= 0 && entity.EndDate.CompareTo(rq.EndDate) <= 0) || (entity.StartDate.CompareTo(rq.StartDate) <= 0 && (entity.EndDate.CompareTo(rq.EndDate) >= 0))).AnyAsync())
             {
                 throw new InvalidStateException("Hay conflicto con otra solicitud");
             }

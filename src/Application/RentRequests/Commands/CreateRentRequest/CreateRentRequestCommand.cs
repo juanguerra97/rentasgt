@@ -66,7 +66,7 @@ namespace rentasgt.Application.RentRequests.Commands.CreateRentRequest
                 throw new InvalidRentRequestException("No puedes rentar un artículo por menos de 12 horas");
             }
 
-            var conflicts = await this.context.RentRequests.Where(rq => rq.Status == RequestStatus.Accepted).Where(rq => (request.StartDate.CompareTo(rq.StartDate) >= 0 && request.StartDate.CompareTo(rq.EndDate) <= 0) || (request.EndDate.CompareTo(rq.StartDate) >= 0 && request.EndDate.CompareTo(rq.EndDate) <= 0) || (request.StartDate.CompareTo(rq.StartDate) <= 0 && (request.EndDate.CompareTo(rq.EndDate) >= 0))).ToListAsync();
+            var conflicts = await this.context.RentRequests.Where(rq => rq.Product.Id == productEntity.Id && rq.Status == RequestStatus.Accepted).Where(rq => (request.StartDate.CompareTo(rq.StartDate) >= 0 && request.StartDate.CompareTo(rq.EndDate) <= 0) || (request.EndDate.CompareTo(rq.StartDate) >= 0 && request.EndDate.CompareTo(rq.EndDate) <= 0) || (request.StartDate.CompareTo(rq.StartDate) <= 0 && (request.EndDate.CompareTo(rq.EndDate) >= 0))).ToListAsync();
             if (conflicts.Any())
             {
                 throw new InvalidRentRequestException("Conflicto de fechas");
