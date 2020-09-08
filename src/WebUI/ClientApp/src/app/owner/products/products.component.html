@@ -3,8 +3,10 @@
 
   <div *ngIf="products.length > 0"
        class="col-12">
-    <div class="d-flex p-0 p-md-2">
+    <div class="d-flex p-0 p-md-2" style="gap: 10px">
       <h2 class="pantalla-title flex-fill">Productos</h2>
+      <button [routerLink]="['/propietario/solicitudes']" 
+        pButton label="Solicitudes" type="button" class="p-button-sm p-button-raised p-button-circle"></button>
       <button [routerLink]="['nuevo']" pButton icon="pi pi-plus" type="button" class="p-button-sm"></button>
     </div>
 
