@@ -92,6 +92,13 @@ namespace rentasgt.Infrastructure
                             return Task.CompletedTask;
                         }
                     };
+                }).AddGoogle(options =>
+                {
+                    IConfigurationSection googleAuthNSection =
+                        configuration.GetSection("Authentication:Google");
+
+                    options.ClientId = googleAuthNSection["ClientId"];
+                    options.ClientSecret = googleAuthNSection["ClientSecret"];
                 });
 
             services.AddAuthorization(config =>
