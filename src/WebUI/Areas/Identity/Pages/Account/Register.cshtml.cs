@@ -7,6 +7,7 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using rentasgt.Domain.Entities;
+using rentasgt.Domain.Enums;
 
 namespace rentasgt.WebUI.Areas.Identity.Pages.Account
 {
@@ -46,20 +48,32 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+
+            [Display(Name = "Foto de perfil")]
+            public IFormFile ProfilePicture { get; set; }
+
+            [Required(AllowEmptyStrings = false, ErrorMessage = "El nombre es obligatorio")]
+            [Display(Name = "Nombre")]
+            public string FirstName { get; set; }
+
+            [Required(AllowEmptyStrings = false, ErrorMessage = "El apellido es obligatorio")]
+            [Display(Name = "Apellido")]
+            public string LastName { get; set; }
+
+            [Required(AllowEmptyStrings = false, ErrorMessage = "El correo es obligatorio")]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "Correo")]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Debes proveer una contraseña")]
+            [StringLength(100, ErrorMessage = "La {0} debe tener entre {2} y {1} caracteres de longitud", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Contraseña")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Repite la contraseña")]
+            [Compare("Password", ErrorMessage = "Las contraseñas no coinciden")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -75,7 +89,12 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = Input.Email, Email = Input.Email };
+                var user = new AppUser 
+                { 
+                    ProfileStatus = UserProfileStatus.Incomplete,
+                    FirstName = Input.FirstName, LastName = Input.LastName,
+                    UserName = Input.Email, Email = Input.Email 
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

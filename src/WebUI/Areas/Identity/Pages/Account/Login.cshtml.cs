@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using rentasgt.Domain.Entities;
+using rentasgt.Domain.Enums;
 
 namespace rentasgt.WebUI.Areas.Identity.Pages.Account
 {
@@ -45,13 +46,15 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
+            [Display(Name = "Usuario")]
             public string Email { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
+            [Display(Name = "Contraseña")]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Mantenme logueado?")]
             public bool RememberMe { get; set; }
         }
 
@@ -78,8 +81,24 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+
+                var user = await _userManager.FindByNameAsync(Input.Email);
+                if (user != null)
+                {
+                    if (user.ProfileStatus == UserProfileStatus.Inactive)
+                    {
+                        ModelState.AddModelError(string.Empty, "Credenciales inválidas");
+                        return Page();
+                    } 
+                    else if (user.ProfileStatus == UserProfileStatus.Rejected)
+                    {
+                        ModelState.AddModelError(string.Empty, "Tu cuenta no fué aprobada");
+                        return Page();
+                    }
+                }
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
@@ -97,7 +116,7 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Credenciales inválidas");
                     return Page();
                 }
             }

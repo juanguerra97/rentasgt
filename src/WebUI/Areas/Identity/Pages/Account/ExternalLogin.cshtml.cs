@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using rentasgt.Domain.Entities;
+using rentasgt.Domain.Enums;
 
 namespace rentasgt.WebUI.Areas.Identity.Pages.Account
 {
@@ -49,8 +51,20 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+
+            [Display(Name = "Foto de perfil")]
+            public IFormFile ProfilePicture { get; set; }
+
+            [Required(AllowEmptyStrings = false, ErrorMessage = "El nombre es obligatorio")]
+            [Display(Name = "Nombre")]
+            public string FirstName { get; set; }
+
+            [Required(AllowEmptyStrings = false, ErrorMessage = "El apellido es obligatorio")]
+            [Display(Name = "Apellido")]
+            public string LastName { get; set; }
+
             [EmailAddress]
+            [Display(Name = "Correo")]
             public string Email { get; set; }
         }
 
@@ -98,12 +112,18 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
                 // If the user does not have an account, then ask the user to create an account.
                 ReturnUrl = returnUrl;
                 ProviderDisplayName = info.ProviderDisplayName;
+                Input = new InputModel();
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
                 {
-                    Input = new InputModel
-                    {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-                    };
+                    Input.Email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                }
+                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.GivenName))
+                {
+                    Input.FirstName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
+                }
+                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Surname))
+                {
+                    Input.LastName = info.Principal.FindFirstValue(ClaimTypes.Surname);
                 }
                 return Page();
             }
@@ -120,9 +140,29 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
+            if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+            {
+                Input.Email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            }
+
+            Console.WriteLine("----------------------------------------------------");
+            foreach (var c in info.Principal.Claims)
+            {
+                Console.WriteLine($"{c.Type}: {c.Value}");
+            }
+
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = Input.Email, Email = Input.Email };
+
+                
+
+                var user = new AppUser 
+                { 
+                    ProfileStatus = UserProfileStatus.Incomplete,
+                    FirstName = Input.FirstName, LastName = Input.LastName,
+                    UserName = Input.Email, Email = Input.Email,
+                    EmailConfirmed = true
+                };
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
