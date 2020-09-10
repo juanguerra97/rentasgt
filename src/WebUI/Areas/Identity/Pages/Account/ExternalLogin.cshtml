@@ -4,9 +4,55 @@
     ViewData["Title"] = "Registro";
 }
 
-<h1>@ViewData["Title"]</h1>
-<h4 id="external-login-title">Asocia tu cuenta de @Model.ProviderDisplayName</h4>
-<hr />
+<section class="login-block">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="auth-box card">
+
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-md-12 d-flex flex-column align-items-center">
+                                <img src="https://img.icons8.com/color/128/000000/google-logo.png" style="width: 128px">
+                                <p class="text-center">@Model.Input.Email</p>
+                                @*<h3 class="text-center heading">Hola @Model.Input.FirstName</h3>*@
+                                
+                                <p><span style="font-size: 16px">Hola <span style="font-weight: bold">@Model.Input.FirstName</span></span>, para terminar tu registro confirma o actualiza tu nombre y apellido.</p>
+                            </div>
+                        </div>
+
+                        <div asp-validation-summary="All" class="text-danger validation-summary text-center"></div>
+
+                        <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="md-float-material form-material">
+
+                            <div class="form-row">
+                                <div class="col-6 form-group">
+                                    @*<label asp-for="Input.FirstName"></label>*@
+                                    <input asp-for="Input.FirstName" class="form-control" placeholder="Nombre" />
+                                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                                </div>
+                                <div class="col-6 form-group">
+                                    @*<label asp-for="Input.LastName"></label>*@
+                                    <input asp-for="Input.LastName" class="form-control" placeholder="Apellido" />
+                                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20 bg-grad-3">Crear cuenta</button>
+                                </div>
+                            </div>                           
+
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <p id="external-login-description" class="text-info">
     Has iniciado sesi&oacute;n con tu cuenta de <strong>@Model.ProviderDisplayName</strong>.

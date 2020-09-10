@@ -44,12 +44,12 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Usuario")]
+            [Required(ErrorMessage = "Ingresa tu correo")]
+            [EmailAddress(ErrorMessage = "Ingresa una dirección de correo válida")]
+            [Display(Name = "Correo")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Ingresa tu contraseña")]
             [DataType(DataType.Password)]
             [Display(Name = "Contraseña")]
             public string Password { get; set; }
@@ -77,6 +77,9 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+
             returnUrl = returnUrl ?? Url.Content("~/");
 
             if (ModelState.IsValid)
@@ -120,7 +123,6 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
                     return Page();
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return Page();
         }

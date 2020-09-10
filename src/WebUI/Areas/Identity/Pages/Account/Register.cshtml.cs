@@ -61,7 +61,7 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
             public string LastName { get; set; }
 
             [Required(AllowEmptyStrings = false, ErrorMessage = "El correo es obligatorio")]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "Dirección de correo inválida")]
             [Display(Name = "Correo")]
             public string Email { get; set; }
 

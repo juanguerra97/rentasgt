@@ -63,7 +63,7 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
             [Display(Name = "Apellido")]
             public string LastName { get; set; }
 
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "Correo inválido")]
             [Display(Name = "Correo")]
             public string Email { get; set; }
         }
