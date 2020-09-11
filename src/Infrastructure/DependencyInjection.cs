@@ -53,9 +53,10 @@ namespace rentasgt.Infrastructure
                     //        c.AllowedScopes.Add("roles");
                     //    }
                     //}
-                });
+                })
+                .AddProfileService<CustomProfileService>();
 
-            services.AddTransient<IProfileService, IdentityClaimsProfileService>();
+            //services.AddTransient<IProfileService, IdentityClaimsProfileService>();
 
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<ILocation, LocationService>();
@@ -110,6 +111,8 @@ namespace rentasgt.Infrastructure
                         });
                         });
             });
+
+            //services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomClaimsPrincipalFactory>();
 
             return services;
         }

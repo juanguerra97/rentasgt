@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthorizeService } from '../../api-authorization/authorize.service';
+import { AuthorizeService, IUser } from '../../api-authorization/authorize.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -16,7 +16,7 @@ export class NavMenuComponent implements OnInit {
   public isAuthenticated: Observable<boolean>;
   public isAdmin: Observable<boolean>;
   public isModerador: Observable<boolean>;
-  public userName: Observable<string>;
+  public email: Observable<string>;
   public searchText = '';
 
   constructor(
@@ -28,7 +28,7 @@ export class NavMenuComponent implements OnInit {
     this.isAuthenticated = this.authorizeService.isAuthenticated();
     this.isAdmin = this.authorizeService.isAdmin();
     this.isModerador = this.authorizeService.isModerador();
-    this.userName = this.authorizeService.getUser().pipe(map(u => u && u.name));
+    this.email = this.authorizeService.getUser().pipe(map(u => u && u.email));
     window.addEventListener('click', (e) => {
       if (this.submenuTarget !== null && e.target !== this.submenuTarget.lastChild) {
         this.submenuTarget.lastChild.classList.remove('show');

@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
         await this.login(this.getReturnUrl());
         break;
       case LoginActions.LoginCallback:
-        await this.processLoginCallback();
+        setTimeout(async () => await this.processLoginCallback(), 1000);
         break;
       case LoginActions.LoginFailed:
         const message = this.activatedRoute.snapshot.queryParamMap.get(QueryParameterNames.Message);

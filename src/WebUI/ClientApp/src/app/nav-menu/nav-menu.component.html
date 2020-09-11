@@ -28,7 +28,7 @@
       </li>
       <ng-container *ngIf="isAuthenticated | async;else notAuthenticated">
         <li (click)="onSubmenuClicked($event)" class="nav-list-item">
-          <a class="nav-list-link">{{ userName | async }}</a>
+          <a class="nav-list-link">{{ email | async }}</a>
           <ul class="submenu">
             <li class="submenu-item">
               <a [routerLink]='["/solicitudes"]' title="Solicitudes" class="submenu-link"><i class="fa"></i>&nbsp;Solicitudes</a>
