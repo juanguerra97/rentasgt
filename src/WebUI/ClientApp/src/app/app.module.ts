@@ -22,10 +22,12 @@ import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { DpiEditComponent } from './dpi-edit/dpi-edit.component';
 import { AddressEditComponent } from './address-edit/address-edit.component';
 import {OnlyModeradorGuard} from '../api-authorization/only-moderador.guard';
+import {AppLayoutComponent} from './app-layout/app-layout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    AppLayoutComponent,
     NavMenuComponent,
     HomeComponent,
     ProductsComponent,
@@ -47,19 +49,22 @@ import {OnlyModeradorGuard} from '../api-authorization/only-moderador.guard';
     AppCommonModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
-        canActivate: [OnlyAdminGuard], canActivateChild: [OnlyAdminGuard], },
-      { path: 'moderador', loadChildren: () => import('./moderador/moderador.module').then(m => m.ModeradorModule),
-        canActivate: [OnlyModeradorGuard], canActivateChild: [OnlyModeradorGuard], },
-      { path: 'propietario', loadChildren: () => import('./owner/owner.module').then(m => m.OwnerModule),
-        canActivate: [AuthorizeGuard], canActivateChild: [AuthorizeGuard]
-      },
-      { path: 'articulos', component: ProductsComponent },
-      { path: 'articulos/detalle/:id', component: ProductDetailComponent },
-      { path: 'mensajes', component: ChatsComponent, canActivate: [AuthorizeGuard] },
-      { path: 'solicitudes', component: RentRequestsRequestorComponent, canActivate: [AuthorizeGuard] },
-      { path: 'rentas', component: RentsComponent, canActivate: [AuthorizeGuard] },
-      { path: 'perfil', component: UserProfileComponent, canActivate: [AuthorizeGuard] },
+      { path: '', component: AppLayoutComponent, children: [
+          { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+            canActivate: [OnlyAdminGuard], canActivateChild: [OnlyAdminGuard], },
+          { path: 'moderador', loadChildren: () => import('./moderador/moderador.module').then(m => m.ModeradorModule),
+            canActivate: [OnlyModeradorGuard], canActivateChild: [OnlyModeradorGuard], },
+          { path: 'propietario', loadChildren: () => import('./owner/owner.module').then(m => m.OwnerModule),
+            canActivate: [AuthorizeGuard], canActivateChild: [AuthorizeGuard]
+          },
+          { path: 'articulos', component: ProductsComponent },
+          { path: 'articulos/detalle/:id', component: ProductDetailComponent },
+          { path: 'mensajes', component: ChatsComponent, canActivate: [AuthorizeGuard] },
+          { path: 'solicitudes', component: RentRequestsRequestorComponent, canActivate: [AuthorizeGuard] },
+          { path: 'rentas', component: RentsComponent, canActivate: [AuthorizeGuard] },
+          { path: 'perfil', component: UserProfileComponent, canActivate: [AuthorizeGuard] },
+        ]},
+
     ]),
   ],
   providers: [
