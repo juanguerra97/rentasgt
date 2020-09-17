@@ -8,7 +8,7 @@ import {
   InputTextModule, DropdownModule, GalleriaModule,
   DialogModule, CalendarModule, SliderModule,
   MessageModule, MessagesModule, MessageService,
-  TableModule,
+  TableModule, ProgressBarModule, ProgressSpinnerModule,
 } from 'primeng';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
@@ -48,6 +48,8 @@ import { AngularCropperjsModule } from 'angular-cropperjs';
     MessageModule,
     MessagesModule,
     TableModule,
+    ProgressBarModule,
+    ProgressSpinnerModule,
     MatDialogModule,
     MatInputModule,
     MatButtonModule,
@@ -83,6 +85,8 @@ import { AngularCropperjsModule } from 'angular-cropperjs';
     MessageModule,
     MessagesModule,
     TableModule,
+    ProgressSpinnerModule,
+    ProgressBarModule,
     MatDialogModule,
     MatInputModule,
     MatButtonModule,

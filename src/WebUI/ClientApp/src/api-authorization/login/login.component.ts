@@ -15,6 +15,7 @@ import { LoginActions, QueryParameterNames, ApplicationPaths, ReturnUrlType } fr
 })
 export class LoginComponent implements OnInit {
   public message = new BehaviorSubject<string>(null);
+  public loading = true;
 
   constructor(
     private authorizeService: AuthorizeService,
@@ -80,6 +81,7 @@ export class LoginComponent implements OnInit {
         this.message.next(result.message);
         break;
     }
+    this.loading = false;
   }
 
   private redirectToRegister(): any {

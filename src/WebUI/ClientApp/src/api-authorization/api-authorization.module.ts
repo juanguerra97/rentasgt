@@ -6,10 +6,11 @@ import { LogoutComponent } from './logout/logout.component';
 import { RouterModule } from '@angular/router';
 import { ApplicationPaths } from './api-authorization.constants';
 import { HttpClientModule } from '@angular/common/http';
+import { AppCommonModule } from '../app/app-common/app-common.module';
 
 @NgModule({
   imports: [
-    CommonModule,
+    AppCommonModule,
     HttpClientModule,
     RouterModule.forChild(
       [

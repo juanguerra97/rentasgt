@@ -1,5 +1,8 @@
 
 <app-nav-menu></app-nav-menu>
+<div *ngIf="showSpinner" class="container-fluid d-flex flex-column align-items-center justify-content-center" style="height: 80vh">
+  <p-progressSpinner></p-progressSpinner>
+</div>
 <div class="container-fluid">
   <router-outlet></router-outlet>
 </div>
