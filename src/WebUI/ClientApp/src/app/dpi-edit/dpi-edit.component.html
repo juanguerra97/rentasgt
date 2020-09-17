@@ -1,0 +1,57 @@
+
+<mat-tab-group>
+  <mat-tab label="DPI">
+    <div class="d-flex flex-column justify-content-center align-items-center">
+
+      <mat-form-field class="w-100 mt-3">
+        <mat-label>Cui</mat-label>
+        <input matInput [formControl]="cuiNameControl">
+      </mat-form-field>
+
+      <p class="psmall text-center" style="max-width: 300px;">T&oacute;male una foto a tu DPI y s&uacute;bela. La foto que subas s&oacute;lo se utilizar&aacute; para verificar tu identidad y en ning&uacute;n momento la compartiremos con alguien m&aacute;s.</p>
+
+      <div *ngIf="!dpiImg" [ngClass]="{'image-wrapper': true, 'image-wrapper-shadow': user.dpiPicture}">
+        <img *ngIf="user.dpiPicture" src="{{ user.dpiPicture.pictureContent }}" alt="{{user.firstName}}">
+      </div>
+      <div *ngIf="dpiImg" class="image-wrapper image-wrapper-shadow">
+        <angular-cropper #dpiCropper [cropperOptions]="dpiCropperConf" [imageUrl]="dpiImg.origContent" [ngClass]="{'hide': !dpiImg}" ></angular-cropper>
+      </div>
+
+      <div class="input-wrapper mt-1">
+        <button pButton label="Seleccionar" type="button" class="p-button-sm p-button-raised w-100"></button>
+        <input (change)="onDpiImgFileChange($event)"
+               type="file" accept="image/*" />
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Foto">
+    <div class="d-flex flex-column justify-content-center align-items-center">
+
+      <p class="psmall text-center mt-3 p-0" style="max-width: 300px;">T&oacute;mate una foto del rostro y s&uacute;bela para que podamos verificarla con la foto de tu DPI. Esta foto no podr&aacute; ser vista por otros usuarios.</p>
+
+      <div *ngIf="!userImg" [ngClass]="{'image-wrapper mt-3': true, 'image-wrapper-shadow': user.userPicture}">
+        <img *ngIf="user.userPicture" src="{{ user.userPicture.pictureContent }}" alt="{{user.firstName}}">
+      </div>
+      <div *ngIf="userImg" class="image-wrapper image-wrapper-shadow">
+        <angular-cropper #userCropper [cropperOptions]="userCropperConf" [imageUrl]="userImg.origContent" [ngClass]="{'hide': !userImg}" ></angular-cropper>
+      </div>
+
+      <div class="input-wrapper mt-1">
+        <button pButton label="Seleccionar" type="button" class="p-button-sm p-button-raised w-100"></button>
+        <input (change)="onUserImgFileChange($event)"
+               type="file" accept="image/*" />
+      </div>
+
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+
+
+<div class="container-fluid">
+    <div class="col-12 d-flex justify-content-end mt-1">
+      <button (click)="onUpdateDpi()" [disabled]="!dpiImg || !userImg || !cuiNameControl.valid" mat-button>Enviar</button>
+    </div>
+</div>
+
+

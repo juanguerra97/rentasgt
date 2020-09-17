@@ -8,12 +8,19 @@ import {
   InputTextModule, DropdownModule, GalleriaModule,
   DialogModule, CalendarModule, SliderModule,
   MessageModule, MessagesModule, MessageService,
+  TableModule,
 } from 'primeng';
+import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ImgCropperComponent } from './img-cropper/img-cropper.component';
 import { SelectLocationComponent } from './select-location/select-location.component';
 import { AgmCoreModule } from '@agm/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
+import { AngularCropperjsModule } from 'angular-cropperjs';
 
 @NgModule({
   declarations: [
@@ -40,6 +47,13 @@ import { AgmCoreModule } from '@agm/core';
     SliderModule,
     MessageModule,
     MessagesModule,
+    TableModule,
+    MatDialogModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTabsModule,
+    AngularCropperjsModule,
     ModalModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: '<API_KEY>',
@@ -68,6 +82,13 @@ import { AgmCoreModule } from '@agm/core';
     SliderModule,
     MessageModule,
     MessagesModule,
+    TableModule,
+    MatDialogModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTabsModule,
+    AngularCropperjsModule,
     SelectLocationComponent,
   ],
   providers: [MessageService]

@@ -26,3 +26,12 @@ code {
 agm-map {
   height: 250px;
 }
+
+.psmall {
+  font-size: 0.75rem;
+  padding: 0;
+  margin: 0;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

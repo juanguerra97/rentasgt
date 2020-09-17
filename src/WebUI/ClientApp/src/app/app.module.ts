@@ -16,9 +16,12 @@ import { ProductsComponent } from './products/products.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ChatsComponent } from './chats/chats.component';
 import { RentRequestsRequestorComponent } from './rent-requests-requestor/rent-requests-requestor.component';
-import { NbThemeModule, NbLayoutModule } from '@nebular/theme';
-import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { RentsComponent } from './rents/rents.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ProfileEditComponent } from './profile-edit/profile-edit.component';
+import { DpiEditComponent } from './dpi-edit/dpi-edit.component';
+import { AddressEditComponent } from './address-edit/address-edit.component';
+import {OnlyModeradorGuard} from '../api-authorization/only-moderador.guard';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,10 @@ import { RentsComponent } from './rents/rents.component';
     ChatsComponent,
     RentRequestsRequestorComponent,
     RentsComponent,
+    UserProfileComponent,
+    ProfileEditComponent,
+    DpiEditComponent,
+    AddressEditComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -42,6 +49,8 @@ import { RentsComponent } from './rents/rents.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
         canActivate: [OnlyAdminGuard], canActivateChild: [OnlyAdminGuard], },
+      { path: 'moderador', loadChildren: () => import('./moderador/moderador.module').then(m => m.ModeradorModule),
+        canActivate: [OnlyModeradorGuard], canActivateChild: [OnlyModeradorGuard], },
       { path: 'propietario', loadChildren: () => import('./owner/owner.module').then(m => m.OwnerModule),
         canActivate: [AuthorizeGuard], canActivateChild: [AuthorizeGuard]
       },
@@ -50,10 +59,8 @@ import { RentsComponent } from './rents/rents.component';
       { path: 'mensajes', component: ChatsComponent, canActivate: [AuthorizeGuard] },
       { path: 'solicitudes', component: RentRequestsRequestorComponent, canActivate: [AuthorizeGuard] },
       { path: 'rentas', component: RentsComponent, canActivate: [AuthorizeGuard] },
+      { path: 'perfil', component: UserProfileComponent, canActivate: [AuthorizeGuard] },
     ]),
-    NbThemeModule.forRoot({ name: 'default' }),
-    NbLayoutModule,
-    NbEvaIconsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },

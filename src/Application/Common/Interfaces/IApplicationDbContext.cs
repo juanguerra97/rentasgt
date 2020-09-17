@@ -11,6 +11,8 @@ namespace rentasgt.Application.Common.Interfaces
 
         DbSet<TodoItem> TodoItems { get; set; }
 
+        DbSet<AppUser> AppUsers { get; set; }
+
         DbSet<AddressPicture> AddressPictures { get; set; }
 
         DbSet<Category> Categories { get; set; }

@@ -28,7 +28,7 @@ export class NavMenuComponent implements OnInit {
     this.isAuthenticated = this.authorizeService.isAuthenticated();
     this.isAdmin = this.authorizeService.isAdmin();
     this.isModerador = this.authorizeService.isModerador();
-    this.email = this.authorizeService.getUser().pipe(map(u => u && u.email));
+    this.email = this.authorizeService.getUser().pipe(map(u => u && u.email ));
     window.addEventListener('click', (e) => {
       if (this.submenuTarget !== null && e.target !== this.submenuTarget.lastChild) {
         this.submenuTarget.lastChild.classList.remove('show');

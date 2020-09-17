@@ -161,7 +161,9 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
                     ProfileStatus = UserProfileStatus.Incomplete,
                     FirstName = Input.FirstName, LastName = Input.LastName,
                     UserName = Input.Email, Email = Input.Email,
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    ValidatedDpi = false,
+                    ValidatedAddress = false
                 };
 
                 var result = await _userManager.CreateAsync(user);

@@ -1,0 +1,34 @@
+
+
+.profile-pic {
+  margin: 0 auto;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
+}
+
+.img-wrapper {
+  max-width: 400px;
+  max-height: 400px;
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  border-radius: .125rem;
+  box-shadow: #495057 0 0 3px;
+}
+
+.img-wrapper img{
+  margin: 0 auto;
+}
+
+.img-wrapper-w img {
+  width: 400px;
+  height: auto;
+}
+
+.img-wrapper-h img {
+  height: 400px;
+  width: auto;
+}
+

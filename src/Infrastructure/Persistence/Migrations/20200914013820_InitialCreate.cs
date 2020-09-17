@@ -45,7 +45,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     FirstName = table.Column<string>(maxLength: 128, nullable: false),
                     LastName = table.Column<string>(maxLength: 128, nullable: false),
                     Cui = table.Column<string>(fixedLength: true, maxLength: 13, nullable: true),
-                    Address = table.Column<string>(maxLength: 256, nullable: true)
+                    ValidatedDpi = table.Column<bool>(nullable: false),
+                    Address = table.Column<string>(maxLength: 256, nullable: true),
+                    ValidatedAddress = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

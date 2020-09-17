@@ -14,7 +14,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.0")
+                .HasAnnotation("ProductVersion", "3.1.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
@@ -319,6 +319,12 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
                         .HasMaxLength(256);
+
+                    b.Property<bool>("ValidatedAddress")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("ValidatedDpi")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
@@ -1159,8 +1165,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.HasOne("rentasgt.Domain.Entities.AppUser", "User")
                         .WithOne("ProfilePicture")
                         .HasForeignKey("rentasgt.Domain.Entities.ProfilePicture", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.Rent", b =>

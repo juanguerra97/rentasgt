@@ -17,7 +17,7 @@
       <li *ngIf="isModerador | async" (click)="onSubmenuClicked($event)" class="nav-list-item">
         <a class="nav-list-link">Moderador</a>
         <ul class="submenu">
-
+          <li class="submenu-item"><a [routerLink]='["/moderador/usuarios"]' class="submenu-link">Usuarios</a></li>
         </ul>
       </li>
       <li *ngIf="isAdmin | async" (click)="onSubmenuClicked($event)" class="nav-list-item">
@@ -40,7 +40,7 @@
               <a [routerLink]='["/propietario/productos"]' title="Tus articulos" class="submenu-link"><i class="pi pi-palette"></i>&nbsp;Tus art&iacute;culos</a>
             </li>
             <li class="submenu-item">
-              <a [routerLink]='["/authentication/profile"]' title="Perfil" class="submenu-link"><i class="pi pi-user"></i>&nbsp;Perfil</a>
+              <a [routerLink]='["/perfil"]' title="Perfil" class="submenu-link"><i class="pi pi-user"></i>&nbsp;Perfil</a>
             </li>
             <li class="submenu-item">
               <a [routerLink]='["/authentication/logout"]' [state]='{ local: true }' class="submenu-link" title="Logout"><i class="pi pi-sign-out"></i>&nbsp;Salir</a>

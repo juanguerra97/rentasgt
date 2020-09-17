@@ -230,6 +230,6 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 
-
+*.code-workspace
 src/WebUI/wwwroot/uploads/
 src/WebUI/ClientApp/src/app/rentasgt-api.ts

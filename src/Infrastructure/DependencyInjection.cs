@@ -109,7 +109,12 @@ namespace rentasgt.Infrastructure
                         options.RequireAssertion(context => {
                             return context.User.HasClaim(c => (c.Type == ClaimTypes.Role || c.Type == JwtClaimTypes.Role) && c.Value == "Admin");
                         });
-                        });
+                    });
+                config.AddPolicy("OnlyModerador", options => {
+                    options.RequireAssertion(context => {
+                        return context.User.HasClaim(c => (c.Type == ClaimTypes.Role || c.Type == JwtClaimTypes.Role) && c.Value == "Moderador");
+                    });
+                });
             });
 
             //services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomClaimsPrincipalFactory>();

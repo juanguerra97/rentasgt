@@ -1,0 +1,60 @@
+
+
+<mat-tab-group>
+  <mat-tab label="Foto de perfil">
+
+    <div class="d-flex flex-column align-items-center mt-3" style="gap: 8px">
+
+      <div *ngIf="!profileImg" [ngClass]="{'image-wrapper': true, 'image-wrapper-shadow': user.profilePicture}">
+        <img *ngIf="user.profilePicture" src="{{ user.profilePicture.pictureContent }}" alt="{{user.firstName}}">
+        <img *ngIf="!user.profilePicture" src="/assets/user.png">
+      </div>
+
+      <div *ngIf="profileImg" class="image-wrapper image-wrapper-shadow">
+        <angular-cropper #profileCropper  [cropperOptions]="profileCropperConf" [imageUrl]="profileImg.origContent" [ngClass]="{'hide': !profileImg}" ></angular-cropper>
+      </div>
+
+    </div>
+
+    <div class="col-12 d-flex mt-3">
+      <div class="d-flex">
+        <div class="input-wrapper">
+          <button pButton label="Seleccionar" class="p-button-sm p-button-raised w-100" type="button"></button>
+          <input (change)="onImgFileChange($event)"
+                 type="file" accept="image/*" />
+        </div>
+      </div>
+      <div class="d-flex justify-content-end flex-fill">
+        <button (click)="onUpdateProfilePic()" [disabled]="!profileImg" mat-button>Guardar</button>
+      </div>
+    </div>
+
+  </mat-tab>
+
+  <mat-tab label="Tel&eacute;fono">
+    <mat-form-field class="w-100 mt-3">
+      <mat-label>N&uacute;mero de tel&eacute;fono</mat-label>
+      <input matInput [formControl]="phoneNumberControl">
+
+    </mat-form-field>
+
+    <div class="d-flex justify-content-end w-100">
+      <button [disabled]="!phoneNumberControl.valid || user.phoneNumber === phoneNumberControl.value"
+        (click)="onUpdatePhoneNumber()" pButton label="Guardar" class="p-button-raised p-button-sm"></button>
+    </div>
+
+  </mat-tab>
+</mat-tab-group>
+
+    <!--<div class="col-12 col-md-6 mt-2">
+      <mat-form-field class="w-100">
+        <mat-label>Nombre</mat-label>
+        <input matInput [formControl]="firstNameControl">
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-md-6">
+      <mat-form-field class="w-100">
+        <mat-label>Apellido</mat-label>
+        <input matInput [formControl]="lastNameControl">
+      </mat-form-field>
+    </div>-->

@@ -1,0 +1,114 @@
+
+<div class="container-fluid">
+<div class="row mt-3">
+  <div *ngIf="user" class="col-12 col-md-6 col-lg-3">
+
+    <h2 class="pantalla-title text-center">{{ user.firstName + ' ' + user.lastName }}</h2>
+
+    <div class="user-card">
+      <div *ngIf="user.profilePicture" class="user-img-container">
+        <img  src="{{ user.profilePicture.pictureContent }}" alt="{{user.firstName}}">
+
+      </div>
+      <div *ngIf="!user.profilePicture" class="default-user-img-container">
+        <img  src="/assets/user.png">
+      </div>
+      <div class="user-card-body">
+
+        <button (click)="openEditProfileDialog()" mat-mini-fab color="primary" style="margin-top: -1rem" class="float-right">
+          <li class="pi pi-user-edit"></li>
+        </button>
+
+        <div class="user-field">
+          <label>Nombre</label>
+          <p>{{ user.firstName }}</p>
+        </div>
+
+        <div class="user-field">
+          <label>Apellido</label>
+          <p>{{ user.lastName }}</p>
+        </div>
+
+        <div class="user-field">
+          <label>Correo electr&oacute;nico</label>
+          <p>{{ user.email }}</p>
+        </div>
+
+        <div *ngIf="user.phoneNumber" class="user-field">
+          <label>Tel&eacute;fono</label>
+          <p>{{ user.phoneNumber }}</p>
+        </div>
+
+        <p [ngClass]="{'psmall': true,
+          'text-warning': user.profileStatus == PROFILE_STATUS_INCOMPLETE
+            || user.profileStatus === PROFILE_STATUS_WAITING_FOR_APPROVAL,
+            'text-danger': user.profileStatus === PROFILE_STATUS_REJECTED,
+            'text-success': user.profileStatus === PROFILE_STATUS_ACTIVE}">{{ PROFILE_STATUS_LABELS[user.profileStatus] }}</p>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="user" class="col-12 mt-2 mt-md-0 col-md-6 col-lg-9 d-flex flex-column justify-content-center">
+
+    <div class="row">
+
+      <div class="col-12 col-lg-6 d-flex flex-column align-items-center justify-content-center">
+        <ng-container *ngIf="!user.dpiPicture">
+          <p>A&uacute;n no has ingresado tu identificaci&oacute;n</p>
+          <button (click)="openEditDpiDialog()" pButton label="Ingresar DPI" type="button" class="p-button-raised p-button-info p-button-rounded p-button-sm"></button>
+        </ng-container>
+        <ng-container *ngIf="user.dpiPicture">
+          <div class="user-field">
+            <label class="w-100 text-center">CUI</label>
+            <p *ngIf="user.cui">{{ user.cui }}</p>
+          </div>
+          <button *ngIf="!user.validatedDpi" (click)="openEditDpiDialog()" mat-icon-button style="">
+            <li class="pi pi-pencil"></li>
+          </button>
+          <div class="user-field">
+            <label class="w-100 text-center">DPI</label>
+          </div>
+          <div class="img-wrapper">
+            <img (load)="imgLoaded($event)" src="{{ user.dpiPicture.pictureContent }}" alt="DPI de {{ user.firstName }}">
+          </div>
+          <p *ngIf="!user.validatedDpi" class="p-invalid psmall p-0">Tu identificaci&oacute;n no ha sido verificada.</p>
+          <p *ngIf="user.validatedDpi" class="text-success psmall p-0">Identificaci&oacute;n verificada.</p>
+
+          <div class="user-field">
+            <label class="w-100 text-center">Foto</label>
+          </div>
+          <div class="img-wrapper">
+            <img (load)="imgLoaded($event)" src="{{ user.userPicture.pictureContent }}" alt="Foto de {{ user.firstName }}">
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="col-12 col-lg-6 d-flex flex-column align-items-center justify-content-center">
+        <ng-container *ngIf="!user.addressPicture">
+          <p>A&uacute;n no has ingresado tu direcci&oacute;n</p>
+          <button (click)="openEditAddressDialog()" pButton label="Ingresar direcci&oacute;n" type="button" class="p-button-raised p-button-info p-button-rounded p-button-sm"></button>
+        </ng-container>
+        <ng-container *ngIf="user.addressPicture">
+
+          <div class="user-field">
+            <label class="w-100 text-center">Direcci&oacute;n</label>
+            <p class="text-center">{{ user.address }}</p>
+          </div>
+
+          <button *ngIf="!user.validatedAddress" (click)="openEditAddressDialog()" mat-icon-button >
+            <li class="pi pi-pencil"></li>
+          </button>
+          <div class="img-wrapper">
+            <img *ngIf="user.addressPicture" (load)="imgLoaded($event)" src="{{ user.addressPicture.pictureContent }}" alt="Direcci&oacute;n de {{ user.firstName }}">
+          </div>
+          <p *ngIf="!user.validatedAddress" class="p-invalid psmall p-0">Tu direcci&oacute;n a&uacute;n no ha sido verificada.</p>
+          <p *ngIf="user.validatedAddress" class="text-success psmall p-0">Direcci&oacute;n verificada.</p>
+        </ng-container>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>

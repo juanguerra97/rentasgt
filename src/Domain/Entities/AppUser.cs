@@ -57,6 +57,8 @@ namespace rentasgt.Domain.Entities
         /// </summary>
         public DpiPicture? DpiPicture { get; set; }
 
+        public bool ValidatedDpi { get; set; }
+
         /// <summary>
         /// User's picture, this is used to verify against the picture in the official document and is kept private
         /// </summary>
@@ -65,7 +67,7 @@ namespace rentasgt.Domain.Entities
         /// <summary>
         /// User's public profile picture
         /// </summary>
-        public ProfilePicture ProfilePicture { get; set; }
+        public ProfilePicture? ProfilePicture { get; set; }
 
         /// <summary>
         /// User's address
@@ -76,6 +78,8 @@ namespace rentasgt.Domain.Entities
         /// Picture of a receipt or bill that demonstrates the user's address
         /// </summary>
         public AddressPicture? AddressPicture { get; set; }
+
+        public bool ValidatedAddress { get; set; }
 
         /// <summary>
         /// Products the user owns

@@ -1,0 +1,78 @@
+
+
+<div class="container-fluid mb-4">
+
+  <h2 class="pantalla-title mt-3 mb-0">Validaci&oacute;n de usuarios</h2>
+
+  <div class="row">
+    <div *ngIf="!selectedUser" class="col-12">
+      <p-table [value]="users" [loading]="loadingUsers" [paginator]="true"
+               [alwaysShowPaginator]="true" [rows]="PAGE_SIZE" [totalRecords]="pageInfo.totalCount"
+               (onPage)="loadUsers(PAGE_SIZE, $event.page + 1)"
+               [(selection)]="selectedUser" selectionMode="single" dataKey="id" (onRowSelect)="onUserSelected($event)">
+
+        <ng-template pTemplate="colgroup">
+          <colgroup>
+            <col style="width:70px; min-width: 70px">
+            <col style="width:40%">
+            <col style="width:40%">
+          </colgroup>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th></th>
+            <th>Nombre</th>
+            <th>Correo</th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+          <tr [pSelectableRow]="user">
+            <td><img [src]="user.profilePicture.pictureContent" [alt]="user.firstName" class="p-shadow-4 profile-pic" /></td>
+            <td>{{ user.firstName + ' ' + user.lastName }}</td>
+            <td><p>{{user.email}}</p></td>
+
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div *ngIf="selectedUser" class="col-12">
+      <button (click)="clearSelectedUser()" mat-icon-button><li class="pi pi-arrow-left"></li></button>
+
+      <div class="row">
+        <div class="col-12 col-md-6 d-flex flex-column align-items-center justify-content-center" style="gap: 10px">
+          <div class="form-group w-100">
+            <label>Cui</label>
+            <input [formControl]="cuiFormControl" type="text" class="form-control" [disabled]="selectedUser.validatedDpi">
+            <small *ngIf="selectedUser.validatedDpi" class="text-success psmall p-0">Identificaci&oacute;n verificada.</small>
+          </div>
+
+          <div class="img-wrapper">
+            <img (load)="imgLoaded($event)" src="{{ this.selectedUser.dpiPicture.pictureContent }}" alt="DPI">
+          </div>
+
+          <div class="img-wrapper">
+            <img (load)="imgLoaded($event)" src="{{ this.selectedUser.userPicture.pictureContent }}" alt="Foto">
+          </div>
+          <button *ngIf="!selectedUser.validatedDpi" (click)="onAcceptDpi()" [disabled]="acceptingDpi" pButton label="Aceptar identificaci&oacute;n" class="p-button-sm p-button-raised p-button-rounded"></button>
+        </div>
+
+        <div class="col-12 col-md-6 d-flex flex-column align-items-center" style="gap: 10px">
+          <div class="form-group w-100">
+            <label>Direcci&oacute;n</label>
+            <input [formControl]="addressFormControl" [disabled]="selectedUser.validatedAddress" type="text" class="form-control">
+            <p *ngIf="selectedUser.validatedAddress" class="text-success psmall p-0">Direcci&oacute;n verificada.</p>
+          </div>
+          <div class="img-wrapper">
+            <img (load)="imgLoaded($event)" src="{{ selectedUser.addressPicture.pictureContent }}" alt="Direcci&oacute;n">
+          </div>
+          <button *ngIf="!selectedUser.validatedAddress" (click)="onAcceptAddress()" [disabled]="acceptingAddress" pButton label="Aceptar direcci&oacute;n" class="p-button-sm p-button-raised p-button-rounded"></button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

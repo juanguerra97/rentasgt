@@ -1,0 +1,34 @@
+
+
+<div class="d-flex flex-column align-items-center" style="width: 300px">
+
+  <h2 class="mt-2">Direcci&oacute;n</h2>
+
+    <mat-form-field class="w-100">
+      <mat-label>Direcci&oacute;n</mat-label>
+      <input matInput [formControl]="addressControl">
+    </mat-form-field>
+
+  <p class="psmall text-center p-0" style="max-width: 300px;">Sube una foto de un recibo con el que podamos verificar tu direcci&oacute;n. Esta foto no podr&aacute; ser vista por otros usuarios.</p>
+
+  <div *ngIf="user.addressPicture && !addressImg" class="image-wrapper">
+        <img (load)="imgLoaded($event)"  src="{{ user.addressPicture.pictureContent }}" alt="{{user.firstName}}">
+  </div>
+
+  <div *ngIf="addressImg" class="image-wrapper">
+    <img (load)="imgLoaded($event)" src="{{ addressImg.origContent }}">
+  </div>
+
+    <div class="d-flex mt-1 w-100">
+      <div class="input-wrapper">
+        <button pButton label="Seleccionar" type="button" class="p-button-raised p-button-sm w-100"></button>
+        <input (change)="onImgFileChange($event)"
+               type="file" accept="image/*" />
+      </div>
+      <div class="d-flex justify-content-end flex-fill">
+        <button (click)="onUpdateAddress()" [disabled]="!addressControl.valid  || (!user.addressPicture && !addressImg)" mat-button>Listo</button>
+      </div>
+    </div>
+
+</div>
+

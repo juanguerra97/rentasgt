@@ -34,6 +34,8 @@ namespace rentasgt.Infrastructure.Persistence
 
         public DbSet<TodoItem> TodoItems { get; set; }
 
+        public DbSet<AppUser> AppUsers { get; set; }
+
         public DbSet<AddressPicture> AddressPictures { get; set; }
 
         public DbSet<Category> Categories { get; set; }
@@ -167,10 +169,14 @@ namespace rentasgt.Infrastructure.Persistence
                     .IsRequired(false);
 
                 userBuilder.HasIndex(u => u.Cui).IsUnique();
+                userBuilder.Property(u => u.ValidatedDpi)
+                    .IsRequired();
 
                 userBuilder.Property(u => u.Address)
                     .HasMaxLength(AppUser.MAX_ADDRESS_LENGTH)
                     .IsRequired(false);
+                userBuilder.Property(u => u.ValidatedAddress)
+                    .IsRequired();
 
                 userBuilder.HasOne(u => u.DpiPicture)
                     .WithOne(p => p.User)
@@ -187,7 +193,7 @@ namespace rentasgt.Infrastructure.Persistence
                 userBuilder.HasOne(u => u.ProfilePicture)
                     .WithOne(p => p.User)
                     .HasForeignKey((ProfilePicture p) => p.UserId)
-                    .IsRequired()
+                    .IsRequired(false)
                     .OnDelete(DeleteBehavior.Cascade);
 
                 userBuilder.HasOne(u => u.AddressPicture)
