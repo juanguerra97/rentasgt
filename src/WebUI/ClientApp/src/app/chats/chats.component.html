@@ -1,7 +1,7 @@
 <div class="container-fluid ">
 
 
-  <div class="row mt-3" style="">
+  <div class="row mt-3 mb-3" style="">
     <div *ngIf="selectedChatRoom === null" class="col-12 col-md-5 col-lg-6">
 
       <h3 class="pantalla-title">Tus conversaciones</h3>
@@ -38,15 +38,24 @@
     </div>
 
     <!-- Displays product's information -->
-    <div *ngIf="selectedChatRoom !== null && product !== null" class="col-12 col-md-5 col-lg-6">
+    <div *ngIf="selectedChatRoom !== null && product !== null" class="col-12 col-md-5 col-lg-6 pt-0">
 
-      <div class="d-flex justify-content-start">
-        <a (click)="deselectChatRoom()" style="cursor: pointer;">
-          <li class="pi pi-arrow-left"></li>
-        </a>
-      </div>
 
-      <div class="d-flex flex-column align-items-center product-container p-3 mt-2">
+
+      <div class="d-flex flex-column align-items-center product-container p-3 pt-0">
+
+        <div class="d-flex justify-content-start w-100">
+          <a (click)="deselectChatRoom()" style="cursor: pointer;">
+            <li class="pi pi-arrow-left"></li>
+          </a>
+          <div class="d-flex flex-fill justify-content-end">
+            <a [routerLink]="['/articulos/detalle', this.selectedChatRoom.product.id]" style="cursor: pointer;" title="Ver art&iacute;culo">
+              <li class="pi pi-external-link">
+
+              </li>
+            </a>
+          </div>
+        </div>
 
         <h4 class="">{{ selectedChatRoom.product.name }}</h4>
 
@@ -91,7 +100,7 @@
 
 
     <!-- Chat room -->
-    <div *ngIf="selectedChatRoom !== null" class="chat col-12 col-md-7 col-lg-6 ">
+    <div *ngIf="selectedChatRoom !== null" class="chat col-12 col-md-7 col-lg-6 mt-2 mt-md-0">
       <div class="chat-header">
         <h3>{{ getOtherUserName() }}</h3>
       </div>
