@@ -54,9 +54,33 @@
   width: 70vw;
 }
 
-.fecha-renta-chooser {
-  max-height: 10rem;
+.select-date-container {
+  /*width: 7rem;
+  height: 7rem;*/
 }
+
+.fecha-renta-chooser {
+
+}
+
+::ng-deep .p-calendar .p-datepicker-calendar-container .p-datepicker-calendar {
+
+}
+
+::ng-deep .p-calendar .p-datepicker .p-datepicker-group th, ::ng-deep .p-calendar .p-datepicker .p-datepicker-group td {
+  width: 1.7rem;
+}
+
+::ng-deep .p-calendar .p-datepicker .p-datepicker-group th span, ::ng-deep .p-calendar .p-datepicker .p-datepicker-group td span {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+}
+
+::ng-deep .p-calendar .p-datepicker {
+
+}
+
+
 
 @media only screen and(min-width: 768px) {
 

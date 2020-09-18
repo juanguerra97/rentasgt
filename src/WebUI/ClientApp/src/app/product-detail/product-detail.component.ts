@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CreateRentRequestCommand, ProductDto, ProductsClient, RentRequestsClient, ChatRoomDto, ChatRoomsClient, CreateChatRoomCommand, UserProfileStatus, UserProfileDto, UsersClient } from '../rentasgt-api';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DateTime } from 'luxon';
+import { DateTime, Duration } from 'luxon';
 import { AuthorizeService, IUser } from '../../api-authorization/authorize.service';
 
 @Component({
@@ -30,6 +30,7 @@ export class ProductDetailComponent implements OnInit {
   public firstMessage = '';
   public submittingMessage = false;
   public messageModalTitle: string = '';
+  public estimatedCost = 0;
 
   responsiveOptions: any[] = [
     {
@@ -150,7 +151,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   public isValidRentDate(): boolean {
-    return !!this.rentDate;
+    return this.rentDate && this.rentDate.length === 2 && !!this.rentDate[0] && !!this.rentDate[1];
   }
 
   public onCreateRentRequest(): void {
@@ -175,6 +176,35 @@ export class ProductDetailComponent implements OnInit {
         this.creatingRequest = false;
         console.error(error.response);
       });
+  }
+
+  public onDateSelected($event): void {
+    if (this.rentDate && this.rentDate.length === 2 && this.rentDate[0] && this.rentDate[1]) {
+      const d = DateTime.fromJSDate(this.rentDate[0]).diff(DateTime.fromJSDate(this.rentDate[1]), 'days');
+      const days = Math.abs(d.days) + 1;
+      this.estimatedCost = this.getEstimatedCost(days);
+    } else if (this.rentDate && this.rentDate.length === 1 && this.rentDate[0]) {
+      this.estimatedCost = this.product.costPerDay;
+    } else {
+      this.estimatedCost = 0;
+    }
+  }
+
+  public getEstimatedCost(days: number): number {
+    let cost = 0;
+    let d = days;
+    if (this.product.costPerMonth) {
+      const months = Math.floor(days / 31);
+      d = d - (months * 31);
+      cost += this.product.costPerMonth * months;
+    }
+    if (this.product.costPerWeek) {
+      const weeks = Math.floor(d / 7);
+      d = d - (weeks * 7);
+      cost += this.product.costPerWeek * weeks;
+    }
+    cost += d * this.product.costPerDay;
+    return cost;
   }
 
 }
