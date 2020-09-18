@@ -16,6 +16,7 @@ import { LoginActions, QueryParameterNames, ApplicationPaths, ReturnUrlType } fr
 export class LoginComponent implements OnInit {
   public message = new BehaviorSubject<string>(null);
   public loading = true;
+  public error = false;
 
   constructor(
     private authorizeService: AuthorizeService,
@@ -29,7 +30,7 @@ export class LoginComponent implements OnInit {
         await this.login(this.getReturnUrl());
         break;
       case LoginActions.LoginCallback:
-        setTimeout(async () => await this.processLoginCallback(), 1000);
+        await this.processLoginCallback();
         break;
       case LoginActions.LoginFailed:
         const message = this.activatedRoute.snapshot.queryParamMap.get(QueryParameterNames.Message);
@@ -46,6 +47,9 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  public async onRetryLogin(): Promise<any> {
+    await this.login(this.getReturnUrl());
+  }
 
   private async login(returnUrl: string): Promise<void> {
     const state: INavigationState = { returnUrl };
@@ -79,6 +83,7 @@ export class LoginComponent implements OnInit {
         break;
       case AuthenticationResultStatus.Fail:
         this.message.next(result.message);
+        this.error = true;
         break;
     }
     this.loading = false;
