@@ -3,7 +3,7 @@
 <div *ngIf="showSpinner" class="container-fluid d-flex flex-column align-items-center justify-content-center" style="height: 80vh">
   <p-progressSpinner></p-progressSpinner>
 </div>
-<div class="container-fluid" style="min-height: 83vh">
+<div *ngIf="!showSpinner" class="container-fluid" style="min-height: 83vh">
   <router-outlet></router-outlet>
 </div>
 <footer class="container-fluid bg-dark d-flex align-items-center justify-content-end" style="height: 48px">
