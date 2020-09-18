@@ -1,0 +1,92 @@
+
+
+<div class="container-fluid">
+  <div class="row mt-3 mb-3">
+    <div class="col-12">
+      <h2 class="pantalla-title">Rentas</h2>
+    </div>
+    <div *ngIf="!selectedRentRequest && !loadingRents && rentRequests.length > 0" class="col-12 col-lg-6 p-0">
+      <div class="d-flex flex-column flex-fill">
+
+        <div *ngFor="let req of rentRequests" (click)="selectRentRequest(req)" class="rent d-flex" style="cursor: pointer">
+
+          <div class="d-flex flex-column flex-fill">
+            <div class="d-flex flex-column flex-fill justify-content-start">
+              <p class="rent-status">{{ RENT_STATUS_LABELS[req.rent.status] }}</p>
+              <div class="d-flex flex-column flex-fill">
+                <h3 class="rent-product-name text-center mt-auto mb-auto">{{ req.product.name }}</h3>
+              </div>
+              <p class="rent-estimated-cost">{{ req.estimatedCost|currency }}</p>
+            </div>
+          </div>
+
+          <div class="flex flex-column ml-1">
+            <p class="rent-owner-name text-center">{{ req.requestor.firstName + ' ' + req.requestor.lastName }}</p>
+            <img src="{{req.product.picture.pictureContent}}">
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div *ngIf="!loadingRents && rentRequests.length === 0" class="col-12">
+      <p class="text-center">A&uacute;n no has rentado nada.</p>
+    </div>
+
+    <div *ngIf="selectedRentRequest && !loadingRents" class="col-12 p-0 d-flex align-content-center align-items-center">
+      <a (click)="selectRentRequest(null)" style="cursor: pointer;">
+        <li class="pi pi-arrow-left"></li>
+      </a>
+    </div>
+
+    <div *ngIf="selectedRentRequest && !loadingRents" class="col-12 p-0 mt-2">
+
+      <div class="rent d-flex">
+
+        <div class="d-flex flex-column flex-fill">
+          <div class="d-flex flex-column flex-fill justify-content-start">
+            <p class="rent-status">{{ RENT_STATUS_LABELS[selectedRentRequest.rent.status] }}</p>
+            <div class="d-flex flex-column flex-fill">
+              <h3 class="rent-product-name text-center mt-auto mb-auto">{{ selectedRentRequest.product.name }}</h3>
+            </div>
+            <p class="rent-estimated-cost">{{ selectedRentRequest.estimatedCost|currency }}</p>
+          </div>
+        </div>
+
+        <div class="flex flex-column ml-1">
+          <p class="rent-owner-name text-center">{{ selectedRentRequest.requestor.firstName + ' ' + selectedRentRequest.requestor.lastName }}</p>
+          <img src="{{ selectedRentRequest.product.picture.pictureContent }}">
+        </div>
+
+      </div>
+
+    </div>
+
+    <div *ngIf="selectedRentRequest && !loadingRents" class="col-12 mt-2 p-0">
+
+      <ng-container [ngSwitch]="selectedRentRequest.rent.status">
+        <p *ngSwitchCase="RENT_STATUS_PENDING">Renta programada para el {{ formatDateShort(selectedRentRequest.startDate) }}</p>
+        <ng-container *ngSwitchCase="RENT_STATUS_DELIVERED">
+          <p>La renta ha iniciado.</p>
+          <p>{{ selectedRentRequest.requestor.firstName }} te devolver&aacute; el art&iacute;culo el {{ formatDateShort(selectedRentRequest.endDate)}}</p>
+        </ng-container>
+        <p *ngSwitchCase="RENT_STATUS_RETURN_DELAYED">{{ selectedRentRequest.requestor.firstName }} se est&aacute; demorando en devolver el art&iacute;culo.</p>
+        <p *ngSwitchCase="RENT_STATUS_CANCELLED">Renta cancelada.</p>
+        <p *ngSwitchCase="RENT_STATUS_NOT_COMPLETED">Renta abandonada.</p>
+        <p *ngSwitchDefault>Renta finalizada.</p>
+      </ng-container>
+      <div class="d-flex justify-content-center" style="gap: 10px">
+        <button *ngIf="selectedRentRequest.rent.status === RENT_STATUS_DELIVERED || selectedRentRequest.rent.status === RENT_STATUS_RETURN_DELAYED" (click)="confirmEndRent()" pButton label="Artículo recibido" icon="pi pi-check" type="button" class="p-button-sm p-button-rounded p-button-raised"></button>
+        <button *ngIf="selectedRentRequest.rent.status === RENT_STATUS_PENDING" (click)="confirmCancelRent()" pButton label="Cancelar" icon="pi pi-times-circle" type="button" class="p-button-sm p-button-rounded p-button-raised p-button-danger"></button>
+      </div>
+      <!--
+            <div *ngIf="selectedRentRequest.rent.status === RENT_STATUS_DELIVERED">
+              <p class="p-0 m-0">Ya has recibido el art&iacute;culo</p>
+              <p class="p-0 m-0">Recuerda que debes devolverlo a {{ selectedRentRequest.product.owner.firstName }} el {{ formatDateShort(selectedRentRequest.endDate)}}</p>
+            </div>-->
+
+    </div>
+
+  </div>
+
+</div>

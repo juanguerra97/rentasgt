@@ -9,10 +9,14 @@
   <div *ngIf="products.length > 0"
        class="col-12">
     <div class="d-flex p-2" style="gap: 10px">
-      <h2 class="pantalla-title flex-fill p-0 m-0">Tus art&iacute;culos</h2>
-      <button [routerLink]="['/propietario/solicitudes']"
-        mat-button type="button" class="">Solicitudes recibidas</button>
-      <button [routerLink]="['nuevo']" [disabled]="currentUser && currentUser.profileStatus !== PROFILE_ACTIVE" mat-raised-button color="primary" icon="pi pi-plus" type="button" class="p-button-sm">Nuevo</button>
+      <h2 class="pantalla-title p-0 m-0">Tus art&iacute;culos</h2>
+      <div class="d-flex justify-content-end flex-fill flex-wrap" style="gap: 10px">
+        <button [routerLink]="['/propietario/rentas']"
+                mat-button type="button" class="">Ver rentas</button>
+        <button [routerLink]="['/propietario/solicitudes']"
+                mat-button type="button" class="">Solicitudes recibidas</button>
+        <button [routerLink]="['nuevo']" [disabled]="currentUser && currentUser.profileStatus !== PROFILE_ACTIVE" mat-raised-button color="primary" icon="pi pi-plus" type="button" class="p-button-sm">Nuevo</button>
+      </div>
     </div>
 
     <div class="p-orderlist-list-container">
