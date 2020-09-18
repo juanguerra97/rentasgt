@@ -60,11 +60,11 @@ namespace rentasgt.Application.RentRequests.Commands.CreateRentRequest
                 throw new InvalidRentRequestException("No se permite reservar mas de un mes desde la fecha actual");
             }
 
-            var dif = request.EndDate - request.StartDate;
-            if (dif.Days < 1 && dif.Hours < 12)
-            {
-                throw new InvalidRentRequestException("No puedes rentar un artículo por menos de 12 horas");
-            }
+            // var dif = request.EndDate - request.StartDate;
+            // if (dif.Days < 1)
+            // {
+            //     throw new InvalidRentRequestException("No puedes rentar un artículo por menos de 12 horas");
+            // }
 
             var conflicts = await this.context.RentRequests.Where(rq => rq.Product.Id == productEntity.Id && rq.Status == RequestStatus.Accepted).Where(rq => (request.StartDate.CompareTo(rq.StartDate) >= 0 && request.StartDate.CompareTo(rq.EndDate) <= 0) || (request.EndDate.CompareTo(rq.StartDate) >= 0 && request.EndDate.CompareTo(rq.EndDate) <= 0) || (request.StartDate.CompareTo(rq.StartDate) <= 0 && (request.EndDate.CompareTo(rq.EndDate) >= 0))).ToListAsync();
             if (conflicts.Any())
@@ -105,14 +105,14 @@ namespace rentasgt.Application.RentRequests.Commands.CreateRentRequest
         private decimal EstimateCost(CreateRentRequestCommand command, Product product)
         {
             decimal total = 0;
-            var span = command.EndDate - command.StartDate;
-            var days = span.Days;
+            var span = command.EndDate.Date - command.StartDate.Date;
+            var days = span.Days + 1;
 
-            var months = span.Days / 31;
+            var months = days / 31;
             if (product.CostPerMonth != null)
             {
                 total += months * (decimal)product.CostPerMonth;
-                days = span.Days - months * 31;
+                days = days - months * 31;
             }
             
             var weeks = days / 7;

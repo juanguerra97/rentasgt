@@ -9,8 +9,8 @@ namespace rentasgt.Application.RentRequests.Commands.CreateRentRequest
         public CreateRentRequestCommandValidator()
         {
 
-            RuleFor(c => c.StartDate)
-                .LessThan(c => c.EndDate).WithMessage("La fecha de inicio debe ser menor a la fecha fin");
+            RuleFor(c => c.StartDate.Date)
+                .LessThanOrEqualTo(c => c.EndDate.Date).WithMessage("La fecha de inicio debe ser menor a la fecha fin");
 
             RuleFor(c => c.Place)
                 .NotEmpty()
