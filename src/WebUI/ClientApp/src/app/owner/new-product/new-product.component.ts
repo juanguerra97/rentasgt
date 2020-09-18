@@ -9,7 +9,7 @@ import {
   CategoryDto,
   PaginatedListResponseOfCategoryDto,
   PicturesClient,
-  ProductsClient
+  ProductsClient, UserProfileDto, UserProfileStatus, UsersClient
 } from '../../rentasgt-api';
 import { Img } from '../../models/Img';
 
@@ -54,6 +54,10 @@ export class NewProductComponent implements OnInit {
   public categories: CategoryDto[] = [];
   public selectedCategories: CategoryDto[] = [];
 
+  public PROFILE_ACTIVE = UserProfileStatus.Active;
+  public currentUser: UserProfileDto = null;
+  public loadingUser: boolean = false;
+
   public location: LocationInfo = {
     formattedAddress: null,
     state: 'Guatemala',
@@ -67,12 +71,26 @@ export class NewProductComponent implements OnInit {
     private productsClient: ProductsClient,
     private categoriesClient: CategoriesClient,
     private picturesClient: PicturesClient,
+    private usersClient: UsersClient,
     private router: Router,
     private bsModalService: BsModalService,
   ) { }
 
   ngOnInit(): void {
+    this.loadCurrentUser();
     this.loadCategories();
+  }
+
+  private loadCurrentUser(): void {
+    this.loadingUser = true;
+    this.usersClient.getUserProfile()
+      .subscribe((res) => {
+        this.currentUser = res;
+        this.loadingUser = false;
+      }, error => {
+        console.error(error);
+        this.loadingUser = false;
+      });
   }
 
   private loadCategories(): void {

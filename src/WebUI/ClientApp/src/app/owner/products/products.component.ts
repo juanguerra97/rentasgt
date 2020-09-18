@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductDto, ProductsClient } from '../../rentasgt-api';
+import {ProductDto, ProductsClient, UserProfileDto, UserProfileStatus, UsersClient} from '../../rentasgt-api';
 import { PageInfo } from '../../models/PageInfo';
 
 @Component({
@@ -11,6 +11,10 @@ export class ProductsComponent implements OnInit {
 
   public PAGE_SIZE = 10;
   public DEFAULT_PAGE_NUMBER = 1;
+
+  public PROFILE_ACTIVE = UserProfileStatus.Active;
+  public currentUser: UserProfileDto = null;
+  public loadingUser: boolean = false;
 
   public products: ProductDto[] = [];
   public pageInfo: PageInfo = null;
@@ -24,10 +28,24 @@ export class ProductsComponent implements OnInit {
 
   constructor(
     private productsClient: ProductsClient,
+    private usersClient: UsersClient,
   ) { }
 
   ngOnInit(): void {
+    this.loadCurrentUser();
     this.loadProducts();
+  }
+
+  public loadCurrentUser(): void {
+    this.loadingUser = true;
+    this.usersClient.getUserProfile()
+      .subscribe((res) => {
+        this.currentUser = res;
+        this.loadingUser = false;
+      }, error => {
+        console.error(error);
+        this.loadingUser = false;
+      });
   }
 
   public loadProducts(pageSize = this.PAGE_SIZE, pageNumber = this.DEFAULT_PAGE_NUMBER): void {

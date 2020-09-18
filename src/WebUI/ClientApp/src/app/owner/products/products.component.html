@@ -1,15 +1,19 @@
 
 <div class="row">
 
+  <div *ngIf="currentUser && currentUser.profileStatus !== PROFILE_ACTIVE" class="d-flex flex-column align-items-center justify-content-center w-100" style="height: 70vh">
+    <p class="text-center">No puedes agregar nuevos art&iacute;culos mientras tu cuenta no est&eacute; activa.</p>
+
+  </div>
+
   <div *ngIf="products.length > 0"
        class="col-12">
-    <div class="d-flex p-0 p-md-2" style="gap: 10px">
-      <h2 class="pantalla-title flex-fill">Productos</h2>
+    <div class="d-flex p-2" style="gap: 10px">
+      <h2 class="pantalla-title flex-fill p-0 m-0">Tus art&iacute;culos</h2>
       <button [routerLink]="['/propietario/solicitudes']"
-        pButton label="Solicitudes" type="button" class="p-button-sm p-button-raised p-button-circle"></button>
-      <button [routerLink]="['nuevo']" pButton icon="pi pi-plus" type="button" class="p-button-sm"></button>
+        mat-button type="button" class="">Solicitudes recibidas</button>
+      <button [routerLink]="['nuevo']" [disabled]="currentUser && currentUser.profileStatus !== PROFILE_ACTIVE" mat-raised-button color="primary" icon="pi pi-plus" type="button" class="p-button-sm">Nuevo</button>
     </div>
-
 
     <div class="p-orderlist-list-container">
       <ul class="p-orderlist-list" [ngStyle]="{'height':'auto'}">
@@ -20,10 +24,10 @@
               <img src="{{product.pictures[0].pictureContent}}" [alt]="product.name" class="product-image" />
             </div>
             <div class="product-list-detail">
-              <h5 class="p-mb-2">{{ product.name }}</h5>
+              <p class="p-0 m-0 p-mb-2">{{ product.name }}</p>
             </div>
             <div class="product-list-action">
-              <h6 class="p-mb-2">{{ product.costPerDay|currency }}</h6>
+              <p class="p-0 m-0 p-mb-2">{{ product.costPerDay|currency }}</p>
               <span [class]="'product-badge status-'">{{ PRODUCT_STATES[product.status] }}</span>
             </div>
           </div>
@@ -39,7 +43,7 @@
 
   </div>
 
-  <div *ngIf="products.length <= 0" class="col-12 d-flex justify-content-center align-content-center" style="height: 70vh">
+  <div *ngIf="products.length <= 0 && currentUser && currentUser.profileStatus === PROFILE_ACTIVE" class="col-12 d-flex justify-content-center align-content-center" style="height: 70vh">
     <div class="noproducts-message-container">
 
       <p class="">A&uacute;n no has registrado art&iacute;culos.</p>

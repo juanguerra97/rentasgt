@@ -30,10 +30,19 @@
   flex: 1 1 0;
 }
 
+.product-list-detail > p {
+  font-size: 1.4rem;
+}
+
 .product-item .product-list-action {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+}
+
+
+.product-list-action span {
+  font-size: 0.8rem;
 }
 
 .product-item .product-category-icon {
@@ -54,7 +63,7 @@
 
   .p-orderlist-item {
     /*box-shadow: #495057 0px 0px 5px;*/
-    border-bottom: #495057 solid 1px;
+
     /*box-shadow: #495057 0px 1px 5px;*/
   }
 
@@ -112,6 +121,7 @@
   cursor: pointer;
   overflow: hidden;
   position: relative;
+  border-bottom: #333 solid 1px;
 }
 
 .p-orderlist-item:hover {
