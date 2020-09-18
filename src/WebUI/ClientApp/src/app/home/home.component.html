@@ -6,7 +6,10 @@
         RentasGt
       </h1>
       <nav class="d-flex flex-fill justify-content-end align-items-center">
-        <button [routerLink]='["/authentication/login"]' pButton label="Ingresar" class="p-button-rounded p-button-raised p-button-sm"></button>
+        <button *ngIf="!(isAuthenticated|async);else auth" [routerLink]='["/authentication/login"]' pButton icon="pi pi-sign-in" label="Ingresar" class="p-button-rounded p-button-raised p-button-sm"></button>
+        <ng-template #auth>
+          <button [routerLink]='["/authentication/logout"]' [state]='{ local: true }' pButton label="Salir" icon="pi pi-sign-out" class="p-button-rounded p-button-raised p-button-sm"></button>
+        </ng-template>
       </nav>
     </header>
 
