@@ -7,6 +7,7 @@ using rentasgt.Application.Rents.Commands.CancelRent;
 using rentasgt.Application.Rents.Commands.EndRent;
 using rentasgt.Application.Rents.Commands.StartRent;
 using rentasgt.Application.Rents.Queries.GetRentById;
+using rentasgt.Application.Rents.Queries.GetRentsOfOwner;
 using rentasgt.Application.Rents.Queries.GetRentsOfRequestor;
 using System.Threading.Tasks;
 
@@ -27,6 +28,16 @@ namespace rentasgt.WebUI.Controllers
         public async Task<ActionResult<PaginatedListResponse<RentRequestRentDto>>> GetOfRequestor(int pageSize = 10, int pageNumber = 1)
         {
             return await Mediator.Send(new GetRentsOfRequestorQuery { 
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            });
+        }
+
+        [HttpGet("owner")]
+        public async Task<ActionResult<PaginatedListResponse<RentRequestRentDto>>> GetOfOwner(int pageNumber = 1, int pageSize = 10)
+        {
+            return await Mediator.Send(new GetRentsOfOwnerQuery
+            {
                 PageNumber = pageNumber,
                 PageSize = pageSize
             });
