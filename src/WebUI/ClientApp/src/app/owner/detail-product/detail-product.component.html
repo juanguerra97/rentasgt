@@ -5,9 +5,9 @@
 
 <div class="container-fluid">
 
-  <div *ngIf="product !== null && !loadingProduct" class="row mt-3">
+  <div *ngIf="product !== null && !loadingProduct" class="row mt-3 mb-3">
 
-    <div class="col-12 col-md-8 p-0 mt-2 mb-3">
+    <div class="col-12 col-md-8 p-0 mt-2">
 
       <div class="product-pictures-container">
         <p-galleria [(value)]="product.pictures" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '1280px'}" [numVisible]="5"

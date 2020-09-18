@@ -1,57 +1,59 @@
 
 
-<div class="row">
+<div class="container-fluid">
+  <div class="row mt-3 mb-3">
 
-  <div class="col-12">
+    <div class="col-12">
 
-    <div class="d-flex">
-      <h2 class="pantalla-title">Categor&iacute;as</h2>
+      <div class="d-flex">
+        <h2 class="pantalla-title">Categor&iacute;as</h2>
 
-      <div class="flex-fill d-flex justify-content-end align-items-center">
+        <div class="flex-fill d-flex justify-content-end align-items-center">
 
-        <button (click)="onShowNewCategoryFormModal(newCategoryModalTemplate)"
-                class="btn btn-default p-0">
-          <fa-icon [icon]="faPlus"></fa-icon>
-        </button>
+          <button (click)="onShowNewCategoryFormModal(newCategoryModalTemplate)"
+                  class="btn btn-default p-0">
+            <fa-icon [icon]="faPlus"></fa-icon>
+          </button>
 
-        <button [disabled]="selectedCategory == null"
-                (click)="onShowEditCategoryFormModal(editCategoryModalTemplate)"
-                class="btn btn-default p-0 ml-2">
-          <fa-icon [icon]="faEdit"></fa-icon>
-        </button>
+          <button [disabled]="selectedCategory == null"
+                  (click)="onShowEditCategoryFormModal(editCategoryModalTemplate)"
+                  class="btn btn-default p-0 ml-2">
+            <fa-icon [icon]="faEdit"></fa-icon>
+          </button>
 
-        <button [disabled]="selectedCategory == null"
-                (click)="showDeleteConfirmationModal()"
-                class="btn btn-default p-0 ml-2">
-          <fa-icon [icon]="faTrash"></fa-icon>
-        </button>
+          <button [disabled]="selectedCategory == null"
+                  (click)="showDeleteConfirmationModal()"
+                  class="btn btn-default p-0 ml-2">
+            <fa-icon [icon]="faTrash"></fa-icon>
+          </button>
 
+        </div>
       </div>
-    </div>
 
-    <div class="table-responsive">
-      <table class="table table-hover">
-        <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Descripci&oacute;n</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let categ of categories" (click)="onCategoryClicked(categ)" [ngClass]="{'bg-info text-white': categ === selectedCategory}">
-          <td>{{ categ.id }}</td>
-          <td>{{ categ.name }}</td>
-          <td>{{ categ.description | slice:0:128 }}</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripci&oacute;n</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let categ of categories" (click)="onCategoryClicked(categ)" [ngClass]="{'bg-info text-white': categ === selectedCategory}">
+            <td>{{ categ.id }}</td>
+            <td>{{ categ.name }}</td>
+            <td>{{ categ.description | slice:0:128 }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
 
-    <app-paginator-nav [pageInfo]="pageInfo" (clickPage)="loadCategories(PAGE_SIZE, $event)"></app-paginator-nav>
+      <app-paginator-nav [pageInfo]="pageInfo" (clickPage)="loadCategories(PAGE_SIZE, $event)"></app-paginator-nav>
+
+    </div>
 
   </div>
-
 </div>
 
 <ng-template #newCategoryModalTemplate>
