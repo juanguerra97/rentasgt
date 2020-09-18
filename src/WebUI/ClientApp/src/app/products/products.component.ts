@@ -44,14 +44,14 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params) => {
-      this.searchText = params.get('s');
-      if (this.searchText !== null && this.searchText !== undefined) {
-        this.searchText = this.searchText.trim();
-        let name = this.searchText;
-        if (this.searchText.length === 0) {
-          name = undefined;
-        }
-        this.searchingProducts = true;
+      this.searchingProducts = true;
+      const searchParam = params.get('s');
+      let name = undefined;
+      if (searchParam && searchParam.trim().length > 0) {
+        this.searchText = searchParam.trim();
+        name = this.searchText;
+      }
+
         this.productsClient.get(this.PAGE_SIZE, this.DEFAULT_PAGE_NUMBER, name,
           undefined, undefined, undefined, undefined, undefined, undefined)
           .subscribe((res) => {
@@ -62,7 +62,6 @@ export class ProductsComponent implements OnInit {
             this.searchingProducts = false;
             console.error(error);
           });
-      }
     }, console.error);
     this.loadCategories();
   }
@@ -89,9 +88,11 @@ export class ProductsComponent implements OnInit {
 
   public onFiltrar(): void {
     this.searchingProducts = true;
-    this.filter.name = this.searchText.trim();
-    if (this.filter.name.length === 0) {
+
+    if (!this.searchText || this.filter.name.length === 0) {
       this.filter.name = undefined;
+    } else {
+      this.filter.name = this.searchText.trim();
     }
     this.filter.latitude = this.location.latitude !== null ? this.location.latitude : undefined;
     this.filter.longitude = this.location.longitude !== null ? this.location.longitude : undefined;
@@ -119,6 +120,18 @@ export class ProductsComponent implements OnInit {
       longitude: null,
       latitude: null
     };
+  }
+
+  public imgLoaded($event) {
+    const img: HTMLImageElement = $event.target;
+    const ratio = img.width / img.height;
+    if (ratio >= 1.0) {
+      img.parentElement.classList.remove('img-wrapper-h');
+      img.parentElement.classList.add('img-wrapper-w');
+    } else {
+      img.parentElement.classList.remove('img-wrapper-w');
+      img.parentElement.classList.add('img-wrapper-h');
+    }
   }
 
 }

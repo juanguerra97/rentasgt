@@ -1,5 +1,5 @@
 
-<div class="row pt-3">
+<div class="row pt-3 pb-3">
 
   <div class="col-12">
     <h2 class="pantalla-title">Art&iacute;culos disponibles</h2>
@@ -43,26 +43,36 @@
   </div>
 
   <div class="col-12 col-sm-6 col-md-8 col-lg-9 col-xl-10 mt-3 mt-md-0">
-    <div class="d-flex flex-wrap justify-content-center align-items-center" style="gap: 20px">
-      <div *ngFor="let product of products" [routerLink]="['/articulos/detalle/', product.id]" class="product-item">
-        <div class="product-item-content">
-          <div class="d-flex p-1" style="gap: 10px;">
-            <h4 class="p-mb-1 flex-fill">{{product.name}}</h4>
-            <div class="d-flex flex-column align-items-end">
-              <h6 class="p-mt-0 p-mb-3">{{product.costPerDay|currency}}</h6>
-              <p *ngIf="product.distanceInKm || product.distanceInKm === 0" class="m-0 mt-1 p-0 product-distance">{{ product.distanceInKm }}&nbsp;Km</p>
-            </div>
-          </div>
-          <img [src]="product.pictures[0].pictureContent" [alt]="product.name" class="product-image" />
-        </div>
-      </div>
-      <p-paginator *ngIf="pageInfo !== null"
-                   [rows]="PAGE_SIZE"
-                   [totalRecords]="pageInfo.totalCount"
-                   [alwaysShow]="false"
-                   (onPageChange)="loadProducts(PAGE_SIZE, $event.page + 1)"></p-paginator>
+    <div class="d-flex flex-wrap justify-content-center align-items-center align-content-center" style="gap: 20px">
 
-    <p *ngIf="products.length === 0 && !searchingProducts" class="text-center">No se encontraron art&iacute;culos</p>
+      <div *ngIf="searchingProducts" class="d-flex flex-column align-items-center justify-content-center mt-5">
+        <p-progressSpinner></p-progressSpinner>
+      </div>
+
+      <ng-container *ngIf="!searchingProducts">
+        <div *ngFor="let product of products" [routerLink]="['/articulos/detalle/', product.id]" class="product-item align-self-stretch d-flex flex-column align-items-center" style="gap: 10px">
+
+          <div class="img-wrapper d-flex justify-content-center align-items-center mt-3">
+            <img (load)="imgLoaded($event)" [src]="product.pictures[0].pictureContent" [alt]="product.name" class="product-image" />
+          </div>
+
+          <div class="product-item-content d-flex flex-column align-items-center flex-fill mt-0 w-100" style="gap: 10px;">
+              <p class="product-name">{{ product.name }}</p>
+              <div class="d-flex justify-content-center">
+                <p class="product-cost p-mt-0 p-mb-3 text-center">{{product.costPerDay|currency}}<ng-container *ngIf="product.distanceInKm || product.distanceInKm === 0">&nbsp;|&nbsp;{{ product.distanceInKm|number:'1.0-2' }}&nbsp;Km</ng-container></p>
+<!--                <p *ngIf="product.distanceInKm || product.distanceInKm === 0" class="m-0 mt-1 p-0 product-distance">{{ product.distanceInKm }}&nbsp;Km</p>-->
+              </div>
+
+          </div>
+        </div>
+        <p-paginator *ngIf="pageInfo !== null"
+                     [rows]="PAGE_SIZE"
+                     [totalRecords]="pageInfo.totalCount"
+                     [alwaysShow]="false"
+                     (onPageChange)="loadProducts(PAGE_SIZE, $event.page + 1)"></p-paginator>
+      </ng-container>
+
+      <p *ngIf="products.length === 0 && !searchingProducts" class="text-center">No se encontraron art&iacute;culos</p>
   </div>
 </div>
 

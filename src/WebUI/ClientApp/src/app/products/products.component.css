@@ -1,24 +1,69 @@
 
+* {
+  box-sizing: border-box;
+}
+
 .product-item {
-  max-width: 350px;
+  width: 310px;
+  max-width: 310px;
   padding: 0;
   cursor: pointer;
+  border-radius: 3px;
+  border: 1px solid rgba(0,47,52,.2);
 }
 
 .product-item:hover {
   transform: scale(1.02,1.02);
 }
 
+.product-item .product-name {
+  width: 100%;
+  text-align: center;
+  font-size: 1.3rem;
+  line-height: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
 .product-item .product-item-content {
+  padding: 1rem;
   border: none;
   border-radius: 0.25rem;
   box-shadow: 0 0.5rem 0.5rem 0 rgba(44, 51, 73, 0.4);
 }
 
-.product-item .product-image {
+.product-item .product-cost {
+  font-size: 0.8rem;
+  margin: 0;
+  padding: 0;
+}
+
+.product-item .img-wrapper {
+  width: 300px;
+  overflow: visible;
+  display: inline-block;
+}
+
+.img-wrapper img{
+  margin: 0 auto;
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
+  border-radius: .2rem;
+}
+
+.img-wrapper-w img {
+  width: 280px;
+  height: auto;
+}
+
+.img-wrapper-h img {
+  height: 230px;
+  width: auto;
+}
+
+/*.product-item .product-image {
   width: 100%;
   border-radius: 0.25rem;
-}
+}*/
 
 .filtro-title {
   font-size: 1rem;
