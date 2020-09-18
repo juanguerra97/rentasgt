@@ -1,8 +1,11 @@
 
 
 <div class="container-fluid">
-  <div class="row mt-3">
-    <div *ngIf="!selectedRentRequest && !loadingRents && rentRequests.length > 0" class="col-12 p-0">
+  <div class="row mt-3 mb-3">
+    <div class="col-12">
+      <h2 class="pantalla-title">Rentas</h2>
+    </div>
+    <div *ngIf="!selectedRentRequest && !loadingRents && rentRequests.length > 0" class="col-12 col-lg-6 p-0">
       <div class="d-flex flex-column flex-fill">
 
         <div *ngFor="let req of rentRequests" (click)="selectRentRequest(req)" class="rent d-flex" style="cursor: pointer">
@@ -61,15 +64,26 @@
 
     <div *ngIf="selectedRentRequest && !loadingRents" class="col-12 mt-2 p-0">
 
+      <ng-container [ngSwitch]="selectedRentRequest.rent.status">
+        <p *ngSwitchCase="RENT_STATUS_PENDING">Renta programada para el {{ formatDateShort(selectedRentRequest.startDate) }}</p>
+        <ng-container *ngSwitchCase="RENT_STATUS_DELIVERED">
+          <p>La renta ha iniciado, esperamos que est&eacute;s satisfecho.</p>
+          <p>Recuerda que debes devolverlo a {{ selectedRentRequest.product.owner.firstName }} el {{ formatDateShort(selectedRentRequest.endDate)}}</p>
+        </ng-container>
+        <p *ngSwitchCase="RENT_STATUS_RETURN_DELAYED">Te est&aacute;s demorando en devolver el art&iacute;culo.</p>
+        <p *ngSwitchCase="RENT_STATUS_CANCELLED">Renta cancelada.</p>
+        <p *ngSwitchCase="RENT_STATUS_NOT_COMPLETED">Renta abandonada.</p>
+        <p *ngSwitchDefault>Renta finalizada.</p>
+      </ng-container>
       <div *ngIf="selectedRentRequest.rent.status === RENT_STATUS_PENDING" class="d-flex justify-content-center" style="gap: 10px">
         <button (click)="confirmStartRent()" pButton label="Artículo recibido" icon="pi pi-check" type="button" class="p-button-sm p-button-rounded p-button-raised"></button>
         <button (click)="confirmCancelRent()" pButton label="Cancelar" icon="pi pi-times-circle" type="button" class="p-button-sm p-button-rounded p-button-raised p-button-danger"></button>
       </div>
-
+<!--
       <div *ngIf="selectedRentRequest.rent.status === RENT_STATUS_DELIVERED">
         <p class="p-0 m-0">Ya has recibido el art&iacute;culo</p>
         <p class="p-0 m-0">Recuerda que debes devolverlo a {{ selectedRentRequest.product.owner.firstName }} el {{ formatDateShort(selectedRentRequest.endDate)}}</p>
-      </div>
+      </div>-->
 
     </div>
 

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { RentDto, RentRequestDto, RentRequestRentDto, RentsClient, RentStatus}  from '../rentasgt-api';
-import {PageInfo} from '../models/PageInfo';
+import { PageInfo } from '../models/PageInfo';
 import { AuthorizeService, IUser } from 'src/api-authorization/authorize.service';
 import { BsModalService } from 'ngx-bootstrap';
 import { ConfirmationModalComponent } from '../app-common/confirmation-modal/confirmation-modal.component';
-import {DateTime} from 'luxon';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-rents',
