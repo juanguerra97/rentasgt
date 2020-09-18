@@ -3,6 +3,9 @@
 <div *ngIf="showSpinner" class="container-fluid d-flex flex-column align-items-center justify-content-center" style="height: 80vh">
   <p-progressSpinner></p-progressSpinner>
 </div>
-<div class="container-fluid">
+<div class="container-fluid" style="min-height: 83vh">
   <router-outlet></router-outlet>
 </div>
+<footer class="container-fluid bg-dark d-flex align-items-center justify-content-end" style="height: 48px">
+  <small class="text-light">&copy;&nbsp;2020&nbsp;RentasGt.&nbsp;Todos los derechos reservados.</small>
+</footer>
