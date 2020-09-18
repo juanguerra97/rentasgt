@@ -46,7 +46,7 @@ namespace rentasgt.Application.Rents.Commands.CancelRent
             }
 
             var userId = this.currentUserService.UserId;
-            if (userId != entity.Request.RequestorId)
+            if (userId != entity.Request.RequestorId && userId != entity.Request.Product.Owner.Id)
             {
                 throw new OperationForbidenException("No puedes cancelar esta renta");
             }
