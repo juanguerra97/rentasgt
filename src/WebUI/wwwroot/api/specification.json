@@ -2794,6 +2794,10 @@
           "state": {
             "type": "string",
             "nullable": true
+          },
+          "staticMap": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -2983,6 +2987,10 @@
             "nullable": true
           },
           "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "staticMap": {
             "type": "string",
             "nullable": true
           }

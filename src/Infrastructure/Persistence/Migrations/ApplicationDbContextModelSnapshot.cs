@@ -1115,6 +1115,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                                 .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
                                 .HasMaxLength(128);
 
+                            b1.Property<string>("StaticMap")
+                                .HasColumnType("longtext CHARACTER SET utf8mb4")
+                                .HasMaxLength(4096);
+
                             b1.HasKey("ProductId");
 
                             b1.ToTable("Products");

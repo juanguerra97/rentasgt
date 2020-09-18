@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CreateRentRequestCommand, ProductDto, ProductsClient, RentRequestsClient, ChatRoomDto, ChatRoomsClient, CreateChatRoomCommand } from '../rentasgt-api';
+import { CreateRentRequestCommand, ProductDto, ProductsClient, RentRequestsClient, ChatRoomDto, ChatRoomsClient, CreateChatRoomCommand, UserProfileStatus, UserProfileDto, UsersClient } from '../rentasgt-api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DateTime } from 'luxon';
 import { AuthorizeService, IUser } from '../../api-authorization/authorize.service';
@@ -11,6 +11,10 @@ import { AuthorizeService, IUser } from '../../api-authorization/authorize.servi
 })
 export class ProductDetailComponent implements OnInit {
 
+  public PROFILE_INCOMPLETE = UserProfileStatus.Incomplete;
+  public PROFILE_WAITING_FOR_APPROVAL = UserProfileStatus.WaitingForApproval;
+  public PROFILE_ACTIVE = UserProfileStatus.Active;
+
   public product: ProductDto = null;
   public chatRoom: ChatRoomDto = null;
   public loadingProduct = false;
@@ -21,7 +25,7 @@ export class ProductDetailComponent implements OnInit {
   public maxDate = new Date(DateTime.local().plus({months: 1}).toFormat('MM/dd/yyyy'));
   public esCalendarLocale: any;
   public creatingRequest = false;
-  public currentUser: IUser = null;
+  public currentUser: UserProfileDto = null;
   public displayMessageModal = false;
   public firstMessage = '';
   public submittingMessage = false;
@@ -45,6 +49,7 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     private productsClient: ProductsClient,
     private chatRoomsClient: ChatRoomsClient,
+    private usersClient: UsersClient,
     private rentRequestsClient: RentRequestsClient,
     public authService: AuthorizeService,
     private router: Router,
@@ -72,7 +77,7 @@ export class ProductDetailComponent implements OnInit {
       dateFormat: 'mm/dd/yy',
       weekHeader: 'Sem'
     };
-    this.authService.getUser().subscribe(user => {
+    this.usersClient.getUserProfile().subscribe(user => {
       this.currentUser = user;
     }, console.error);
   }
@@ -132,7 +137,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   public isOwner(): boolean {
-    return this.currentUser && this.product.owner.id === this.currentUser.sub;
+    return this.currentUser && this.product.owner.id === this.currentUser.id;
   }
 
   public showSelectDateModal(): void {

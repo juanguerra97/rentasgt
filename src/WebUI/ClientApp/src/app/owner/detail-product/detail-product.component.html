@@ -1,65 +1,68 @@
 
-<div *ngIf="loadingProduct" class="d-flex flex-column justify-content-center w-100 mt-3">
+<div *ngIf="loadingProduct && product === null" class="d-flex flex-column justify-content-center w-100 mt-3">
   <p-progressSpinner></p-progressSpinner>
 </div>
 
-<div *ngIf="product !== null && !loadingProduct" class="row mt-3">
+<div class="container-fluid">
+  <div *ngIf="product !== null && !loadingProduct" class="row mt-3">
 
-  <div class="col-12 col-md-8 p-0 mt-2">
+    <div class="col-12 col-md-8 p-0 mt-2 mb-3">
 
-    <div class="product-pictures-container">
-      <p-galleria [(value)]="product.pictures" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '1280px'}" [numVisible]="5"
-                  [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="false" [showItemNavigatorsOnHover]="true"
-                  [showIndicatorsOnItem]="true">
-        <ng-template pTemplate="item" let-item>
-          <img [src]="item.pictureContent" style="width: 100%; display: block;" />
-        </ng-template>
-        <ng-template pTemplate="thumbnail" let-item>
-          <div class="p-grid p-nogutter p-justify-center">
-            <img [src]="item.pictureContent" style="display: block;" />
+      <div class="product-pictures-container">
+        <p-galleria [(value)]="product.pictures" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '1280px'}" [numVisible]="5"
+                    [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="false" [showItemNavigatorsOnHover]="true"
+                    [showIndicatorsOnItem]="true">
+          <ng-template pTemplate="item" let-item>
+            <img [src]="item.pictureContent" style="width: 100%; display: block;" />
+          </ng-template>
+          <ng-template pTemplate="thumbnail" let-item>
+            <div class="p-grid p-nogutter p-justify-center">
+              <img [src]="item.pictureContent" style="display: block;" />
+            </div>
+          </ng-template>
+        </p-galleria>
+      </div>
+
+      <div class="owner-info">
+        <i class="pi pi-user"></i>&nbsp;
+        <span>{{ product.owner.firstName + ' ' + product.owner.lastName }}</span>
+      </div>
+
+    </div>
+    <div class="col-12 col-md-4 mt-2 pr-0 pl-0 pl-md-2">
+
+      <div class="product-info">
+        <h2 class="pantalla-title product-name">{{ product.name }}</h2>
+        <p class="product-description">{{ product.description }}</p>
+        <div class="d-flex justify-content-start align-items-stretch flex-wrap">
+          <div class="product-cost-container pr-2">
+            <p class="product-cost"><span>{{product.costPerDay|currency}}</span>/D&iacute;a</p>
           </div>
-        </ng-template>
-      </p-galleria>
-    </div>
-
-    <div class="owner-info">
-      <i class="pi pi-user"></i>&nbsp;
-      <span>{{ product.owner.firstName + ' ' + product.owner.lastName }}</span>
-    </div>
-
-  </div>
-  <div class="col-12 col-md-4 mt-2 pr-0 pl-0 pl-md-2">
-
-    <div class="product-info">
-      <h2 class="pantalla-title product-name">{{ product.name }}</h2>
-      <p class="product-description">{{ product.description }}</p>
-      <div class="d-flex justify-content-start align-items-stretch flex-wrap">
-        <div class="product-cost-container pr-2">
-          <p class="product-cost"><span>{{product.costPerDay|currency}}</span>/D&iacute;a</p>
-        </div>
-        <div *ngIf="product.costPerWeek !== null" class="product-cost-container pr-2">
-          <p class="product-cost"><span>{{product.costPerWeek|currency}}</span>/Semana</p>
-        </div>
-        <div *ngIf="product.costPerMonth !== null" class="product-cost-container pr-2">
-          <p class="product-cost"><span>{{product.costPerMonth|currency}}</span>/Mes</p>
+          <div *ngIf="product.costPerWeek !== null" class="product-cost-container pr-2">
+            <p class="product-cost"><span>{{product.costPerWeek|currency}}</span>/Semana</p>
+          </div>
+          <div *ngIf="product.costPerMonth !== null" class="product-cost-container pr-2">
+            <p class="product-cost"><span>{{product.costPerMonth|currency}}</span>/Mes</p>
+          </div>
         </div>
       </div>
+
+      <div class="product-location mt-2">
+        <h3>Ubicaci&oacute;n</h3>
+        <img src="{{ product.location.staticMap }}" alt="Ubicaci&oacute;n">
+        <p>{{ product.location.city + ', ' + product.location.state }}</p>
+      </div>
+
+      <div class="d-flex justify-content-end mt-2">
+        <button [routerLink]="['/propietario/productos/editar', product.id]" pButton icon="pi pi-pencil" label="Modificar"
+                class="p-button-sm p-button-raised p-button-warning"></button>
+        <button (click)="showDeleteConfirmationModal()" pButton icon="pi pi-times" label="Eliminar"
+                class="p-button-sm p-button-raised p-button-danger ml-2"></button>
+      </div>
+
     </div>
 
-    <div class="product-location mt-2">
-      <h3>Ubicaci&oacute;n</h3>
-      <img src="https://maps.googleapis.com/maps/api/staticmap?markers=|{{product.location.latitude + ',' + product.location.longitude }}&language=es&size=540x216&zoom=16&scale=1&key=" alt="Ubicaci&oacute;n">
-      <p>{{ product.location.city + ', ' + product.location.state }}</p>
-    </div>
-
-    <div class="d-flex justify-content-end mt-2">
-      <button [routerLink]="['/propietario/productos/editar', product.id]" pButton icon="pi pi-pencil" label="Modificar"
-              class="p-button-sm p-button-raised p-button-warning"></button>
-      <button (click)="showDeleteConfirmationModal()" pButton icon="pi pi-times" label="Eliminar"
-              class="p-button-sm p-button-raised p-button-danger ml-2"></button>
-    </div>
 
   </div>
-
 
 </div>

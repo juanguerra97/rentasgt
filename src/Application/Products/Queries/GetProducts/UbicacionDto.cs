@@ -11,5 +11,7 @@ namespace rentasgt.Application.Products.Queries.GetProducts
         public string? City { get; set; }
         public string? State { get; set; }
 
+        public string? StaticMap { get; set; }
+
     }
 }

@@ -1,12 +1,16 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using rentasgt.Application.Common.Interfaces;
-using rentasgt.Application.Common.Models;
 using rentasgt.Domain.Entities;
 using rentasgt.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,21 +37,34 @@ namespace rentasgt.Application.Products.Commands.CreateProduct
         private readonly ICurrentUserService currentUserService;
         private readonly ILocation locationService;
         private readonly UserManager<AppUser> userManager;
+        private readonly IConfiguration config;
 
-        public CreateProductCommandHandler(IApplicationDbContext context, 
+        private readonly string StaticMapsPath;
+
+        public CreateProductCommandHandler(IApplicationDbContext context,
             ICurrentUserService currentUserService,
             ILocation locationService,
-            UserManager<AppUser> userManager)
+            UserManager<AppUser> userManager,
+            IConfiguration config,
+            IHostingEnvironment environment)
         {
             this.context = context;
             this.currentUserService = currentUserService;
             this.locationService = locationService;
             this.userManager = userManager;
+            this.config = config;
+            StaticMapsPath = Path.Combine(environment.WebRootPath, "uploads", "maps");
         }
 
         public async Task<long> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
 
+            EnsureCreateUploadedMapsDirectory();
+            string mapFileName = $"{request.Name}-{Guid.NewGuid().ToString()}.png";
+            WebClient webClient = new WebClient();
+            string apiKey = config.GetValue<string>("Maps:ApiKey");
+            await webClient.DownloadFileTaskAsync($"https://maps.googleapis.com/maps/api/staticmap?markers=|{request.Location.Latitude},{request.Location.Longitude}&language=es&size=540x216&zoom=16&scale=1&key={apiKey}", Path.Combine(StaticMapsPath, mapFileName));
+            request.Location.StaticMap = $"/uploads/maps/{mapFileName}";
             Product newProduct = new Product()
             {
                 Name = request.Name,
@@ -82,13 +99,21 @@ namespace rentasgt.Application.Products.Commands.CreateProduct
             return newProduct.Id;
         }
 
+        private void EnsureCreateUploadedMapsDirectory()
+        {
+            if (!Directory.Exists(StaticMapsPath))
+            {
+                Directory.CreateDirectory(StaticMapsPath);
+            }
+        }
+
         private async Task AddUserToProduct(Product product)
         {
             var user = await this.userManager.FindByIdAsync(this.currentUserService.UserId);
             if (user != null)
             {
                 product.Owner = user;
-            } 
+            }
             else
             {
                 throw new ValidationException($"No existe el usuario");

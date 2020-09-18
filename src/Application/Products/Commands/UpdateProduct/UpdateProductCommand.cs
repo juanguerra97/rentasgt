@@ -1,12 +1,16 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using rentasgt.Application.Common.Exceptions;
 using rentasgt.Application.Common.Interfaces;
 using rentasgt.Domain.Entities;
 using rentasgt.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,10 +39,16 @@ namespace rentasgt.Application.Products.Commands.UpdateProduct
     {
 
         private readonly IApplicationDbContext context;
+        private readonly IConfiguration config;
+        private readonly string StaticMapsPath;
 
-        public UpdateProductCommandHandler(IApplicationDbContext context)
+        public UpdateProductCommandHandler(IApplicationDbContext context,
+            IConfiguration config,
+            IHostingEnvironment environment)
         {
             this.context = context;
+            this.config = config;
+            StaticMapsPath = Path.Combine(environment.WebRootPath, "uploads", "maps");
         }
 
         public async Task<Unit> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
@@ -101,6 +111,14 @@ namespace rentasgt.Application.Products.Commands.UpdateProduct
 
             if(request.Location != null)
             {
+                EnsureCreateUploadedMapsDirectory();
+                string mapFileName = $"{request.Name}-{Guid.NewGuid().ToString()}.png";
+                WebClient webClient = new WebClient();
+                string apiKey = config.GetValue<string>("Maps:ApiKey");
+                await webClient.DownloadFileTaskAsync($"https://maps.googleapis.com/maps/api/staticmap?markers=|{request.Location.Latitude},{request.Location.Longitude}&language=es&size=540x216&zoom=16&scale=1&key={apiKey}", Path.Combine(StaticMapsPath, mapFileName));
+                
+                request.Location.StaticMap = $"/uploads/maps/{mapFileName}";
+                
                 entity.Location = request.Location;
                 fieldUpdated = true;
             }
@@ -217,6 +235,14 @@ namespace rentasgt.Application.Products.Commands.UpdateProduct
                         throw new NotFoundException(nameof(Picture), picId);
                     }
                 }
+            }
+        }
+
+        private void EnsureCreateUploadedMapsDirectory()
+        {
+            if (!Directory.Exists(StaticMapsPath))
+            {
+                Directory.CreateDirectory(StaticMapsPath);
             }
         }
 

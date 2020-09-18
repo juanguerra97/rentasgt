@@ -48,13 +48,20 @@
 
       <div class="product-location mt-2">
         <h3>Ubicaci&oacute;n</h3>
-        <img src="https://maps.googleapis.com/maps/api/staticmap?markers=|{{product.location.latitude + ',' + product.location.longitude }}&language=es&size=540x216&zoom=16&scale=1&key=" alt="Ubicaci&oacute;n">
+        <img src="{{ product.location.staticMap }}">
         <p>{{ product.location.city + ', ' + product.location.state }}</p>
       </div>
 
-      <button (click)="showSelectDateModal()" [disabled]="isOwner()" pButton label="Rentar" type="button" class="p-button-raised p-button-info p-button-sm ml-auto mr-auto w-100 mt-2"></button>
-      <button (click)="onMandarMensaje()" [disabled]="isOwner()" pButton label="Enviar mensaje" type="button" icon="pi pi-comments" class="p-button-raised p-button-info p-button-sm ml-auto mr-auto w-100 mt-2"></button>
-
+      <ng-container *ngIf="currentUser && currentUser.profileStatus === PROFILE_ACTIVE">
+        <button (click)="showSelectDateModal()" [disabled]="isOwner()" pButton label="Rentar" type="button" class="p-button-raised p-button-info p-button-sm ml-auto mr-auto w-100 mt-2"></button>
+        <button (click)="onMandarMensaje()" [disabled]="isOwner()" pButton label="Enviar mensaje" type="button" icon="pi pi-comments" class="p-button-raised p-button-info p-button-sm ml-auto mr-auto w-100 mt-2"></button>
+      </ng-container>
+      <ng-container *ngIf="currentUser && currentUser.profileStatus !== PROFILE_ACTIVE" [ngSwitch]="currentUser.profileStatus">
+        <p *ngSwitchCase="PROFILE_INCOMPLETE" class="p-invalid psmall">No puedes rentar ya que a&Uacute;n no has completado la informaci&oacute;n de tu perfil.</p>
+        <p *ngSwitchCase="PROFILE_WAITING_FOR_APPROVAL" class="psmall text-warning">Debes esperar a que tu cuenta sea aprobada para poder rentar.</p>
+        <p *ngSwitchDefault class="p-invalid psmall">No tienes permitido rentar</p>
+      </ng-container>
+      <p *ngIf="!currentUser" class="p-invalid psmall">Para poder rentar o enviar mensajes debes iniciar sesi&oacute;n</p>
     </div>
   </div>
 </div>

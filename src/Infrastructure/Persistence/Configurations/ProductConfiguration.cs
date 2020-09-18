@@ -61,6 +61,9 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
                     .HasMaxLength(Ubicacion.MAX_CITY_LENGTH);
                 b.Property(u => u.State)
                     .HasMaxLength(Ubicacion.MAX_STATE_LENGTH);
+                b.Property(u => u.StaticMap)
+                    .HasMaxLength(Ubicacion.MAX_STATIC_MAP_LENGTH)
+                    .IsRequired(false);
             });
 
         }

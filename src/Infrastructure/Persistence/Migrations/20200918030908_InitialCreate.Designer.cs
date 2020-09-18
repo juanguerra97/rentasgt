@@ -9,7 +9,7 @@ using rentasgt.Infrastructure.Persistence;
 namespace rentasgt.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200914013820_InitialCreate")]
+    [Migration("20200918030908_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1116,6 +1116,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                             b1.Property<string>("State")
                                 .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
                                 .HasMaxLength(128);
+
+                            b1.Property<string>("StaticMap")
+                                .HasColumnType("longtext CHARACTER SET utf8mb4")
+                                .HasMaxLength(4096);
 
                             b1.HasKey("ProductId");
 
