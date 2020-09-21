@@ -1,0 +1,111 @@
+<div class="container-fluid">
+  <div *ngIf="loadingConflicts" class="d-flex justify-content-center align-items-center w-100" style="height: 80vh">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+  <div *ngIf="!loadingConflicts" class="row mt-3 mb-3">
+
+    <div *ngIf="!selectedConflict" class="col-12">
+      <h2 class="pantalla-title">Conflictos</h2>
+<!--      <p-dropdown (onChange)="onFilterByStatus($event)" [options]="statusItems" [(ngModel)]="conflictStatus" placeholder="Estado" showClear="true"></p-dropdown>-->
+      <p-table *ngIf="conflicts.length > 0" [value]="conflicts" [(selection)]="selectedConflict" (selectionChange)="onSelectedConflictChange()" selectionMode="single" dataKey="id">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>No.</th>
+            <th>Demandante</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-conflict>
+          <tr [pSelectableRow]="conflict" [ngClass]="{'moderating': conflict.moderatorId === currentUser.id}">
+            <td>{{ conflict.id }}</td>
+            <td>{{ conflict.complainant.firstName + ' ' + conflict.complainant.lastName }}</td>
+            <td>{{ CONFLICT_STATUS_LABELS[conflict.status] }}</td>
+            <td>{{ formatDate(conflict.conflictDate) }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-paginator *ngIf="pageInfo !== null"
+                   [rows]="PAGE_SIZE"
+                   [totalRecords]="pageInfo.totalCount"
+                   [alwaysShow]="true"
+                   (onPageChange)="loadConflicts(PAGE_SIZE, $event.page + 1)"></p-paginator>
+      <p *ngIf="!loadingConflicts && conflicts.length <= 0" class="text-center">No hay conflictos.</p>
+    </div>
+
+    <ng-container *ngIf="selectedConflict">
+      <div class="col-12 col-md-6">
+        <div class="d-flex align-items-center">
+          <a (click)="onDeselectConflict()" mat-icon-button>
+            <li class="pi pi-arrow-left"></li>
+          </a>
+          <h2 class="pantalla-title flex-fill m-0 p-0">Detalle conflicto</h2>
+        </div>
+
+        <div class="conflict-container">
+          <div class="conflict-field mt-2">
+            <label>Descripci&oacute;n</label>
+            <p>{{ selectedConflict.description }}</p>
+          </div>
+          <hr>
+          <label>Demandante</label>
+          <div class="conflict-field">
+            <label>Nombre</label>
+            <p>{{ selectedConflict.complainant.firstName + ' ' + selectedConflict.complainant.lastName }}</p>
+          </div>
+          <ng-container *ngIf="selectedConflict.moderatorId === currentUser.id">
+            <div class="conflict-field">
+              <label>Tel&eacute;fono</label>
+              <p>{{ selectedConflict.complainant.phoneNumber }}</p>
+            </div>
+            <div class="conflict-field">
+              <label>Correo</label>
+              <p>{{ selectedConflict.complainant.email }}</p>
+            </div>
+          </ng-container>
+
+          <hr>
+          <label>Demandado</label>
+          <div class="conflict-field">
+            <label>Nombre</label>
+            <p>{{ getDemandado().firstName + ' ' + getDemandado().lastName }}</p>
+          </div>
+          <ng-container *ngIf="selectedConflict.moderatorId === currentUser.id">
+            <div class="conflict-field">
+              <label>Tel&eacute;fono</label>
+              <p>{{ getDemandado().phoneNumber }}</p>
+            </div>
+            <div class="conflict-field">
+              <label>Correo</label>
+              <p>{{ getDemandado().email }}</p>
+            </div>
+          </ng-container>
+        </div>
+
+      </div>
+      <div *ngIf="selectedConflict.rent.request.requestorId !== currentUser.id && selectedConflict.rent.request.product.owner.id !== currentUser.id" class="col-12 col-md-6 mt-2 mt-md-0">
+        <div class="d-flex justify-content-end">
+          <button *ngIf="selectedConflict.status === CONFLICT_STATUS_PENDING" (click)="onModerate()" pButton label="Moderar" type="button" class="p-button-sm p-button-raised"></button>
+          <button *ngIf="selectedConflict.status === CONFLICT_STATUS_IN_PROCESS && currentUser.id === selectedConflict.moderatorId" (click)="onFinish()" pButton label="Resuelto" type="button" class="p-button-sm p-button-raised"></button>
+        </div>
+        <ng-container>
+          <h4 class="p-0 m-0 mt-2 rentasgt-subtitle">Anotaciones</h4>
+          <ng-container *ngIf="selectedConflict.status === CONFLICT_STATUS_IN_PROCESS">
+            <mat-form-field class="w-100">
+              <mat-label>Descripci&oacute;n</mat-label>
+              <textarea [formControl]="formControlDescription" matInput placeholder="Agrega una descripci&oacute;n" cols="50" rows="2"></textarea>
+            </mat-form-field>
+            <button [disabled]="!formControlDescription.valid" (click)="onNewConflictRecord()" pButton label="Agregar" class="p-button-sm p-button-raised p-button-rounded" type="button"></button>
+          </ng-container>
+          <div *ngIf="!loadingConflictRecords && conflictRecords.length > 0" class="list-group mt-2">
+            <div *ngFor="let record of conflictRecords" class="list-group-item">
+              <p class="p-0 m-0">{{ record.description }}</p>
+              <time style="font-size: 0.8rem">{{ formatDate(record.recordDate) }}</time>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+
+  </div>
+</div>

@@ -19,6 +19,12 @@ code {
   font-size: 1.5rem;
 }
 
+
+.rentasgt-subtitle {
+  font-size: 1.15rem !important;
+  font-weight: bold;
+}
+
 .pac-container {
   z-index: 10000 !important;
 }

@@ -472,7 +472,6 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("ModeratorId")
-                        .IsRequired()
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<long>("RentId")
@@ -1055,8 +1054,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.HasOne("rentasgt.Domain.Entities.AppUser", "Moderator")
                         .WithMany()
                         .HasForeignKey("ModeratorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("rentasgt.Domain.Entities.Rent", "Rent")
                         .WithOne()

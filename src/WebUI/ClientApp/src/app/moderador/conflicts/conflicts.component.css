@@ -1,0 +1,19 @@
+
+
+.conflict-container label {
+  font-weight: bold;
+}
+
+.conflict-container p, .conflict-container label {
+  margin: 0;
+  padding: 0;
+}
+
+.conflict-field label {
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+.moderating {
+  border-left: #9CCC65 solid 2px;
+}

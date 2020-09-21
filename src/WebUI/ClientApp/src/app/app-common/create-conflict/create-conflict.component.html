@@ -1,0 +1,12 @@
+
+<div class="container-fluid">
+
+  <h2 class="pantalla-title text-center">Reportar renta</h2>
+
+  <mat-form-field class="w-100">
+    <mat-label>Descripci&oacute;n</mat-label>
+    <textarea [(ngModel)]="description" matInput placeholder="Cu&eacute;ntanos lo que ha pasado" cols="50" rows="5"></textarea>
+  </mat-form-field>
+    <button [disabled]="!isValidDescription()" (click)="onReportRent()" pButton label="Enviar" class="p-button-sm p-button-raised p-button-danger float-right" type="button"></button>
+
+</div>

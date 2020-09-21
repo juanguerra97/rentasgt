@@ -17,8 +17,8 @@ namespace rentasgt.Domain.Entities
         public long RentId { get; set; }
         public Rent Rent { get; set; }
         
-        public string ModeratorId { get; set; }
-        public AppUser Moderator { get; set; }
+        public string? ModeratorId { get; set; }
+        public AppUser? Moderator { get; set; }
 
         public string Description { get; set; }
 

@@ -594,7 +594,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     LastModified = table.Column<DateTime>(nullable: true),
                     Status = table.Column<int>(nullable: false),
                     RentId = table.Column<long>(nullable: false),
-                    ModeratorId = table.Column<string>(nullable: false),
+                    ModeratorId = table.Column<string>(nullable: true),
                     Description = table.Column<string>(maxLength: 1024, nullable: false),
                     ComplainantId = table.Column<string>(nullable: false),
                     ConflictDate = table.Column<DateTime>(nullable: false)

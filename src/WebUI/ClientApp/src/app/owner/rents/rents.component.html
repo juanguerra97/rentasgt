@@ -71,9 +71,14 @@
           <p>{{ selectedRentRequest.requestor.firstName }} te devolver&aacute; el art&iacute;culo el {{ formatDateShort(selectedRentRequest.endDate)}}</p>
         </ng-container>
         <p *ngSwitchCase="RENT_STATUS_RETURN_DELAYED">{{ selectedRentRequest.requestor.firstName }} se est&aacute; demorando en devolver el art&iacute;culo.</p>
+        <p *ngSwitchCase="RENT_STATUS_CONFLICT">Has reportado esta renta, nos pondremos en contacto para ayudarte.</p>
         <p *ngSwitchCase="RENT_STATUS_CANCELLED">Renta cancelada.</p>
         <p *ngSwitchCase="RENT_STATUS_NOT_COMPLETED">Renta abandonada.</p>
         <p *ngSwitchDefault>Renta finalizada.</p>
+      </ng-container>
+      <ng-container *ngIf="selectedRentRequest.rent.status === RENT_STATUS_DELIVERED || selectedRentRequest.rent.status === RENT_STATUS_RETURN_DELAYED">
+        <p>¿Alg&uacute;n problema?</p>
+        <button [disabled]="selectedRentRequest.rent.status === RENT_STATUS_CONFLICT" (click)="onReportRent()" mat-raised-button color="warn">Denunciar</button>
       </ng-container>
       <div class="d-flex justify-content-center" style="gap: 10px">
         <button *ngIf="selectedRentRequest.rent.status === RENT_STATUS_DELIVERED || selectedRentRequest.rent.status === RENT_STATUS_RETURN_DELAYED" (click)="confirmEndRent()" pButton label="Artículo recibido" icon="pi pi-check" type="button" class="p-button-sm p-button-rounded p-button-raised"></button>

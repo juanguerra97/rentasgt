@@ -71,6 +71,7 @@
           <p>Recuerda que debes devolverlo a {{ selectedRentRequest.product.owner.firstName }} el {{ formatDateShort(selectedRentRequest.endDate)}}</p>
         </ng-container>
         <p *ngSwitchCase="RENT_STATUS_RETURN_DELAYED">Te est&aacute;s demorando en devolver el art&iacute;culo.</p>
+        <p *ngSwitchCase="RENT_STATUS_CONFLICT">{{ selectedRentRequest.product.owner.firstName }} te ha denunciado. Nos pondremos en contacto contigo para resolver cualquier tipo de inconveniente.</p>
         <p *ngSwitchCase="RENT_STATUS_CANCELLED">Renta cancelada.</p>
         <p *ngSwitchCase="RENT_STATUS_NOT_COMPLETED">Renta abandonada.</p>
         <p *ngSwitchDefault>Renta finalizada.</p>

@@ -21,6 +21,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AngularCropperjsModule } from 'angular-cropperjs';
+import { CreateConflictComponent } from './create-conflict/create-conflict.component';
+import { MatOptionModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,7 @@ import { AngularCropperjsModule } from 'angular-cropperjs';
     ConfirmationModalComponent,
     ImgCropperComponent,
     SelectLocationComponent,
+    CreateConflictComponent,
   ],
   imports: [
     CommonModule,
@@ -55,10 +58,11 @@ import { AngularCropperjsModule } from 'angular-cropperjs';
     MatButtonModule,
     MatIconModule,
     MatTabsModule,
+    MatOptionModule,
     AngularCropperjsModule,
     ModalModule.forRoot(),
     AgmCoreModule.forRoot({
-      apiKey: '<API_KEY>',
+      apiKey: 'AIzaSyCir67E-b2FdkVB6nbJ1pEYON_llhZPO-A',
       libraries: ['places']
     })
   ],
@@ -66,6 +70,7 @@ import { AngularCropperjsModule } from 'angular-cropperjs';
     PaginatorNavComponent,
     ConfirmationModalComponent,
     ImgCropperComponent,
+    CreateConflictComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -92,6 +97,7 @@ import { AngularCropperjsModule } from 'angular-cropperjs';
     MatButtonModule,
     MatIconModule,
     MatTabsModule,
+    MatOptionModule,
     AngularCropperjsModule,
     SelectLocationComponent,
   ],

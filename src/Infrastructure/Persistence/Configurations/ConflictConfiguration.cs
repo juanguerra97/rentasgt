@@ -34,7 +34,7 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
             builder.HasOne(c => c.Moderator)
                 .WithMany()
                 .HasForeignKey(c => c.ModeratorId)
-                .IsRequired()
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(c => c.Complainant)

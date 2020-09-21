@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { RentRequestRentDto, RentsClient, RentStatus } from '../../rentasgt-api';
+import { RentRequestRentDto, RentsClient, RentStatus, UserProfileDto, UsersClient } from '../../rentasgt-api';
 import { PageInfo } from '../../models/PageInfo';
 import { AuthorizeService, IUser } from '../../../api-authorization/authorize.service';
 import { BsModalService } from 'ngx-bootstrap';
 import { ConfirmationModalComponent } from '../../app-common/confirmation-modal/confirmation-modal.component';
 import { DateTime } from 'luxon';
+import {MatDialog} from '@angular/material/dialog';
+import {CreateConflictComponent} from '../../app-common/create-conflict/create-conflict.component';
 
 @Component({
   selector: 'app-rents',
@@ -29,12 +31,14 @@ export class RentsComponent implements OnInit {
   public rentRequests: RentRequestRentDto[] = [];
   public selectedRentRequest: RentRequestRentDto = null;
   public loadingRents: boolean = false;
-  public currentUser: IUser = null;
+  public currentUser: UserProfileDto = null;
 
   constructor(
     private rentsClient: RentsClient,
+    private usersClient: UsersClient,
     private authService: AuthorizeService,
     private bsModalService: BsModalService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -50,7 +54,8 @@ export class RentsComponent implements OnInit {
   }
 
   public loadCurrentUser(): void {
-    this.authService.getUser().subscribe((user) => {
+    this.usersClient.getUserProfile()
+      .subscribe((user) => {
       this.currentUser = user;
     }, console.error);
   }
@@ -115,6 +120,22 @@ export class RentsComponent implements OnInit {
       .subscribe((res) => {
         this.selectedRentRequest.rent.status = this.RENT_STATUS_RETURNED;
       }, console.error);
+  }
+
+  public onReportRent(): void {
+    const dialogRef = this.dialog.open(CreateConflictComponent, {
+      //width: '250px',
+      data: {
+        rent: this.selectedRentRequest.rent,
+        user: this.currentUser
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.selectedRentRequest.rent.status = RentStatus.Conflict;
+      }
+    });
   }
 
   public formatDateShort(date: Date): string {

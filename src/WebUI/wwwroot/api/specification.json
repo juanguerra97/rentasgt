@@ -1,5 +1,5 @@
 {
-  "x-generator": "NSwag v13.7.0.0 (NJsonSchema v10.1.24.0 (Newtonsoft.Json v12.0.0.0))",
+  "x-generator": "NSwag v13.7.4.0 (NJsonSchema v10.1.26.0 (Newtonsoft.Json v12.0.0.0))",
   "openapi": "3.0.0",
   "info": {
     "title": "rentasgt API",
@@ -504,6 +504,300 @@
             }
           }
         }
+      }
+    },
+    "/api/ConflictRecords/{id}": {
+      "get": {
+        "tags": [
+          "ConflictRecords"
+        ],
+        "operationId": "ConflictRecords_GetConflictRecords",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConflictRecordDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/ConflictRecords": {
+      "post": {
+        "tags": [
+          "ConflictRecords"
+        ],
+        "operationId": "ConflictRecords_Create",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateConflictRecordCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Conflicts": {
+      "get": {
+        "tags": [
+          "Conflicts"
+        ],
+        "operationId": "Conflicts_GetConflicts",
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 15
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            },
+            "x-position": 2
+          },
+          {
+            "name": "conflictStatus",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "moderatorId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListResponseOfConflictDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Conflicts"
+        ],
+        "operationId": "Conflicts_Create",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateConflictCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Conflicts/{id}/cancel": {
+      "put": {
+        "tags": [
+          "Conflicts"
+        ],
+        "operationId": "Conflicts_Cancel",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Conflicts/{id}/finish": {
+      "put": {
+        "tags": [
+          "Conflicts"
+        ],
+        "operationId": "Conflicts_Finish",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Conflicts/{id}/moderate": {
+      "put": {
+        "tags": [
+          "Conflicts"
+        ],
+        "operationId": "Conflicts_Moderate",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
       }
     },
     "/api/Pictures/upload/public": {
@@ -2898,6 +3192,411 @@
           }
         }
       },
+      "ConflictRecordDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "conflictId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "recordDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CreateConflictRecordCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "conflictId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "PaginatedListResponseOfConflictDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "currentPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPrevious": {
+            "type": "boolean"
+          },
+          "hasNext": {
+            "type": "boolean"
+          },
+          "items": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ConflictDto"
+            }
+          }
+        }
+      },
+      "ConflictDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ConflictStatus"
+          },
+          "rentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rent": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/RentConflictDto"
+              }
+            ]
+          },
+          "moderatorId": {
+            "type": "string",
+            "nullable": true
+          },
+          "moderator": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserConflictDto"
+              }
+            ]
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "complainantId": {
+            "type": "string",
+            "nullable": true
+          },
+          "complainant": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserConflictDto"
+              }
+            ]
+          },
+          "conflictDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "conflictRecords": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ConflictRecordDto"
+            }
+          }
+        }
+      },
+      "ConflictStatus": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Pending",
+          "Cancelled",
+          "InProcess",
+          "Finished"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "RentConflictDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "requestId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "request": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/RentRequestConflictDto"
+              }
+            ]
+          },
+          "status": {
+            "$ref": "#/components/schemas/RentStatus"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "totalCost": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          }
+        }
+      },
+      "RentRequestConflictDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RequestStatus"
+          },
+          "requestDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "product": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ProductConflictDto"
+              }
+            ]
+          },
+          "requestorId": {
+            "type": "string",
+            "nullable": true
+          },
+          "requestor": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserConflictDto"
+              }
+            ]
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "place": {
+            "type": "string",
+            "nullable": true
+          },
+          "estimatedCost": {
+            "type": "number",
+            "format": "decimal"
+          }
+        }
+      },
+      "RequestStatus": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Pending",
+          "Viewed",
+          "Cancelled",
+          "NotResolved",
+          "Rejected",
+          "Accepted"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "ProductConflictDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ProductStatus"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "otherNames": {
+            "type": "string",
+            "nullable": true
+          },
+          "owner": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserConflictDto"
+              }
+            ]
+          },
+          "location": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UbicacionDto"
+              }
+            ]
+          },
+          "costPerDay": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "costPerWeek": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "costPerMonth": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "distanceInKm": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "pictures": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ProductPictureDto"
+            }
+          }
+        }
+      },
+      "ProductStatus": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Incomplete",
+          "Available",
+          "NotAvailable",
+          "Inactive"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "UserConflictDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "RentStatus": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Pending",
+          "ProductDelivered",
+          "ProductReturned",
+          "Cancelled",
+          "ReturnDelayed",
+          "NotCompleted",
+          "Conflict"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "CreateConflictCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "CreateProductCategoryCommand": {
         "type": "object",
         "additionalProperties": false,
@@ -3128,22 +3827,6 @@
           }
         }
       },
-      "ProductStatus": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "Incomplete",
-          "Available",
-          "NotAvailable",
-          "Inactive"
-        ],
-        "enum": [
-          0,
-          1,
-          2,
-          3
-        ]
-      },
       "RejectRentRequestCommand": {
         "type": "object",
         "additionalProperties": false,
@@ -3213,26 +3896,6 @@
             }
           }
         }
-      },
-      "RequestStatus": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "Pending",
-          "Viewed",
-          "Cancelled",
-          "NotResolved",
-          "Rejected",
-          "Accepted"
-        ],
-        "enum": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5
-        ]
       },
       "RentRequestProductOwnerDto": {
         "type": "object",
@@ -3407,28 +4070,6 @@
             "nullable": true
           }
         }
-      },
-      "RentStatus": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "Pending",
-          "ProductDelivered",
-          "ProductReturned",
-          "Cancelled",
-          "ReturnDelayed",
-          "NotCompleted",
-          "Conflict"
-        ],
-        "enum": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ]
       },
       "PaginatedListResponseOfRentRequestRentDto": {
         "type": "object",
