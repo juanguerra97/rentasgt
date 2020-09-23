@@ -9,6 +9,10 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using rentasgt.Domain.Entities;
+using Microsoft.Azure.Services.AppAuthentication;
+using Microsoft.Azure.KeyVault;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.AzureKeyVault;
 
 namespace rentasgt.WebUI
 {
@@ -55,6 +59,17 @@ namespace rentasgt.WebUI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.ConfigureAppConfiguration((contextBoundObject, config) =>
+                    {
+                        if (contextBoundObject.HostingEnvironment.IsProduction())
+                        {
+                            var buildConfig = config.Build();
+                        var azureServiceTokenProvider = new AzureServiceTokenProvider();
+                        var keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
+                        config.AddAzureKeyVault($@"https://{buildConfig["KeyVaultName"]}.vault.azure.net/", keyVaultClient, new DefaultKeyVaultSecretManager());
+                        }
+                        
+                    });
                     webBuilder.UseStartup<Startup>();
                 });
     }

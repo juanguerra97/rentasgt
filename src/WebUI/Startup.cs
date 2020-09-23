@@ -17,6 +17,9 @@ using System.Linq;
 using rentasgt.WebUI.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using WebUI.Services;
+using NETCore.MailKit.Extensions;
+using NETCore.MailKit.Infrastructure.Internal;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace rentasgt.WebUI
 {
@@ -57,6 +60,15 @@ namespace rentasgt.WebUI
                 options.Filters.Add(new ApiExceptionFilter()));
 
             services.AddRazorPages();
+
+            var mailKitConfig = Configuration.GetSection("MailKitConfig").Get<MailKitOptions>();
+            mailKitConfig.SenderEmail = Configuration.GetValue<string>("SenderEmail");
+            mailKitConfig.Account = mailKitConfig.SenderEmail;
+            mailKitConfig.Password = Configuration.GetValue<string>("SenderEmailPassword");
+            
+            services.AddMailKit(config => config.UseMailKit(mailKitConfig));
+            
+            services.AddTransient<IEmailSender, EmailSender>();
 
             // Customise default API behaviour
             services.Configure<ApiBehaviorOptions>(options =>

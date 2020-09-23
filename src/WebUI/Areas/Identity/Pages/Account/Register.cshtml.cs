@@ -110,8 +110,8 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirma tu correo",
+                        $"<div style='padding: 0.5rem'><h1><span style='font-weight: normal; font-size: 1.2rem;'>Bienvenido a </span>Rentas Guatemala</h1><p>Para confirmar tu correo haz click en <a href='{HtmlEncoder.Default.Encode(callbackUrl)}' style='font-weight: bold;'>CONFIRMAR</a></p></div>");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

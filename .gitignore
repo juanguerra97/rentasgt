@@ -233,3 +233,4 @@ _Pvt_Extensions
 *.code-workspace
 src/WebUI/wwwroot/uploads/
 src/WebUI/ClientApp/src/app/rentasgt-api.ts
+src/WebUI/Properties/ServiceDependencies*

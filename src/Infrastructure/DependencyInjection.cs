@@ -37,11 +37,15 @@ namespace rentasgt.Infrastructure
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
-            services.AddDefaultIdentity<AppUser>()
+            services.AddDefaultIdentity<AppUser>(config => {
+                config.SignIn.RequireConfirmedAccount = false;
+                config.SignIn.RequireConfirmedEmail = true;
+            })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddIdentityServer()
+                //.AddSigningCredential("CN=rentasgtdev", System.Security.Cryptography.X509Certificates.StoreLocation.LocalMachine)
                 .AddApiAuthorization<AppUser, ApplicationDbContext>(configure =>
                 {
                     //configure.IdentityResources.Add(new IdentityServer4.Models.IdentityResource(
@@ -95,11 +99,11 @@ namespace rentasgt.Infrastructure
                     };
                 }).AddGoogle(options =>
                 {
-                    IConfigurationSection googleAuthNSection =
-                        configuration.GetSection("Authentication:Google");
+                    //IConfigurationSection googleAuthNSection =
+                    //    configuration.GetSection("Authentication:Google");
 
-                    options.ClientId = googleAuthNSection["ClientId"];
-                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                    options.ClientId = configuration.GetValue<string>("GoogleOAuthClientId");
+                    options.ClientSecret = configuration.GetValue<string>("GoogleOAuthClientSecret");
                 });
 
             services.AddAuthorization(config =>

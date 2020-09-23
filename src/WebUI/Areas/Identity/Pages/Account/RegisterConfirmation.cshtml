@@ -1,0 +1,50 @@
+@page
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Verifiación de correo";
+}
+
+@*@{*@
+
+    <section class="login-block">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <div class="auth-box card">
+                        <div class="card-block d-flex flex-column justify-content-center align-items-center" style="height: 80vh">
+
+                            <div class="row w-100">
+
+                                <div class="col-12">
+                                    @*if (@Model.DisplayConfirmAccountLink)
+                                    {
+                                    <p class="center">
+                                        This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
+                                        Normally this would be emailed: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to confirm your account</a>
+                                    </p>
+                                    }
+                                    else
+                                    {*@
+
+                                        <div class="col-md-12">
+                                            <h3 class="text-center heading">Verificaci&oacute;n de correo</h3>
+                                        </div>
+                                        <div class="col-12">
+                                            <p class="text-center">Hemos enviado un link de verificaci&oacute;n a tu correo.</p>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <a href="/" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20" title="Ir a Inicio">Ir a inicio</a>
+                                        </div>
+
+                                    @*}*@
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+@*}*@
