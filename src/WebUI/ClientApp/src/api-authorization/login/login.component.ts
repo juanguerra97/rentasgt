@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   public message = new BehaviorSubject<string>(null);
   public loading = true;
   public error = false;
+  public retrying = false;
 
   constructor(
     private authorizeService: AuthorizeService,
@@ -48,6 +49,7 @@ export class LoginComponent implements OnInit {
   }
 
   public async onRetryLogin(): Promise<any> {
+    this.retrying = true;
     await this.login(this.getReturnUrl());
   }
 
@@ -86,6 +88,7 @@ export class LoginComponent implements OnInit {
         this.error = true;
         break;
     }
+    this.retrying = false;
     this.loading = false;
   }
 

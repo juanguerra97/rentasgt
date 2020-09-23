@@ -6,6 +6,6 @@
 <!--  <p *ngIf="!loading" class="text-center">{{ message | async }}</p>-->
   <ng-container *ngIf="!loading && error">
     <p>Ocurri&oacute; un error al iniciar sesi&oacute;n</p>
-    <button (click)="onRetryLogin()" pButton label="Reintentar" icon="pi pi-refresh" class="p-button-sm p-button-raised p-button-rounded"></button>
+    <button (click)="onRetryLogin()" [disabled]="retrying" pButton label="Reintentar" icon="pi pi-refresh" class="p-button-sm p-button-raised p-button-rounded"></button>
   </ng-container>
 </div>
