@@ -2567,56 +2567,6 @@
         ]
       }
     },
-    "/api/Users/{id}/phone": {
-      "put": {
-        "tags": [
-          "Users"
-        ],
-        "operationId": "Users_UpdatePhoneNumber",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdatePhoneNumberCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
-      }
-    },
     "/api/Users/{id}/approveDpi": {
       "post": {
         "tags": [
@@ -2719,6 +2669,81 @@
                 "schema": {
                   "type": "string",
                   "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Users/sendPhoneCode": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Users_SendPhoneVerificationCode",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendPhoneNumberVerificationCode"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/Users/validatePhone": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "Users_ValidatePhoneVerificationCode",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateUserPhoneNumberCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
                 }
               }
             }
@@ -4416,8 +4441,7 @@
             "nullable": true
           },
           "phoneNumberConfirmed": {
-            "type": "string",
-            "nullable": true
+            "type": "boolean"
           },
           "cui": {
             "type": "string",
@@ -4514,15 +4538,25 @@
           1
         ]
       },
-      "UpdatePhoneNumberCommand": {
+      "SendPhoneNumberVerificationCode": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "userId": {
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ValidateUserPhoneNumberCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "phoneNumber": {
             "type": "string",
             "nullable": true
           },
-          "phoneNumber": {
+          "verificationCode": {
             "type": "string",
             "nullable": true
           }

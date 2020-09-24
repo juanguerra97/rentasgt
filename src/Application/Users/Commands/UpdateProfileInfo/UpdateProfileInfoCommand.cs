@@ -99,7 +99,8 @@ namespace rentasgt.Application.Users.Commands.UpdateProfileInfo
                 }
             }
 
-            if (user.DpiPicture == null || user.ProfilePicture == null || user.AddressPicture == null 
+            if (!user.PhoneNumberConfirmed || !user.EmailConfirmed || user.DpiPicture == null
+                || user.ProfilePicture == null || user.AddressPicture == null 
                 || user.UserPicture == null)
             {
                 user.ProfileStatus = UserProfileStatus.Incomplete;

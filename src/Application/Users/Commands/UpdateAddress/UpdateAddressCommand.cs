@@ -84,7 +84,8 @@ namespace rentasgt.Application.Users.Commands.UpdateAddress
             {
                 user.Address = request.Address;
             }
-            if (user.DpiPicture == null || user.UserPicture == null || user.ProfilePicture == null)
+            if (!user.EmailConfirmed || !user.PhoneNumberConfirmed || user.DpiPicture == null
+                || user.UserPicture == null || user.ProfilePicture == null)
             {
                 user.ProfileStatus = UserProfileStatus.Incomplete;
             }

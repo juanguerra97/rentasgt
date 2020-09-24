@@ -1,36 +1,34 @@
-using System;
 using MediatR;
 using rentasgt.Application.Common.Exceptions;
 using rentasgt.Application.Common.Interfaces;
-using rentasgt.Domain.Entities;
-using rentasgt.Domain.Enums;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace rentasgt.Application.Users.Commands.UpdatePhoneNumber
 {
-    public class UpdatePhoneNumberCommand : IRequest
+    public class UpdatePhoneNumberCommand : IRequest<bool>
     {
         public string UserId { get; set; }
         public string PhoneNumber { get; set; }
 
     }
 
-    public class UpdatePhoneNumberCommandHandler : IRequestHandler<UpdatePhoneNumberCommand>
+    public class UpdatePhoneNumberCommandHandler : IRequestHandler<UpdatePhoneNumberCommand, bool>
     {
         private readonly IApplicationDbContext context;
         private readonly ICurrentUserService currentUserService;
+        private readonly IPhoneVerifyService phoneVerifyService;
 
-        public UpdatePhoneNumberCommandHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
+        public UpdatePhoneNumberCommandHandler(IApplicationDbContext context, ICurrentUserService currentUserService, IPhoneVerifyService phoneVerifyService)
         {
             this.currentUserService = currentUserService;
+            this.phoneVerifyService = phoneVerifyService;
             this.context = context;
             
         }
 
-        public async Task<Unit> Handle(UpdatePhoneNumberCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(UpdatePhoneNumberCommand request, CancellationToken cancellationToken)
         {
             var userId = this.currentUserService.UserId;
             if (userId != request.UserId)
@@ -44,11 +42,15 @@ namespace rentasgt.Application.Users.Commands.UpdatePhoneNumber
                 throw new NotFoundException("User", request.UserId);
             }
 
-            userEntity.PhoneNumber = request.PhoneNumber;
-            userEntity.PhoneNumberConfirmed = false;
+            userEntity.PhoneNumber = $"{request.PhoneNumber}";
+            var status = await this.phoneVerifyService.SendVerificationCode($"+502{userEntity.PhoneNumber}");
+            userEntity.PhoneNumberConfirmed = status == "approved";
+            
+            // TODO: change profile status
+            
             await this.context.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
+            return userEntity.PhoneNumberConfirmed;
         }
 
     }

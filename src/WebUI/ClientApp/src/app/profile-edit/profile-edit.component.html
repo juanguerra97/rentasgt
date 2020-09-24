@@ -34,13 +34,34 @@
   <mat-tab label="Tel&eacute;fono">
     <mat-form-field class="w-100 mt-3">
       <mat-label>N&uacute;mero de tel&eacute;fono</mat-label>
-      <input matInput [formControl]="phoneNumberControl">
+      <input matInput [disabled]="sentPhoneNumber || (user.phoneNumber && phoneNumberControl.value === user.phoneNumber)" [formControl]="phoneNumberControl">
 
     </mat-form-field>
 
-    <div class="d-flex justify-content-end w-100">
-      <button [disabled]="!phoneNumberControl.valid || user.phoneNumber === phoneNumberControl.value"
+    <ng-container *ngIf="sentPhoneNumber">
+      <p class="psmall text-center pl-1 pr-1">
+        Hemos enviado un c&oacute;digo de verificaci&oacute;n al n&uacute;mero&nbsp;<span style="font-weight: bold">+502&nbsp;{{ phoneNumberControl.value }}</span>
+      </p>
+      <mat-form-field class="w-100 mt-3">
+        <mat-label>C&oacute;digo de verificaci&oacute;n</mat-label>
+        <input matInput [formControl]="verificationCodeControl">
+
+      </mat-form-field>
+    </ng-container>
+
+
+    <p *ngIf="invalidCode" class="psmall text-center text-danger">
+      C&oacute;digo inv&aacute;lido
+    </p>
+
+    <div class="d-flex justify-content-end w-100" style="gap: 10px">
+      <button *ngIf="!sentPhoneNumber" [disabled]="!phoneNumberControl.valid || sendingVerificationCode || user.phoneNumber === phoneNumberControl.value"
         (click)="onUpdatePhoneNumber()" pButton label="Guardar" class="p-button-raised p-button-sm"></button>
+      <ng-container *ngIf="sentPhoneNumber">
+        <button [disabled]="validatingCode" (click)="onCancelPhoneNumberUpdate()" pButton label="Cancelar" class="p-button-sm p-button-raised p-button-danger"></button>
+        <button  [disabled]="!verificationCodeControl.valid || validatingCode"
+                (click)="onValidateVerificationCode()" pButton label="Verificar" class="p-button-raised p-button-sm"></button>
+      </ng-container>
     </div>
 
   </mat-tab>

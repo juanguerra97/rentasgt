@@ -4,13 +4,14 @@ using rentasgt.Application.Users.Commands.UpdateAddress;
 using rentasgt.Application.Users.Commands.UpdateDpi;
 using rentasgt.Application.Users.Queries.GetUserProfile;
 using rentasgt.Application.Users.Commands.UpdateProfileInfo;
-using rentasgt.Application.Users.Commands.UpdatePhoneNumber;
 using System.Threading.Tasks;
 using rentasgt.Application.Users.Queries.GetPendingApprovalProfiles;
 using rentasgt.Application.Common.Models;
 using rentasgt.Application.Users.Commands.ApproveDpi;
 using rentasgt.Application.Users.Commands.ApproveAddress;
 using rentasgt.Application.Users.Commands.RejectProfile;
+using rentasgt.Application.Users.Commands.ValidateUserPhoneNumber;
+using rentasgt.Application.Users.Commands.SendPhoneNumberVerificationCode;
 
 namespace rentasgt.WebUI.Controllers
 {
@@ -75,18 +76,16 @@ namespace rentasgt.WebUI.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}/phone")]
-        public async Task<ActionResult> UpdatePhoneNumber(string id, UpdatePhoneNumberCommand command)
-        {
-            if (id != command.UserId)
-            {
-                return BadRequest("Los id de usuario no coinciden");
-            }
+        //[HttpPut("{id}/phone")]
+        //public async Task<ActionResult<bool>> UpdatePhoneNumber(string id, UpdatePhoneNumberCommand command)
+        //{
+        //    if (id != command.UserId)
+        //    {
+        //        return BadRequest("Los id de usuario no coinciden");
+        //    }
 
-            await Mediator.Send(command);
-
-            return NoContent();
-        }
+        //    return await Mediator.Send(command);
+        //}
 
         [Authorize(Policy = "OnlyModerador")]
         [HttpPost("{id}/approveDpi")]
@@ -111,5 +110,19 @@ namespace rentasgt.WebUI.Controllers
             await Mediator.Send(new RejectProfileCommand { UserId = id });
             return NoContent();
         }
+
+        [HttpPut("sendPhoneCode")]
+        public async Task<ActionResult> SendPhoneVerificationCode(SendPhoneNumberVerificationCode command)
+        {
+            await Mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpPut("validatePhone")]
+        public async Task<bool> ValidatePhoneVerificationCode(ValidateUserPhoneNumberCommand command)
+        {
+            return await Mediator.Send(command);
+        }
+
     }
 }

@@ -95,7 +95,8 @@ namespace rentasgt.Application.Users.Commands.UpdateDpi
                 };
             }
 
-            if (user.UserPicture == null || user.AddressPicture == null || user.ProfilePicture == null)
+            if (!user.EmailConfirmed || !user.PhoneNumberConfirmed || user.UserPicture == null
+                || user.AddressPicture == null || user.ProfilePicture == null)
             {
                 user.ProfileStatus = UserProfileStatus.Incomplete;
             } else if (!user.ValidatedAddress || !user.ValidatedDpi)

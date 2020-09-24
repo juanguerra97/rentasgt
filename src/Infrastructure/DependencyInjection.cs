@@ -15,6 +15,8 @@ using IdentityModel;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Threading.Tasks;
+using Twilio;
+using rentasgt.Infrastructure.Models;
 
 namespace rentasgt.Infrastructure
 {
@@ -65,7 +67,16 @@ namespace rentasgt.Infrastructure
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<ILocation, LocationService>();
             services.AddTransient<IIdentityService, IdentityService>();
-            services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();            
+            services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
+
+            var accountSid = configuration.GetValue<string>("TwilioAccountSID");
+            var authToken = configuration.GetValue<string>("TwilioAuthToken");
+            TwilioClient.Init(accountSid, authToken);
+
+            var verificationServiceSID = configuration.GetValue<string>("TwilioVerificationServiceSID");
+            services.Configure<TwilioVerifySettings>(opts => opts.VerificationServiceSID = verificationServiceSID );
+
+            services.AddTransient<IPhoneVerifyService, PhoneVerifyService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddIdentityServerJwt()
