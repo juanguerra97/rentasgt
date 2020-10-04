@@ -31,7 +31,7 @@ export class RentsComponent implements OnInit {
   public pageInfo: PageInfo = null;
   public rentRequests: RentRequestRentDto[] = [];
   public selectedRentRequest: RentRequestRentDto = null;
-  public loadingRents: boolean = false;
+  public loadingRents: boolean = true;
   public currentUser: UserProfileDto = null;
 
   constructor(

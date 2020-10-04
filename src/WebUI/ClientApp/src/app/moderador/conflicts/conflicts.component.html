@@ -1,13 +1,19 @@
 <div class="container-fluid">
-  <div *ngIf="loadingConflicts" class="d-flex justify-content-center align-items-center w-100" style="height: 80vh">
+  <!--<div *ngIf="loadingConflicts" class="d-flex justify-content-center align-items-center w-100" style="height: 90vh">
     <p-progressSpinner></p-progressSpinner>
-  </div>
-  <div *ngIf="!loadingConflicts" class="row mt-3 mb-3">
+  </div>-->
+  <div class="row mt-3 mb-3">
 
     <div *ngIf="!selectedConflict" class="col-12">
       <h2 class="pantalla-title">Conflictos</h2>
 <!--      <p-dropdown (onChange)="onFilterByStatus($event)" [options]="statusItems" [(ngModel)]="conflictStatus" placeholder="Estado" showClear="true"></p-dropdown>-->
-      <p-table *ngIf="conflicts.length > 0" [value]="conflicts" [(selection)]="selectedConflict" (selectionChange)="onSelectedConflictChange()" selectionMode="single" dataKey="id">
+      <p-table [value]="conflicts" [(selection)]="selectedConflict"
+               (selectionChange)="onSelectedConflictChange()"
+               selectionMode="single" dataKey="id"
+               [loading]="loadingConflicts" [paginator]="true"
+               [alwaysShowPaginator]="true" [rows]="PAGE_SIZE"
+               [totalRecords]="pageInfo.totalCount"
+               (onPage)="loadConflicts(PAGE_SIZE, $event.page + 1)">
         <ng-template pTemplate="header">
           <tr>
             <th>No.</th>
@@ -25,11 +31,11 @@
           </tr>
         </ng-template>
       </p-table>
-      <p-paginator *ngIf="pageInfo !== null"
+      <!--<p-paginator *ngIf="pageInfo !== null"
                    [rows]="PAGE_SIZE"
                    [totalRecords]="pageInfo.totalCount"
                    [alwaysShow]="true"
-                   (onPageChange)="loadConflicts(PAGE_SIZE, $event.page + 1)"></p-paginator>
+                   (onPageChange)="loadConflicts(PAGE_SIZE, $event.page + 1)"></p-paginator>-->
       <p *ngIf="!loadingConflicts && conflicts.length <= 0" class="text-center">No hay conflictos.</p>
     </div>
 

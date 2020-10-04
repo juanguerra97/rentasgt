@@ -1,5 +1,8 @@
+<div *ngIf="loadingProducts" class="d-flex justify-content-center align-items-center w-100 mt-3" style="height: 95vh">
+  <p-progressSpinner></p-progressSpinner>
+</div>
 
-<div class="row">
+<div *ngIf="!loadingProducts" class="row">
 
   <div *ngIf="currentUser && currentUser.profileStatus !== PROFILE_ACTIVE" class="d-flex flex-column align-items-center justify-content-center w-100" style="height: 70vh">
     <p class="text-center">No puedes agregar nuevos art&iacute;culos mientras tu cuenta no est&eacute; activa.</p>
@@ -47,13 +50,13 @@
 
   </div>
 
-  <div *ngIf="products.length <= 0 && currentUser && currentUser.profileStatus === PROFILE_ACTIVE" class="col-12 d-flex justify-content-center align-content-center" style="height: 70vh">
-    <div class="noproducts-message-container">
+    <div *ngIf="products.length <= 0 && currentUser && currentUser.profileStatus === PROFILE_ACTIVE" class="col-12 d-flex justify-content-center align-content-center" style="height: 70vh">
+      <div class="noproducts-message-container">
 
-      <p class="">A&uacute;n no has registrado art&iacute;culos.</p>
-      <p>Pulsa el siguiente bot&oacute;n para registrar tu primer art&iacute;culo.</p>
-      <button [routerLink]="['nuevo']" pButton pRipple icon="pi pi-plus" type="button" label="Agregar art&iacute;culo" class="p-button-rounded"></button>
+        <p class="">A&uacute;n no has registrado art&iacute;culos.</p>
+        <p>Pulsa el siguiente bot&oacute;n para registrar tu primer art&iacute;culo.</p>
+        <button [routerLink]="['nuevo']" pButton pRipple icon="pi pi-plus" type="button" label="Agregar art&iacute;culo" class="p-button-rounded"></button>
 
+      </div>
     </div>
-  </div>
 </div>

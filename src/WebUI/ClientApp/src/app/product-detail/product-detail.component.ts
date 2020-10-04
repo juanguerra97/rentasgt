@@ -17,7 +17,7 @@ export class ProductDetailComponent implements OnInit {
 
   public product: ProductDto = null;
   public chatRoom: ChatRoomDto = null;
-  public loadingProduct = false;
+  public loadingProduct = true;
   public notFound = false;
   public displaySelectDateModal = false;
   public rentDate: Date[] = null;
@@ -88,7 +88,6 @@ export class ProductDetailComponent implements OnInit {
     this.productsClient.getById(productId)
       .subscribe((res) => {
 
-        console.log(res.owner.reputation);
         this.product = res;
         this.loadingProduct = false;
         this.loadChatRoom();

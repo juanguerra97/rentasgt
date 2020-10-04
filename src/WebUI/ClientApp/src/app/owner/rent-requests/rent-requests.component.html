@@ -1,7 +1,11 @@
 
 <div class="container-fluid">
 
-  <div class="row mt-3 mb-3">
+  <div *ngIf="loadingRentRequests" class="d-flex justify-content-center align-items-center w-100 mt-3" style="height: 95vh">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+
+  <div *ngIf="!loadingRentRequests" class="row mt-3 mb-3">
     <div class="col-12 p-0">
       <h2 class="pantalla-title">Solicitudes recibidas</h2>
     </div>
@@ -43,9 +47,9 @@
         <a (click)="selectRentRequest(null)" style="cursor: pointer;">
           <li class="pi pi-arrow-left"></li>
         </a>
-<!--        <div *ngIf="requestCanBeCancelled()" class="d-flex flex-fill justify-content-end">
-          <button (click)="confirmCancelRequest()" [disabled]="cancellingRequest" pButton label="Cancelar solicitud" icon="pi pi-times-circle" class="p-button-rounded p-button-danger p-button-sm"></button>
-        </div>-->
+        <!--        <div *ngIf="requestCanBeCancelled()" class="d-flex flex-fill justify-content-end">
+                  <button (click)="confirmCancelRequest()" [disabled]="cancellingRequest" pButton label="Cancelar solicitud" icon="pi pi-times-circle" class="p-button-rounded p-button-danger p-button-sm"></button>
+                </div>-->
       </div>
 
       <div class="rent-request d-flex mt-1">

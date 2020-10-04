@@ -18,7 +18,7 @@ export class ProductsComponent implements OnInit {
 
   public products: ProductDto[] = [];
   public pageInfo: PageInfo = null;
-  public loadingProducts = false;
+  public loadingProducts = true;
 
   public PRODUCT_STATES = [
     'Incompleto',
@@ -29,7 +29,7 @@ export class ProductsComponent implements OnInit {
   constructor(
     private productsClient: ProductsClient,
     private usersClient: UsersClient,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadCurrentUser();

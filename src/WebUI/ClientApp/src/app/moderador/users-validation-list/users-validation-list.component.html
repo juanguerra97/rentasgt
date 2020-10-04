@@ -35,6 +35,7 @@
           </tr>
         </ng-template>
       </p-table>
+      <p *ngIf="!loadingUsers && users.length <= 0" class="text-center">No hay usuarios por validar.</p>
     </div>
 
     <div *ngIf="selectedUser" class="col-12">

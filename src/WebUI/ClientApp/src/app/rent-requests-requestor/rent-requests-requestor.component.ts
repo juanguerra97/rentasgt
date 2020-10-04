@@ -31,7 +31,7 @@ export class RentRequestsRequestorComponent implements OnInit {
 
   public pageInfo: PageInfo = null;
   public rentRequests: RentRequestDto[] = [];
-  public loadingRentRequests: boolean = false;
+  public loadingRentRequests: boolean = true;
   public selectedRentRequest: RentRequestDto = null;
   public rentRequestEvents: RequestEventDto[] = [];
   public loadingRequestEvents: boolean = false;

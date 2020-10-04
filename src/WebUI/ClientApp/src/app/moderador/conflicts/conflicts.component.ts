@@ -31,7 +31,7 @@ export class ConflictsComponent implements OnInit {
 
   public pageInfo: PageInfo = null;
   public conflicts: ConflictDto[] = [];
-  public loadingConflicts: boolean = false;
+  public loadingConflicts: boolean = true;
   public selectedConflict: ConflictDto = null;
   public conflictRecords: ConflictRecordDto[] = [];
   public loadingConflictRecords: boolean = false;
