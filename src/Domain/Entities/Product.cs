@@ -113,6 +113,8 @@ namespace rentasgt.Domain.Entities
 
         public decimal? CostPerMonth { get; set; }
 
+        public double? Rating { get; set; }
+
         /// <summary>
         /// List of the categories the product belongs to
         /// </summary>

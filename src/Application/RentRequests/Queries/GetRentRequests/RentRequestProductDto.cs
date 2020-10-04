@@ -11,8 +11,8 @@ namespace rentasgt.Application.RentRequests.Queries.GetRentRequests
 
         public long Id { get; set; }
         public string Name { get; set; }
+        public double? Rating { get; set; }
         public RentRequestProductOwnerDto Owner { get; set; } 
-
         public ProductPictureDto Picture { get; set; }
 
         public void Mapping(Profile profile)

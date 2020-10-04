@@ -4,16 +4,18 @@
   <div *ngIf="user" class="col-12 col-md-6 col-lg-3">
 
     <h2 class="pantalla-title text-center">{{ user.firstName + ' ' + user.lastName }}</h2>
-
+    
     <div class="user-card">
       <div *ngIf="user.profilePicture" class="user-img-container">
-        <img  src="{{ user.profilePicture.pictureContent }}" alt="{{user.firstName}}">
+        <img src="{{ user.profilePicture.pictureContent }}" alt="{{user.firstName}}">
 
       </div>
       <div *ngIf="!user.profilePicture" class="default-user-img-container">
-        <img  src="/assets/user.png">
+        <img src="/assets/user.png">
       </div>
       <div class="user-card-body">
+
+        <p-rating *ngIf="user.reputation !== null" stars="5" [(ngModel)]="user.reputation" [readonly]="true" [cancel]="false"></p-rating>
 
         <button (click)="openEditProfileDialog()" mat-mini-fab color="primary" style="margin-top: -1rem" class="float-right">
           <li class="pi pi-user-edit"></li>

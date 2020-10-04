@@ -53,6 +53,10 @@ namespace rentasgt.Application.Common.Interfaces
 
         DbSet<ConflictRecord> ConflictRecords { get; set; }
 
+        DbSet<RatingToProduct> RatingToProducts { get; set; }
+
+        DbSet<RatingToUser> RatingToUsers { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

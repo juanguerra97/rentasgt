@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { clearLocation, getAddressFromCoordinates, saveCurrentUserLocation } from './utils';
+import { RatingToProductDto, RatingToProductsClient } from './rentasgt-api';
+import {MatDialog} from '@angular/material/dialog';
+import {RateProductComponent} from './app-common/rate-product/rate-product.component';
 
 @Component({
   selector: 'app-root',
@@ -10,12 +13,15 @@ export class AppComponent implements OnInit {
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
+    private ratingToProductsClient: RatingToProductsClient,
+    private matDialog: MatDialog,
   ) {
   }
 
   ngOnInit(): void {
     clearLocation();
     this.getUserLocation();
+    this.checkIfThereIsPendingProductRating();
   }
 
   private getUserLocation(): void {
@@ -28,6 +34,21 @@ export class AppComponent implements OnInit {
         }
       });
     }
+  }
+
+  private checkIfThereIsPendingProductRating(): void {
+    this.ratingToProductsClient.getPending()
+      .subscribe((res) => {
+        this.askUserForProductRating(res);
+      }, console.error);
+  }
+
+  private askUserForProductRating(pendingRating: RatingToProductDto): void {
+    const ref = this.matDialog.open(RateProductComponent, {
+      width: '350px',
+      panelClass: 'mat-dialog-panel',
+      data: pendingRating
+    });
   }
 
 }

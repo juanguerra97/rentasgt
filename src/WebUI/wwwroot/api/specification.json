@@ -1313,6 +1313,239 @@
         }
       }
     },
+    "/api/RatingToProducts/pending": {
+      "get": {
+        "tags": [
+          "RatingToProducts"
+        ],
+        "operationId": "RatingToProducts_GetPending",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RatingToProductDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/RatingToProducts/{id}": {
+      "get": {
+        "tags": [
+          "RatingToProducts"
+        ],
+        "operationId": "RatingToProducts_GetRatingsForProduct",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 15
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListResponseOfRatingToProductDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/RatingToProducts/{id}/rate": {
+      "put": {
+        "tags": [
+          "RatingToProducts"
+        ],
+        "operationId": "RatingToProducts_Rate",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RateProductCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/RatingToProducts/{id}/ignore": {
+      "put": {
+        "tags": [
+          "RatingToProducts"
+        ],
+        "operationId": "RatingToProducts_Ignore",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/RatingToUsers/pending": {
+      "get": {
+        "tags": [
+          "RatingToUsers"
+        ],
+        "operationId": "RatingToUsers_GetPendingRating",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RatingToUserDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/api/RatingToUsers/rate": {
+      "post": {
+        "tags": [
+          "RatingToUsers"
+        ],
+        "operationId": "RatingToUsers_RateUser",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RateUserCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
     "/api/RentRequests/{id}/view": {
       "post": {
         "tags": [
@@ -1886,6 +2119,18 @@
             "x-position": 1
           }
         ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EndRentCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
         "responses": {
           "200": {
             "description": "",
@@ -3105,6 +3350,11 @@
             "format": "decimal",
             "nullable": true
           },
+          "rating": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
           "distanceInKm": {
             "type": "number",
             "format": "double",
@@ -3137,6 +3387,11 @@
           },
           "email": {
             "type": "string",
+            "nullable": true
+          },
+          "reputation": {
+            "type": "number",
+            "format": "double",
             "nullable": true
           }
         }
@@ -3852,6 +4107,258 @@
           }
         }
       },
+      "RatingToProductDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RatingStatus"
+          },
+          "fromUserId": {
+            "type": "string",
+            "nullable": true
+          },
+          "fromUser": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserRatingDto"
+              }
+            ]
+          },
+          "productId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "product": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ProductRatingDto"
+              }
+            ]
+          },
+          "productRatingValue": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "ownerRatingValue": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          },
+          "ratingDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "RatingStatus": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Pending",
+          "Ignored",
+          "Rated"
+        ],
+        "enum": [
+          0,
+          1,
+          2
+        ]
+      },
+      "UserRatingDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "profilePicture": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Picture"
+              }
+            ]
+          },
+          "reputation": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        }
+      },
+      "Picture": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "storageType": {
+            "$ref": "#/components/schemas/PictureStorageType"
+          },
+          "pictureContent": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "PictureStorageType": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Url",
+          "Base64"
+        ],
+        "enum": [
+          0,
+          1
+        ]
+      },
+      "ProductRatingDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "owner": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserRatingDto"
+              }
+            ]
+          },
+          "picture": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Picture"
+              }
+            ]
+          }
+        }
+      },
+      "PaginatedListResponseOfRatingToProductDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "currentPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPrevious": {
+            "type": "boolean"
+          },
+          "hasNext": {
+            "type": "boolean"
+          },
+          "items": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/RatingToProductDto"
+            }
+          }
+        }
+      },
+      "RateProductCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ratingId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "productRatingValue": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ownerRatingValue": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "RatingToUserDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RatingStatus"
+          },
+          "toUser": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserRatingDto"
+              }
+            ]
+          }
+        }
+      },
+      "RateUserCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ratingId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ratingValue": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "RejectRentRequestCommand": {
         "type": "object",
         "additionalProperties": false,
@@ -3937,6 +4444,19 @@
           "lastName": {
             "type": "string",
             "nullable": true
+          },
+          "profilePicture": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Picture"
+              }
+            ]
+          },
+          "reputation": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
           }
         }
       },
@@ -3950,6 +4470,11 @@
           },
           "name": {
             "type": "string",
+            "nullable": true
+          },
+          "rating": {
+            "type": "number",
+            "format": "double",
             "nullable": true
           },
           "owner": {
@@ -4192,6 +4717,20 @@
             "items": {
               "$ref": "#/components/schemas/RequestEventDto"
             }
+          }
+        }
+      },
+      "EndRentCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "ratingValue": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -4443,6 +4982,11 @@
           "phoneNumberConfirmed": {
             "type": "boolean"
           },
+          "reputation": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
           "cui": {
             "type": "string",
             "nullable": true
@@ -4507,35 +5051,6 @@
           2,
           3,
           4
-        ]
-      },
-      "Picture": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "storageType": {
-            "$ref": "#/components/schemas/PictureStorageType"
-          },
-          "pictureContent": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "PictureStorageType": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "Url",
-          "Base64"
-        ],
-        "enum": [
-          0,
-          1
         ]
       },
       "SendPhoneNumberVerificationCode": {

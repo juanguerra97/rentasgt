@@ -1,0 +1,35 @@
+
+<div class="container-fluid d-flex flex-column align-items-center p-0">
+  <h2 class="pantalla-title m-0 p-0">Cu&eacute;ntanos tu experiencia</h2>
+  <form (ngSubmit)="onSubmitRatingToProduct()" [formGroup]="ratingToProductForm" class="d-flex flex-column align-items-center w-100 mt-1">
+
+    <div class="d-flex flex-column align-items-center w-100">
+      <label class="w-100 m-0 p-0">Producto</label>
+      <div class="d-flex align-items-center product-rating mb-2 w-100" style="gap: 10px">
+        <img class="product-pic" src="{{ data.product.picture.pictureContent }}" alt="">
+        <p class="m-0 p-0 product-name flex-fill">{{ data.product.name }}</p>
+      </div>
+      <p-rating formControlName="ratingToProductValue"></p-rating>
+      <mat-form-field class="w-100 mt-2">
+        <mat-label>Comentario</mat-label>
+        <textarea formControlName="comment" matInput placeholder="Deja un comentario sobre el art&iacute;culo" cols="50" rows="2"></textarea>
+
+      </mat-form-field>
+    </div>
+
+    <div class="d-flex flex-column align-items-center w-100">
+      <label class="w-100 m-0 p-0">Due&ntilde;o</label>
+      <div class="d-flex align-items-center mb-2 w-100" style="gap: 10px">
+        <img src="{{ data.product.owner.profilePicture.pictureContent }}" alt="" class="owner-pic">
+        <p class="m-0 p-0 flex-fill">{{ data.product.owner.firstName + ' ' + data.product.owner.lastName }}</p>
+      </div>
+      <p-rating formControlName="ratingToOwnerValue"></p-rating>
+    </div>
+
+    <div class="w-100 d-flex justify-content-end align-items-center mt-2" style="gap: 10px">
+      <button (click)="onIgnoreRating()" [disabled]="savingRating" mat-button type="button">No volver a preguntar</button>
+      <button [disabled]="!ratingToProductForm.valid || savingRating" mat-raised-button color="primary"  type="submit" class="">Enviar</button>
+    </div>
+
+  </form>
+</div>

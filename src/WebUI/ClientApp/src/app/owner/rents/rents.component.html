@@ -81,7 +81,7 @@
         <button [disabled]="selectedRentRequest.rent.status === RENT_STATUS_CONFLICT" (click)="onReportRent()" mat-raised-button color="warn">Denunciar</button>
       </ng-container>
       <div class="d-flex justify-content-center" style="gap: 10px">
-        <button *ngIf="selectedRentRequest.rent.status === RENT_STATUS_DELIVERED || selectedRentRequest.rent.status === RENT_STATUS_RETURN_DELAYED" (click)="confirmEndRent()" pButton label="Artículo recibido" icon="pi pi-check" type="button" class="p-button-sm p-button-rounded p-button-raised"></button>
+        <button *ngIf="selectedRentRequest.rent.status === RENT_STATUS_DELIVERED || selectedRentRequest.rent.status === RENT_STATUS_RETURN_DELAYED" (click)="onEndRent()" pButton label="Artículo recibido" icon="pi pi-check" type="button" class="p-button-sm p-button-rounded p-button-raised"></button>
         <button *ngIf="selectedRentRequest.rent.status === RENT_STATUS_PENDING" (click)="confirmCancelRent()" pButton label="Cancelar" icon="pi pi-times-circle" type="button" class="p-button-sm p-button-rounded p-button-raised p-button-danger"></button>
       </div>
       <!--

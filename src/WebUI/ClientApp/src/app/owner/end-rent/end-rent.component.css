@@ -1,0 +1,13 @@
+
+.profile-pic {
+  width: 5rem;
+  border-radius: 0.5rem;
+}
+
+.end-note {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 0.8rem;
+}

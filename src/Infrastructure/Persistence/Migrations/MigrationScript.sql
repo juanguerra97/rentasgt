@@ -35,6 +35,7 @@ CREATE TABLE `AspNetUsers` (
     `ValidatedDpi` tinyint(1) NOT NULL,
     `Address` varchar(256) CHARACTER SET utf8mb4 NULL,
     `ValidatedAddress` tinyint(1) NOT NULL,
+    `Reputation` double NULL,
     CONSTRAINT `PK_AspNetUsers` PRIMARY KEY (`Id`)
 );
 
@@ -152,8 +153,22 @@ CREATE TABLE `Products` (
     `CostPerDay` decimal(65,30) NOT NULL,
     `CostPerWeek` decimal(65,30) NULL,
     `CostPerMonth` decimal(65,30) NULL,
+    `Rating` double NULL,
     CONSTRAINT `PK_Products` PRIMARY KEY (`Id`),
     CONSTRAINT `FK_Products_AspNetUsers_OwnerId` FOREIGN KEY (`OwnerId`) REFERENCES `AspNetUsers` (`Id`) ON DELETE RESTRICT
+);
+
+CREATE TABLE `RatingToUsers` (
+    `Id` bigint NOT NULL AUTO_INCREMENT,
+    `Status` int NOT NULL,
+    `FromUserId` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+    `ToUserId` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+    `RatingValue` int NULL,
+    `Comment` varchar(1024) CHARACTER SET utf8mb4 NULL,
+    `RatingDate` datetime(6) NULL,
+    CONSTRAINT `PK_RatingToUsers` PRIMARY KEY (`Id`),
+    CONSTRAINT `FK_RatingToUsers_AspNetUsers_FromUserId` FOREIGN KEY (`FromUserId`) REFERENCES `AspNetUsers` (`Id`) ON DELETE CASCADE,
+    CONSTRAINT `FK_RatingToUsers_AspNetUsers_ToUserId` FOREIGN KEY (`ToUserId`) REFERENCES `AspNetUsers` (`Id`) ON DELETE CASCADE
 );
 
 CREATE TABLE `UserProfileEvents` (
@@ -230,6 +245,20 @@ CREATE TABLE `ProductPictures` (
     CONSTRAINT `PK_ProductPictures` PRIMARY KEY (`ProductId`, `PictureId`),
     CONSTRAINT `FK_ProductPictures_Pictures_PictureId` FOREIGN KEY (`PictureId`) REFERENCES `Pictures` (`Id`) ON DELETE RESTRICT,
     CONSTRAINT `FK_ProductPictures_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `Products` (`Id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `RatingToProducts` (
+    `Id` bigint NOT NULL AUTO_INCREMENT,
+    `Status` int NOT NULL,
+    `FromUserId` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+    `ProductId` bigint NOT NULL,
+    `ProductRatingValue` int NULL,
+    `OwnerRatingValue` int NULL,
+    `Comment` varchar(1024) CHARACTER SET utf8mb4 NULL,
+    `RatingDate` datetime(6) NULL,
+    CONSTRAINT `PK_RatingToProducts` PRIMARY KEY (`Id`),
+    CONSTRAINT `FK_RatingToProducts_AspNetUsers_FromUserId` FOREIGN KEY (`FromUserId`) REFERENCES `AspNetUsers` (`Id`) ON DELETE CASCADE,
+    CONSTRAINT `FK_RatingToProducts_Products_ProductId` FOREIGN KEY (`ProductId`) REFERENCES `Products` (`Id`) ON DELETE CASCADE
 );
 
 CREATE TABLE `RentCosts` (
@@ -407,6 +436,14 @@ CREATE INDEX `IX_Products_OwnerId` ON `Products` (`OwnerId`);
 
 CREATE INDEX `IX_ProfilePictures_PictureId` ON `ProfilePictures` (`PictureId`);
 
+CREATE INDEX `IX_RatingToProducts_FromUserId` ON `RatingToProducts` (`FromUserId`);
+
+CREATE INDEX `IX_RatingToProducts_ProductId` ON `RatingToProducts` (`ProductId`);
+
+CREATE INDEX `IX_RatingToUsers_FromUserId` ON `RatingToUsers` (`FromUserId`);
+
+CREATE INDEX `IX_RatingToUsers_ToUserId` ON `RatingToUsers` (`ToUserId`);
+
 CREATE INDEX `IX_RentEvents_RentId` ON `RentEvents` (`RentId`);
 
 CREATE INDEX `IX_RentRequests_ProductId` ON `RentRequests` (`ProductId`);
@@ -428,5 +465,5 @@ CREATE INDEX `IX_UserProfileEvents_UserProfileId` ON `UserProfileEvents` (`UserP
 ALTER TABLE `ChatMessages` ADD CONSTRAINT `FK_ChatMessages_ChatRooms_RoomId` FOREIGN KEY (`RoomId`) REFERENCES `ChatRooms` (`Id`) ON DELETE CASCADE;
 
 INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
-VALUES ('20200921022622_InitialCreate', '3.1.8');
+VALUES ('20200929175626_InitialCreate', '3.1.8');
 

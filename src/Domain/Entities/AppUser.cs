@@ -81,6 +81,8 @@ namespace rentasgt.Domain.Entities
 
         public bool ValidatedAddress { get; set; }
 
+        public double? Reputation { get; set; }
+
         /// <summary>
         /// Products the user owns
         /// </summary>

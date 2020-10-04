@@ -4,6 +4,7 @@ using rentasgt.Application.Common.Exceptions;
 using rentasgt.Application.Common.Interfaces;
 using rentasgt.Domain.Entities;
 using rentasgt.Domain.Enums;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace rentasgt.Application.Rents.Commands.EndRent
     public class EndRentCommand : IRequest
     {
         public long RentId { get; set; }
+        public int RatingValue { get; set; }
     }
 
     public class EndRentCommandHandler : IRequestHandler<EndRentCommand>
@@ -37,6 +39,7 @@ namespace rentasgt.Application.Rents.Commands.EndRent
                 .Include(r => r.Request)
                 .ThenInclude(rq => rq.Product)
                 .ThenInclude(p => p.Owner)
+                .Include(r => r.Request.Requestor)
                 .SingleOrDefaultAsync(r => r.RequestId == request.RentId);
 
             if (entity == null)
@@ -58,6 +61,42 @@ namespace rentasgt.Application.Rents.Commands.EndRent
             entity.Status = RentStatus.ProductReturned;
             entity.EndDate = this.timeService.Now;
             entity.TotalCost = entity.Request.EstimatedCost + CalculateFine(entity);
+
+            this.context.RatingToProducts.Add(new RatingToProduct
+            {
+                Status = RatingStatus.Pending,
+                FromUser = entity.Request.Requestor,
+                Product = entity.Request.Product,
+            });
+
+            this.context.RatingToUsers.Add(new RatingToUser
+            {
+                Status = RatingStatus.Rated,
+                FromUser = entity.Request.Product.Owner,
+                ToUser = entity.Request.Requestor,
+                RatingValue = request.RatingValue
+            });
+
+            var userRatingsQuery = this.context.RatingToUsers
+                .Where(r => r.Status == RatingStatus.Rated && r.ToUserId == entity.Request.RequestorId)
+                .Select(r => r.RatingValue);
+            var ownerRatingsQuery = this.context.RatingToProducts
+                .Include(r => r.Product.Owner)
+                .Where(r => r.Status == RatingStatus.Rated && r.Product.Owner.Id == entity.Request.RequestorId)
+                .Select(r => r.OwnerRatingValue);
+
+            var totalSum = userRatingsQuery.Sum() ?? 0;
+            totalSum += (ownerRatingsQuery.Sum() ?? 0);
+            var totalCount = userRatingsQuery.Count() + ownerRatingsQuery.Count();
+
+            totalSum += request.RatingValue;
+            totalCount += 1;
+
+            var requestor = await this.context.AppUsers
+                .FirstOrDefaultAsync(u => u.Id == entity.Request.Requestor.Id);
+            requestor.Reputation = totalSum / (double)totalCount;
+
+
 
             await this.context.SaveChangesAsync(cancellationToken);
 

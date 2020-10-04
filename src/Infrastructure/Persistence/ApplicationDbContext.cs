@@ -76,6 +76,10 @@ namespace rentasgt.Infrastructure.Persistence
 
         public DbSet<ConflictRecord> ConflictRecords { get; set; }
 
+        public DbSet<RatingToProduct> RatingToProducts { get; set; }
+
+        public DbSet<RatingToUser> RatingToUsers { get; set; }
+
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
@@ -177,6 +181,9 @@ namespace rentasgt.Infrastructure.Persistence
                     .IsRequired(false);
                 userBuilder.Property(u => u.ValidatedAddress)
                     .IsRequired();
+
+                userBuilder.Property(u => u.Reputation)
+                    .IsRequired(false);
 
                 userBuilder.HasOne(u => u.DpiPicture)
                     .WithOne(p => p.User)

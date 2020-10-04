@@ -21,15 +21,18 @@
         </p-galleria>
       </div>
 
-      <div class="owner-info">
-        <i class="pi pi-user"></i>&nbsp;
+      <div class="owner-info d-flex align-items-center mt-1" style="grid-gap: 5px">
+        <i class="pi pi-user" style="font-size: 0.9rem"></i>&nbsp;
         <span>{{ product.owner.firstName + ' ' + product.owner.lastName }}</span>
+        <p-rating *ngIf="product.owner.reputation !== null" stars="5" [(ngModel)]="product.owner.reputation" [readonly]="true" [cancel]="false"></p-rating>
       </div>
+      
 
     </div>
     <div class="col-12 col-md-4 mt-2 mt-md-0 pr-0 pl-0 pl-md-2">
 
       <div class="product-info">
+        <p-rating *ngIf="product.rating !== null" stars="5" [(ngModel)]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
         <h2 class="pantalla-title product-name">{{ product.name }}</h2>
         <p class="product-description">{{ product.description }}</p>
         <div class="d-flex justify-content-start align-items-stretch flex-wrap">

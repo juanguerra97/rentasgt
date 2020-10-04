@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using rentasgt.Application.Common.Interfaces;
 using rentasgt.Application.Common.Models;
 using rentasgt.Application.RentRequests.Queries.GetRentRequests;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -39,8 +38,12 @@ namespace rentasgt.Application.RentRequests.Queries.GetRentRequestsOfOwner
         {
             var rentRequests = this.context.RentRequests
                  .Include(rq => rq.Requestor)
+                 .ThenInclude(r => r.ProfilePicture)
+                 .ThenInclude(p => p.Picture)
                  .Include(rq => rq.Product)
                  .ThenInclude(rq => rq.Owner)
+                 .ThenInclude(o => o.ProfilePicture)
+                 .ThenInclude(p => p.Picture)
                  .Include(rq => rq.Product.Pictures)
                  .Where(rq => rq.Product.Owner.Id == currentUserService.UserId)
                  .ProjectTo<RentRequestDto>(mapper.ConfigurationProvider)

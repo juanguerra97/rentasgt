@@ -7,11 +7,12 @@ import { DetailProductComponent } from './detail-product/detail-product.componen
 import { EditProductComponent } from './edit-product/edit-product.component';
 import { RentRequestsComponent } from './rent-requests/rent-requests.component';
 import { RentsComponent } from './rents/rents.component';
+import { EndRentComponent } from './end-rent/end-rent.component';
 
 @NgModule({
   declarations: [
     ProductsComponent, NewProductComponent, DetailProductComponent,
-    EditProductComponent, RentRequestsComponent, RentsComponent
+    EditProductComponent, RentRequestsComponent, RentsComponent, EndRentComponent
   ],
   imports: [
     AppCommonModule,

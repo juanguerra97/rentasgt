@@ -19,7 +19,9 @@ code {
   font-size: 1.5rem;
 }
 
-
+.gold-color  {
+  color: #FFEA00 !important;
+}
 .rentasgt-subtitle {
   font-size: 1.15rem !important;
   font-weight: bold;
@@ -37,6 +39,10 @@ agm-map {
   font-size: 0.75rem;
   padding: 0;
   margin: 0;
+}
+
+.mat-dialog-panel .mat-dialog-container {
+  padding: 1rem 1.3rem;
 }
 
 html, body { height: 100%; }

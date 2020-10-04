@@ -20,6 +20,7 @@ namespace rentasgt.Application.Users.Queries.GetUserProfile
         public bool EmailConfirmed { get; set;}
         public string PhoneNumber { get; set; }
         public bool PhoneNumberConfirmed { get; set; }
+        public double? Reputation { get; set; }
         public string? Cui { get; set; }
         public bool ValidatedDpi { get; set;}
         public string? Address { get; set; }

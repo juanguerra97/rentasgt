@@ -87,6 +87,8 @@ export class ProductDetailComponent implements OnInit {
     this.loadingProduct = true;
     this.productsClient.getById(productId)
       .subscribe((res) => {
+
+        console.log(res.owner.reputation);
         this.product = res;
         this.loadingProduct = false;
         this.loadChatRoom();

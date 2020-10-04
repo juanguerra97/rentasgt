@@ -7,6 +7,7 @@ import { ConfirmationModalComponent } from '../../app-common/confirmation-modal/
 import { DateTime } from 'luxon';
 import {MatDialog} from '@angular/material/dialog';
 import {CreateConflictComponent} from '../../app-common/create-conflict/create-conflict.component';
+import {EndRentComponent} from '../end-rent/end-rent.component';
 
 @Component({
   selector: 'app-rents',
@@ -101,25 +102,17 @@ export class RentsComponent implements OnInit {
       }, console.error);
   }
 
-  public confirmEndRent(): void {
-    const modal = this.bsModalService.show(ConfirmationModalComponent);
-    (<ConfirmationModalComponent>modal.content).showConfirmationModal(
-      'Empezar renta',
-      `¿Estás seguro que ya ten han devuelto tu artículo?`
-    );
+  public onEndRent(): void {
+    const dialogRef = this.dialog.open(EndRentComponent, {
+      width: '350px',
+      data: this.selectedRentRequest
+    });
 
-    (<ConfirmationModalComponent>modal.content).onClose.subscribe(result => {
-      if (result === true) {
-        this.endRent();
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+
       }
     });
-  }
-
-  public endRent(): void {
-    this.rentsClient.endRent(this.selectedRentRequest.id)
-      .subscribe((res) => {
-        this.selectedRentRequest.rent.status = this.RENT_STATUS_RETURNED;
-      }, console.error);
   }
 
   public onReportRent(): void {

@@ -34,6 +34,9 @@ namespace rentasgt.Infrastructure.Persistence.Configurations
             builder.Property(p => p.CostPerMonth)
                 .IsRequired(false);
 
+            builder.Property(p => p.Rating)
+                .IsRequired(false);
+
             builder.HasOne(p => p.Owner)
                 .WithMany(u => u.Products)
                 .IsRequired()

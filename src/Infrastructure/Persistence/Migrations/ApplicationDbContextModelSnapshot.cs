@@ -14,7 +14,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.7")
+                .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
@@ -310,6 +310,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.Property<int>("ProfileStatus")
                         .HasColumnType("int");
 
+                    b.Property<double?>("Reputation")
+                        .HasColumnType("double");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
@@ -595,6 +598,9 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
+                    b.Property<double?>("Rating")
+                        .HasColumnType("double");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -648,6 +654,80 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     b.HasIndex("PictureId");
 
                     b.ToTable("ProfilePictures");
+                });
+
+            modelBuilder.Entity("rentasgt.Domain.Entities.RatingToProduct", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("varchar(1024) CHARACTER SET utf8mb4")
+                        .HasMaxLength(1024);
+
+                    b.Property<string>("FromUserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<int?>("OwnerRatingValue")
+                        .HasColumnType("int");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("ProductRatingValue")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("RatingDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FromUserId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("RatingToProducts");
+                });
+
+            modelBuilder.Entity("rentasgt.Domain.Entities.RatingToUser", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("varchar(1024) CHARACTER SET utf8mb4")
+                        .HasMaxLength(1024);
+
+                    b.Property<string>("FromUserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("RatingDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("RatingValue")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ToUserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FromUserId");
+
+                    b.HasIndex("ToUserId");
+
+                    b.ToTable("RatingToUsers");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.Rent", b =>
@@ -1168,6 +1248,36 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .WithOne("ProfilePicture")
                         .HasForeignKey("rentasgt.Domain.Entities.ProfilePicture", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("rentasgt.Domain.Entities.RatingToProduct", b =>
+                {
+                    b.HasOne("rentasgt.Domain.Entities.AppUser", "FromUser")
+                        .WithMany()
+                        .HasForeignKey("FromUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("rentasgt.Domain.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("rentasgt.Domain.Entities.RatingToUser", b =>
+                {
+                    b.HasOne("rentasgt.Domain.Entities.AppUser", "FromUser")
+                        .WithMany()
+                        .HasForeignKey("FromUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("rentasgt.Domain.Entities.AppUser", "ToUser")
+                        .WithMany()
+                        .HasForeignKey("ToUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.Rent", b =>

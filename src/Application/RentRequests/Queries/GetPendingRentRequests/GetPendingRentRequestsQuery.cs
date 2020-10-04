@@ -41,6 +41,9 @@ namespace rentasgt.Application.RentRequests.Queries.GetPendingRentRequests
         {
             return await this.context.RentRequests
                 .Include(rq => rq.Product)
+                .ThenInclude(p => p.Owner)
+                .ThenInclude(o => o.ProfilePicture)
+                .ThenInclude(p => p.Picture)
                 .Where(rq => rq.Product.Owner.Id == currentUserService.UserId && (rq.Status == RequestStatus.Pending || rq.Status == RequestStatus.Viewed))
                 .OrderByDescending(rq => rq.RequestDate)
                 .Skip((request.PageNumber - 1) * request.PageSize)

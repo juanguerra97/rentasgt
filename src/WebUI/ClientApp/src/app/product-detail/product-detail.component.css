@@ -3,6 +3,10 @@
   box-shadow: #333333 0 0 3px;
 }
 
+::ng-deep .owner-info .p-rating .p-rating-icon {
+    font-size: 0.9rem;
+}
+
 .product-info, .product-location {
   padding: 0.5rem;
   border-radius: 3px 3px;

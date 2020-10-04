@@ -47,7 +47,8 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     Cui = table.Column<string>(fixedLength: true, maxLength: 13, nullable: true),
                     ValidatedDpi = table.Column<bool>(nullable: false),
                     Address = table.Column<string>(maxLength: 256, nullable: true),
-                    ValidatedAddress = table.Column<bool>(nullable: false)
+                    ValidatedAddress = table.Column<bool>(nullable: false),
+                    Reputation = table.Column<double>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -266,7 +267,8 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                     Location_StaticMap = table.Column<string>(maxLength: 4096, nullable: true),
                     CostPerDay = table.Column<decimal>(nullable: false),
                     CostPerWeek = table.Column<decimal>(nullable: true),
-                    CostPerMonth = table.Column<decimal>(nullable: true)
+                    CostPerMonth = table.Column<decimal>(nullable: true),
+                    Rating = table.Column<double>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -277,6 +279,36 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RatingToUsers",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Status = table.Column<int>(nullable: false),
+                    FromUserId = table.Column<string>(nullable: false),
+                    ToUserId = table.Column<string>(nullable: false),
+                    RatingValue = table.Column<int>(nullable: true),
+                    Comment = table.Column<string>(maxLength: 1024, nullable: true),
+                    RatingDate = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RatingToUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RatingToUsers_AspNetUsers_FromUserId",
+                        column: x => x.FromUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RatingToUsers_AspNetUsers_ToUserId",
+                        column: x => x.ToUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -474,6 +506,37 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ProductPictures_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RatingToProducts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Status = table.Column<int>(nullable: false),
+                    FromUserId = table.Column<string>(nullable: false),
+                    ProductId = table.Column<long>(nullable: false),
+                    ProductRatingValue = table.Column<int>(nullable: true),
+                    OwnerRatingValue = table.Column<int>(nullable: true),
+                    Comment = table.Column<string>(maxLength: 1024, nullable: true),
+                    RatingDate = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RatingToProducts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RatingToProducts_AspNetUsers_FromUserId",
+                        column: x => x.FromUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RatingToProducts_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -895,6 +958,26 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 column: "PictureId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RatingToProducts_FromUserId",
+                table: "RatingToProducts",
+                column: "FromUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RatingToProducts_ProductId",
+                table: "RatingToProducts",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RatingToUsers_FromUserId",
+                table: "RatingToUsers",
+                column: "FromUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RatingToUsers_ToUserId",
+                table: "RatingToUsers",
+                column: "ToUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RentEvents_RentId",
                 table: "RentEvents",
                 column: "RentId");
@@ -1004,6 +1087,12 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProfilePictures");
+
+            migrationBuilder.DropTable(
+                name: "RatingToProducts");
+
+            migrationBuilder.DropTable(
+                name: "RatingToUsers");
 
             migrationBuilder.DropTable(
                 name: "RentCosts");

@@ -51,9 +51,13 @@ namespace rentasgt.WebUI.Controllers
         }
 
         [HttpPut("{id}/end")]
-        public async Task<ActionResult> EndRent(long id)
+        public async Task<ActionResult> EndRent(long id, EndRentCommand command)
         {
-            await Mediator.Send(new EndRentCommand { RentId = id });
+            if (id != command.RentId)
+            {
+                return BadRequest();
+            }
+            await Mediator.Send(command);
             return NoContent();
         }
 

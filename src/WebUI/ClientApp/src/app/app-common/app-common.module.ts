@@ -9,6 +9,7 @@ import {
   DialogModule, CalendarModule, SliderModule,
   MessageModule, MessagesModule, MessageService,
   TableModule, ProgressBarModule, ProgressSpinnerModule,
+  RatingModule,
 } from 'primeng';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
@@ -23,6 +24,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { AngularCropperjsModule } from 'angular-cropperjs';
 import { CreateConflictComponent } from './create-conflict/create-conflict.component';
 import { MatOptionModule } from '@angular/material/core';
+import { RateProductComponent } from './rate-product/rate-product.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { MatOptionModule } from '@angular/material/core';
     ImgCropperComponent,
     SelectLocationComponent,
     CreateConflictComponent,
+    RateProductComponent,
   ],
   imports: [
     CommonModule,
@@ -53,6 +56,7 @@ import { MatOptionModule } from '@angular/material/core';
     TableModule,
     ProgressBarModule,
     ProgressSpinnerModule,
+    RatingModule,
     MatDialogModule,
     MatInputModule,
     MatButtonModule,
@@ -92,6 +96,7 @@ import { MatOptionModule } from '@angular/material/core';
     TableModule,
     ProgressSpinnerModule,
     ProgressBarModule,
+    RatingModule,
     MatDialogModule,
     MatInputModule,
     MatButtonModule,
