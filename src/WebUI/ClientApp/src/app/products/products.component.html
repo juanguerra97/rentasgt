@@ -50,7 +50,7 @@
       </div>
 
       <ng-container *ngIf="!searchingProducts">
-        <div *ngFor="let product of products" [routerLink]="['/articulos/detalle/', product.id]" class="product-item align-self-stretch d-flex flex-column align-items-center" style="gap: 10px">
+        <div *ngFor="let product of products" [routerLink]="['/articulos/detalle/', product.id]" class="product-item d-flex flex-column align-self-stretch align-items-center" style="gap: 10px">
 
           <div class="img-wrapper d-flex justify-content-center align-items-center mt-3">
             <img (load)="imgLoaded($event)" [src]="product.pictures[0].pictureContent" [alt]="product.name" class="product-image" />

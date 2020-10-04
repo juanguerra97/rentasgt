@@ -4,8 +4,8 @@
 }
 
 .product-item {
-  width: 310px;
-  max-width: 310px;
+  width: 100%;
+  max-width: 720px;
   padding: 0;
   cursor: pointer;
   border-radius: 3px;
@@ -39,7 +39,7 @@
 }
 
 .product-item .img-wrapper {
-  width: 300px;
+  width: 90%;
   overflow: visible;
   display: inline-block;
 }
@@ -51,7 +51,7 @@
 }
 
 .img-wrapper-w img {
-  width: 280px;
+  width: 100%;
   height: auto;
 }
 
@@ -71,4 +71,13 @@
 
 .filtro-ubicacion {
   font-size: 0.75rem;
+}
+
+@media only screen and (min-width: 720px) {
+
+    .product-item {
+        width: 310px;
+        max-width: 310px;
+    }
+
 }
