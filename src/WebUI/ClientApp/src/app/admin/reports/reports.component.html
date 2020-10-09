@@ -1,0 +1,50 @@
+
+<div class="container-fluid">
+
+  <div class="row mt-3 mb-3">
+    <h2 class="pantalla-title">Rentas</h2>
+    <div *ngIf="!loadingYearReport" class="col-12 col-md-6">
+      <div style="display: block;">
+        <canvas (chartClick)="onYearClicked($event)" baseChart width="400" height="200"
+                [datasets]="yearReportChartData"
+                [labels]="yearReportChartLabels"
+                [options]="yearRerportChartOptions"
+                [colors]="yearReportChartColors"
+                [legend]="yearReportChartLegend"
+                [chartType]="yearReportChartType">
+        </canvas>
+      </div>
+    </div>
+
+    <div *ngIf="!loadingMonthReport && this.selectedYear" class="col-12 col-md-6">
+      <div style="display: block;">
+        <canvas (chartClick)="onMonthClicked($event)" baseChart width="400" height="200"
+                [datasets]="monthReportChartData"
+                [labels]="monthReportChartLabels"
+                [options]="monthRerportChartOptions"
+                [colors]="monthReportChartColors"
+                [legend]="monthReportChartLegend"
+                [chartType]="monthReportChartType">
+        </canvas>
+      </div>
+    </div>
+
+
+    <div *ngIf="!loadingDayReport && this.selectedMonth" class="col-12 col-md-6">
+      <div style="display: block;">
+        <canvas baseChart width="400" height="200"
+                [datasets]="dayReportChartData"
+                [labels]="dayReportChartLabels"
+                [options]="dayRerportChartOptions"
+                [colors]="dayReportChartColors"
+                [legend]="dayReportChartLegend"
+                [chartType]="dayReportChartType">
+        </canvas>
+      </div>
+    </div>
+
+
+  </div>
+
+
+</div>

@@ -24,6 +24,7 @@
       <li *ngIf="isAdmin | async" (click)="onSubmenuClicked($event)" class="nav-list-item">
         <a class="nav-list-link">Admin</a>
         <ul class="submenu">
+          <li class="submenu-item"><a [routerLink]='["/admin/reportes"]' class="submenu-link">Reportes</a></li>
           <li class="submenu-item"><a [routerLink]='["/admin/categorias"]' class="submenu-link">Categorias</a></li>
         </ul>
       </li>

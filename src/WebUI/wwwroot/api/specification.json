@@ -2189,6 +2189,97 @@
         ]
       }
     },
+    "/api/Reports/byday": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "Reports_GetRentsByDay",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RentsByDayReport"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Reports/bymonth": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "Reports_GetRentsByMonth",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RentsByMonthReport"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Reports/byyear": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "Reports_GetRentsByYear",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RentsByYearReport"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/TodoItems": {
       "post": {
         "tags": [
@@ -4729,6 +4820,99 @@
             "format": "int64"
           },
           "ratingValue": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "RentsByDayReport": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "results": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/DayResult"
+            }
+          }
+        }
+      },
+      "DayResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "RentsByMonthReport": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "results": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/MonthResult"
+            }
+          }
+        }
+      },
+      "MonthResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "RentsByYearReport": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "results": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/YearResult"
+            }
+          }
+        }
+      },
+      "YearResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "total": {
             "type": "integer",
             "format": "int32"
           }

@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using rentasgt.Application.Common.DB;
+using System;
 
 namespace rentasgt.Infrastructure.Persistence
 {
@@ -154,6 +155,12 @@ namespace rentasgt.Infrastructure.Persistence
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             builder.HasDbFunction(() => CustomDbFunctions.CalculateDistance(0, 0, 0, 0));
+            builder.HasDbFunction(() => CustomDbFunctions.IsYear(DateTime.Now, 1));
+            builder.HasDbFunction(() => CustomDbFunctions.IsMonth(DateTime.Now, DateTime.Now));
+            builder.HasDbFunction(() => CustomDbFunctions.IsEqualDate(DateTime.Now, DateTime.Now));
+            builder.HasDbFunction(() => CustomDbFunctions.ExtractDay(DateTime.Now));
+            builder.HasDbFunction(() => CustomDbFunctions.ExtractMonth(DateTime.Now));
+            builder.HasDbFunction(() => CustomDbFunctions.ExtractYear(DateTime.Now));
             builder.Entity<AppUser>(userBuilder =>
             {
                 userBuilder.Property(u => u.ProfileStatus)

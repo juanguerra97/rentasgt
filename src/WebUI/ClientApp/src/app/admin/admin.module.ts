@@ -6,9 +6,10 @@ import { ApiAuthorizationModule } from '../../api-authorization/api-authorizatio
 import { CategoriesComponent } from './categories/categories.component';
 import { NewCategoryComponent } from './categories/new-category/new-category.component';
 import { EditCategoryComponent } from './categories/edit-category/edit-category.component';
+import { ReportsComponent } from './reports/reports.component';
 
 @NgModule({
-  declarations: [CategoriesComponent, NewCategoryComponent, EditCategoryComponent],
+  declarations: [CategoriesComponent, NewCategoryComponent, EditCategoryComponent, ReportsComponent],
   imports: [
     FontAwesomeModule,
     ApiAuthorizationModule,
@@ -21,6 +22,10 @@ import { EditCategoryComponent } from './categories/edit-category/edit-category.
       {
         path: 'categorias',
         component: CategoriesComponent
+      },
+      {
+        path: 'reportes',
+        component: ReportsComponent
       }
     ]),
     AppCommonModule,

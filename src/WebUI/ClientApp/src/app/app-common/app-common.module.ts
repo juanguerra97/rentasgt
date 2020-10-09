@@ -25,6 +25,7 @@ import { AngularCropperjsModule } from 'angular-cropperjs';
 import { CreateConflictComponent } from './create-conflict/create-conflict.component';
 import { MatOptionModule } from '@angular/material/core';
 import { RateProductComponent } from './rate-product/rate-product.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { RateProductComponent } from './rate-product/rate-product.component';
     MatTabsModule,
     MatOptionModule,
     AngularCropperjsModule,
+    ChartsModule,
     ModalModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCir67E-b2FdkVB6nbJ1pEYON_llhZPO-A',
@@ -105,6 +107,7 @@ import { RateProductComponent } from './rate-product/rate-product.component';
     MatOptionModule,
     AngularCropperjsModule,
     SelectLocationComponent,
+    ChartsModule,
   ],
   providers: [MessageService]
 })
