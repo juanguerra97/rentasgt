@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
+
 using Microsoft.Extensions.Logging;
 using rentasgt.Domain.Entities;
 using rentasgt.Domain.Enums;
@@ -145,11 +141,6 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
                 Input.Email = info.Principal.FindFirstValue(ClaimTypes.Email);
             }
 
-            Console.WriteLine("----------------------------------------------------");
-            foreach (var c in info.Principal.Claims)
-            {
-                Console.WriteLine($"{c.Type}: {c.Value}");
-            }
 
             if (ModelState.IsValid)
             {
@@ -175,22 +166,22 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
                         var userId = await _userManager.GetUserIdAsync(user);
-                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                        var callbackUrl = Url.Page(
-                            "/Account/ConfirmEmail",
-                            pageHandler: null,
-                            values: new { area = "Identity", userId = userId, code = code },
-                            protocol: Request.Scheme);
+                        //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                        //var callbackUrl = Url.Page(
+                        //    "/Account/ConfirmEmail",
+                        //    pageHandler: null,
+                        //    values: new { area = "Identity", userId = userId, code = code },
+                        //    protocol: Request.Scheme);
 
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                        // If account confirmation is required, we need to show the link if we don't have a real email sender
-                        if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                        {
-                            return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
-                        }
+                        //// If account confirmation is required, we need to show the link if we don't have a real email sender
+                        //if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                        //{
+                        //    return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
+                        //}
 
                         await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
 
