@@ -432,6 +432,10 @@ CREATE INDEX `IX_ProductCategories_ProductId` ON `ProductCategories` (`ProductId
 
 CREATE INDEX `IX_ProductPictures_PictureId` ON `ProductPictures` (`PictureId`);
 
+CREATE INDEX `IX_Products_Name` ON `Products` (`Name`);
+
+CREATE INDEX `IX_Products_OtherNames` ON `Products` (`OtherNames`);
+
 CREATE INDEX `IX_Products_OwnerId` ON `Products` (`OwnerId`);
 
 CREATE INDEX `IX_ProfilePictures_PictureId` ON `ProfilePictures` (`PictureId`);
@@ -465,5 +469,5 @@ CREATE INDEX `IX_UserProfileEvents_UserProfileId` ON `UserProfileEvents` (`UserP
 ALTER TABLE `ChatMessages` ADD CONSTRAINT `FK_ChatMessages_ChatRooms_RoomId` FOREIGN KEY (`RoomId`) REFERENCES `ChatRooms` (`Id`) ON DELETE CASCADE;
 
 INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
-VALUES ('20200929175626_InitialCreate', '3.1.8');
+VALUES ('20201010223034_InitialCreate', '3.1.8');
 

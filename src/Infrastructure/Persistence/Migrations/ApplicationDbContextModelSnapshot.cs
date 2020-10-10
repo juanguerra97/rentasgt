@@ -606,6 +606,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name");
+
+                    b.HasIndex("OtherNames");
+
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Products");

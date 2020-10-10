@@ -948,6 +948,16 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                 column: "PictureId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Products_Name",
+                table: "Products",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_OtherNames",
+                table: "Products",
+                column: "OtherNames");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_OwnerId",
                 table: "Products",
                 column: "OwnerId");
