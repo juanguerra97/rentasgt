@@ -48,7 +48,7 @@ namespace rentasgt.Application.Pictures.Commands.UploadPublicPicture
             }
             catch (Exception ex)
             {
-                throw new PictureUploadException($"Image {request.ImageFile.FileName} could not be uploaded", ex);
+                throw new PictureUploadException($"Image {request.ImageFile.FileName} could not be uploaded. Exception: ${ex.GetType()}: ${ex.Message}", ex);
             }
         }
 
