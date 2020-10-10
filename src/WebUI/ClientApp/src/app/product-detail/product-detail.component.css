@@ -72,12 +72,12 @@
 }
 
 ::ng-deep .p-calendar .p-datepicker .p-datepicker-group th, ::ng-deep .p-calendar .p-datepicker .p-datepicker-group td {
-  width: 1.7rem;
+  width: 2rem;
 }
 
 ::ng-deep .p-calendar .p-datepicker .p-datepicker-group th span, ::ng-deep .p-calendar .p-datepicker .p-datepicker-group td span {
-  width: 1.5rem !important;
-  height: 1.5rem !important;
+  width: 1.8rem !important;
+  height: 1.8rem !important;
 }
 
 ::ng-deep .p-calendar .p-datepicker {
