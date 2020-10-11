@@ -10,7 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using rentasgt.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using IdentityServer4.Services;
 using IdentityModel;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
@@ -40,6 +39,11 @@ namespace rentasgt.Infrastructure
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
             services.AddDefaultIdentity<AppUser>(config => {
+                config.Password.RequireDigit = false;
+                config.Password.RequireLowercase = false;
+                config.Password.RequireUppercase = false;
+                config.Password.RequireNonAlphanumeric = false;
+                config.Password.RequiredLength = 1;
                 config.SignIn.RequireConfirmedAccount = false;
                 config.SignIn.RequireConfirmedEmail = true;
             })
