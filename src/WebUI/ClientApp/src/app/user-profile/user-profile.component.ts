@@ -22,7 +22,7 @@ export class UserProfileComponent implements OnInit {
   public PROFILE_STATUS_CLASSES: string[] = [];
 
   public user: UserProfileDto = null;
-  public loadingProfile: boolean = false;
+  public loadingProfile: boolean = true;
 
   constructor(
     private usersClient: UsersClient,
