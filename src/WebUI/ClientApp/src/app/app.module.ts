@@ -11,6 +11,7 @@ import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { OnlyAdminGuard } from '../api-authorization/only-admin.guard';
+import { ToastrModule } from 'ngx-toastr';
 import { AppCommonModule } from './app-common/app-common.module';
 import { ProductsComponent } from './products/products.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
@@ -21,8 +22,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ProfileEditComponent } from './profile-edit/profile-edit.component';
 import { DpiEditComponent } from './dpi-edit/dpi-edit.component';
 import { AddressEditComponent } from './address-edit/address-edit.component';
-import {OnlyModeradorGuard} from '../api-authorization/only-moderador.guard';
-import {AppLayoutComponent} from './app-layout/app-layout.component';
+import { OnlyModeradorGuard } from '../api-authorization/only-moderador.guard';
+import { AppLayoutComponent } from './app-layout/app-layout.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import {AppLayoutComponent} from './app-layout/app-layout.component';
     HttpClientModule,
     ApiAuthorizationModule,
     AppCommonModule,
+    ToastrModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: '', component: AppLayoutComponent, children: [
