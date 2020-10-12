@@ -2,8 +2,9 @@
 <section id="home-container" class="m-0">
   <div class="container pt-5">
     <header class="d-flex align-items-center">
-      <h1>
-        RentasGt
+      <h1 class="app-logo">
+        <img src="/assets/tag.svg">
+        Rentas Guatemala
       </h1>
       <nav class="d-flex flex-fill justify-content-end align-items-center">
         <button *ngIf="!(isAuthenticated|async);else auth" [routerLink]='["/authentication/login"]' pButton icon="pi pi-sign-in" label="Ingresar" class="p-button-rounded p-button-raised p-button-sm"></button>

@@ -24,6 +24,17 @@
   color: #fff;
 }
 
+.app-logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0px;
+  font-weight: 700;
+}
+
+.app-logo img {
+  width: 24px;
+  
+}
+
 .primary-text, .secondary-text {
   margin: 0;
   padding: 0;
