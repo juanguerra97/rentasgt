@@ -5,6 +5,14 @@
   src: url('/assets/fonts/BarlowCondensed-Bold.ttf');
 }
 
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/assets/fonts/Montserrat-Regular.ttf');
+}
+
+@import "~roboto-fontface/css/roboto/roboto-fontface.css";
+@import '~material-icons/iconfont/material-icons.css';
+
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
