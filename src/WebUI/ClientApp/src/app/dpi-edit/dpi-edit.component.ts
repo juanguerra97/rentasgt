@@ -33,6 +33,7 @@ export class DpiEditComponent implements OnInit {
   };
   public dpiImg: Img = null;
   public userImg: Img = null;
+  public saving: boolean = false;
 
   constructor(
     public usersClient: UsersClient,
@@ -86,7 +87,7 @@ export class DpiEditComponent implements OnInit {
   }
 
   public async onUpdateDpi(): Promise<any> {
-
+    this.saving = true;
     let dpiPic;
     if (this.dpiImg) {
       const dpiBlob = await this.getDpiBlob();
@@ -107,8 +108,12 @@ export class DpiEditComponent implements OnInit {
 
     this.usersClient.updateDpi(this.user.id, this.user.id, this.cuiNameControl.value, dpiPic, userPic)
       .subscribe((res) => {
+        this.saving = false;
         this.dialogRef.close(true);
-      }, console.error);
+      }, error => {
+          console.error(error);
+          this.saving = false;
+      });
   }
 
   public getDpiBlob(): Promise<Blob> {

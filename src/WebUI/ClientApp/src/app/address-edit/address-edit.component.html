@@ -1,6 +1,6 @@
 
 
-<div class="d-flex flex-column align-items-center" style="width: 300px">
+<div class="d-flex flex-column align-items-center">
 
   <h2 class="mt-2">Direcci&oacute;n</h2>
 
@@ -26,7 +26,7 @@
                type="file" accept="image/*" />
       </div>
       <div class="d-flex justify-content-end flex-fill">
-        <button (click)="onUpdateAddress()" [disabled]="!addressControl.valid  || (!user.addressPicture && !addressImg)" mat-button>Listo</button>
+        <button (click)="onUpdateAddress()" [disabled]="!addressControl.valid  || (!user.addressPicture && !addressImg) || saving" mat-button>Listo</button>
       </div>
     </div>
 

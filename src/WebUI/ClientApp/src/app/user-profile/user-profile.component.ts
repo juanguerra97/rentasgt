@@ -58,7 +58,7 @@ export class UserProfileComponent implements OnInit {
 
   public openEditProfileDialog(): void {
     const dialogRef = this.dialog.open(ProfileEditComponent, {
-      //width: '250px',
+      width: '350px',
       data: this.user
     });
 
@@ -71,7 +71,7 @@ export class UserProfileComponent implements OnInit {
 
   public openEditDpiDialog(): void {
     const dialogRef = this.dialog.open(DpiEditComponent, {
-      //width: '250px',
+      width: '350px',
       data: this.user
     });
 
@@ -84,7 +84,7 @@ export class UserProfileComponent implements OnInit {
 
   public openEditAddressDialog(): void {
     const dialogRef = this.dialog.open(AddressEditComponent, {
-      // width: '280px',
+      width: '350px',
       data: this.user
     });
 

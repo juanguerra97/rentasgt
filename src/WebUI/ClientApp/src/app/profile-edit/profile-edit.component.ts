@@ -23,6 +23,7 @@ export class ProfileEditComponent implements OnInit {
     Validators.required,
     Validators.pattern(`^([0-9]{6})$`)
   ]);
+  public saving: boolean = false;
   public sendingVerificationCode: boolean = false;
   public validatingCode: boolean = false;
   public invalidCode: boolean = false;
@@ -68,11 +69,16 @@ export class ProfileEditComponent implements OnInit {
   }
 
   public async onUpdateProfilePic(): Promise<any> {
+    this.saving = true;
       this.usersClient.updateProfileInfo(this.user.id, this.user.id, undefined, undefined,
         {data: await this.getProfileBlob(), fileName: this.user.firstName + '_' + this.user.lastName + '.png'})
         .subscribe((res) => {
+          this.saving = false;
           this.dialogRef.close(true);
-        }, console.error);
+        }, error => {
+            console.error(error);
+            this.saving = false;
+        });
   }
 
   public getProfileBlob(): Promise<Blob> {

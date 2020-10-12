@@ -16,6 +16,7 @@ export class AddressEditComponent implements OnInit {
   addressControl = new FormControl('', [Validators.required]);
 
   public addressImg: Img = null;
+  public saving: boolean = false;
 
   constructor(
     public usersClient: UsersClient,
@@ -49,16 +50,25 @@ export class AddressEditComponent implements OnInit {
   }
 
   public onUpdateAddress(): void {
+    this.saving = true;
     if (this.addressImg) {
         this.usersClient.updateAddress(this.user.id, this.user.id, this.addressControl.value, {data: this.addressImg.file, fileName: this.addressImg.file.name})
           .subscribe((res) => {
             this.dialogRef.close(true);
-          }, console.error);
+            this.saving = false;
+          }, error => {
+              console.error(error);
+              this.saving = false;
+          });
     } else {
       this.usersClient.updateAddress(this.user.id, this.user.id, this.addressControl.value, undefined)
         .subscribe((res) => {
+          this.saving = false;
           this.dialogRef.close(true);
-        }, console.error);
+        }, error => {
+            console.error(error);
+            this.saving = false;
+        });
     }
   }
 
