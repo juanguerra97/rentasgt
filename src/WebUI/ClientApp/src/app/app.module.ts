@@ -50,7 +50,7 @@ import { AppLayoutComponent } from './app-layout/app-layout.component';
     AppCommonModule,
     ToastrModule.forRoot(),
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', pathMatch: 'full', redirectTo: 'articulos' },
       { path: '', component: AppLayoutComponent, children: [
           { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
             canActivate: [OnlyAdminGuard], canActivateChild: [OnlyAdminGuard], },
