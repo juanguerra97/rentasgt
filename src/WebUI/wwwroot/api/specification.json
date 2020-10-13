@@ -1278,6 +1278,42 @@
         ]
       }
     },
+    "/api/Products/{id}/reservedDates": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "Products_GetReservedDatesForNextMonth",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Products/{id}/categories": {
       "get": {
         "tags": [

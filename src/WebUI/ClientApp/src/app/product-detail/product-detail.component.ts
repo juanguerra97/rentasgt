@@ -33,6 +33,7 @@ export class ProductDetailComponent implements OnInit {
   public messageModalTitle: string = '';
   public estimatedCost = 0;
   public rentError: string = null;
+  public reservedDates: Date[] = [];
 
   responsiveOptions: any[] = [
     {
@@ -89,10 +90,10 @@ export class ProductDetailComponent implements OnInit {
     this.loadingProduct = true;
     this.productsClient.getById(productId)
       .subscribe((res) => {
-
         this.product = res;
         this.loadingProduct = false;
         this.loadChatRoom();
+        this.loadReservedDates(productId);
     }, error => {
         this.loadingProduct = false;
         this.notFound = error.status == 404;
@@ -103,6 +104,13 @@ export class ProductDetailComponent implements OnInit {
     this.chatRoomsClient.getRoomForProduct(this.product.id)
       .subscribe(async (res) => {
         this.chatRoom = res;
+      }, console.error);
+  }
+
+  private loadReservedDates(productId: number): void {
+    this.productsClient.getReservedDatesForNextMonth(productId)
+      .subscribe((res) => {
+        this.reservedDates = res;
       }, console.error);
   }
 
@@ -177,8 +185,9 @@ export class ProductDetailComponent implements OnInit {
         this.displaySelectDateModal = false;
         this.creatingRequest = false;
       }, error => {
-        this.rentError = getErrorsFromResponse(JSON.parse(error.response))[0];
         this.creatingRequest = false;
+        this.rentError = getErrorsFromResponse(JSON.parse(error.response))[0];
+        
       });
   }
 

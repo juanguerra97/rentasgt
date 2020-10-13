@@ -1365,6 +1365,7 @@ export interface IProductsClient {
     getById(id: number): Observable<ProductDto>;
     update(id: number, command: UpdateProductCommand): Observable<FileResponse>;
     delete(id: number): Observable<FileResponse>;
+    getReservedDatesForNextMonth(id: number): Observable<Date[]>;
     getCategories(id: number): Observable<CategorySummaryDto[]>;
 }
 
@@ -1712,6 +1713,61 @@ export class ProductsClient implements IProductsClient {
             }));
         }
         return _observableOf<FileResponse>(<any>null);
+    }
+
+    getReservedDatesForNextMonth(id: number): Observable<Date[]> {
+        let url_ = this.baseUrl + "/api/Products/{id}/reservedDates";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetReservedDatesForNextMonth(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetReservedDatesForNextMonth(<any>response_);
+                } catch (e) {
+                    return <Observable<Date[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Date[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetReservedDatesForNextMonth(response: HttpResponseBase): Observable<Date[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(new Date(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Date[]>(<any>null);
     }
 
     getCategories(id: number): Observable<CategorySummaryDto[]> {

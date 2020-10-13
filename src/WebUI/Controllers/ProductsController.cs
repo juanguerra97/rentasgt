@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using rentasgt.Application.Common.Models;
 using rentasgt.Application.Products.Queries.GetProductsOfOwner;
+using Application.RentRequests.Queries.GetReservedDatesForNextMonth;
+using System;
 
 namespace rentasgt.WebUI.Controllers
 {
@@ -55,6 +57,13 @@ namespace rentasgt.WebUI.Controllers
         public async Task<ActionResult<ProductDto>> GetById(long id)
         {
             return await Mediator.Send(new GetProductByIdQuery { Id = id });
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{id}/reservedDates")]
+        public async Task<ActionResult<List<DateTime>>> GetReservedDatesForNextMonth(long id)
+        {
+            return await Mediator.Send(new GetReservedDatesForNextMonthQuery { ProductId = id });
         }
 
         [AllowAnonymous]
