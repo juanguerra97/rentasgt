@@ -5,6 +5,8 @@ import { RatingToProductDto, RatingToProductsClient } from './rentasgt-api';
 import {MatDialog} from '@angular/material/dialog';
 import {RateProductComponent} from './app-common/rate-product/rate-product.component';
 
+declare var device;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
@@ -19,6 +21,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    document.addEventListener('deviceready', function() {
+      alert(device.platform);
+      }, false); 
     clearLocation();
     this.getUserLocation();
     this.checkIfThereIsPendingProductRating();
