@@ -2,7 +2,9 @@
 <div class="container-fluid">
 
   <div class="row mt-3 mb-3">
-    <h2 class="pantalla-title">Rentas</h2>
+    <div class="col-12 p-0">
+      <h2 class="pantalla-title">Rentas</h2>
+    </div>
     <div *ngIf="!loadingYearReport" class="col-12 col-md-6">
       <div style="display: block;">
         <canvas (chartClick)="onYearClicked($event)" baseChart width="400" height="200"
