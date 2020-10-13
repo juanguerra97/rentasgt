@@ -3,6 +3,7 @@ import { CreateRentRequestCommand, ProductDto, ProductsClient, RentRequestsClien
 import { ActivatedRoute, Router } from '@angular/router';
 import { DateTime, Duration } from 'luxon';
 import { AuthorizeService, IUser } from '../../api-authorization/authorize.service';
+import { getErrorsFromResponse } from '../utils';
 
 @Component({
   selector: 'app-product-detail',
@@ -31,6 +32,7 @@ export class ProductDetailComponent implements OnInit {
   public submittingMessage = false;
   public messageModalTitle: string = '';
   public estimatedCost = 0;
+  public rentError: string = null;
 
   responsiveOptions: any[] = [
     {
@@ -156,6 +158,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   public onCreateRentRequest(): void {
+    this.rentError = null;
     if (this.rentDate === null || this.rentDate.length === 0 ) {
       return;
     }
@@ -174,8 +177,8 @@ export class ProductDetailComponent implements OnInit {
         this.displaySelectDateModal = false;
         this.creatingRequest = false;
       }, error => {
+        this.rentError = getErrorsFromResponse(JSON.parse(error.response))[0];
         this.creatingRequest = false;
-        console.error(error.response);
       });
   }
 
