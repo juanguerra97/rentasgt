@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using rentasgt.Application.Common.Exceptions;
 using rentasgt.Application.Common.Interfaces;
-using Application.Common.Extensions;
 using rentasgt.Domain.Entities;
 using rentasgt.Domain.Enums;
 using System;
@@ -53,9 +52,9 @@ namespace rentasgt.Application.RentRequests.Commands.CreateRentRequest
             {
                 throw new InvalidStateException("El estado actual del producto no permite realizar la operacion");
             }
-
-            request.StartDate = request.StartDate.ToCentralAmericaStandardTime();
-            request.EndDate = request.EndDate.ToCentralAmericaStandardTime();
+            
+            request.StartDate = request.StartDate.Date;
+            request.EndDate = request.EndDate.Date;
 
             // one month from now is the maximum start date a rent request can be made
             DateTime maxStartDate = this.timeService.Now.AddMonths(1);
@@ -78,7 +77,7 @@ namespace rentasgt.Application.RentRequests.Commands.CreateRentRequest
 
             if (await this.context.RentRequests.Where(rq => rq.RequestorId == this.currentUserService.UserId).Where(rq => rq.Product.Id == productEntity.Id  && (rq.Status == RequestStatus.Pending || rq.Status == RequestStatus.Viewed)).AnyAsync())
             {
-                throw new OperationForbidenException();
+                throw new OperationForbidenException("Tienes solicitudes pendientes de este mismo artículo");
             }
 
             var currentUser = await this.userManager.FindByIdAsync(this.currentUserService.UserId);
