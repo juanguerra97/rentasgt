@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using rentasgt.Application.Common.Exceptions;
 using rentasgt.Application.Common.Interfaces;
+using Application.Common.Extensions;
 using rentasgt.Domain.Entities;
 using rentasgt.Domain.Enums;
 using System;
@@ -53,8 +54,11 @@ namespace rentasgt.Application.RentRequests.Commands.CreateRentRequest
                 throw new InvalidStateException("El estado actual del producto no permite realizar la operacion");
             }
 
+            request.StartDate = request.StartDate.ToCentralAmericaStandardTime();
+            request.EndDate = request.EndDate.ToCentralAmericaStandardTime();
+
             // one month from now is the maximum start date a rent request can be made
-            DateTime maxStartDate = DateTime.Now.AddMonths(1);
+            DateTime maxStartDate = this.timeService.Now.AddMonths(1);
             if (request.StartDate.CompareTo(maxStartDate) > 0)
             {
                 throw new InvalidRentRequestException("No se permite reservar mas de un mes desde la fecha actual");
