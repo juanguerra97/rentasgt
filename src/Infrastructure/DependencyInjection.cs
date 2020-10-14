@@ -16,6 +16,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Threading.Tasks;
 using Twilio;
 using rentasgt.Infrastructure.Models;
+using IdentityServer4.Models;
+using System.Collections.Generic;
 
 namespace rentasgt.Infrastructure
 {
@@ -54,6 +56,16 @@ namespace rentasgt.Infrastructure
                 //.AddSigningCredential("CN=rentasgtdev", System.Security.Cryptography.X509Certificates.StoreLocation.LocalMachine)
                 .AddApiAuthorization<AppUser, ApplicationDbContext>(configure =>
                 {
+                    configure.Clients.Add(new Client { 
+                        ClientId = "rentasgt.MobileApp",
+                        RequirePkce = false,
+                        AllowedGrantTypes = new List<string> { "implicit"},
+                        AllowedScopes = new List<string> { "openid", "profile", "rentasgt.WebUIAPI" },
+                        RedirectUris = new List<string> { "https://oidcdebugger.com/debug", "com.rentasguatemala://oauth_callback" },
+                        RequireClientSecret = false,
+                        RequireConsent = false,
+                        AllowAccessTokensViaBrowser = true,
+                    });
                     //configure.IdentityResources.Add(new IdentityServer4.Models.IdentityResource(
                     //    "roles", "Roles", new string[] { JwtClaimTypes.Role }));
                     //foreach (var c in configure.Clients)
