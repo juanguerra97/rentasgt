@@ -21,9 +21,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    document.addEventListener('deviceready', function() {
-      alert(device.platform);
-      }, false); 
+    // document.addEventListener('deviceready', function() {
+    //   alert(device.platform);
+    //   }, false); 
     clearLocation();
     this.getUserLocation();
     this.checkIfThereIsPendingProductRating();

@@ -38,7 +38,8 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
-              "node_modules/croppie/croppie.js"
+              "node_modules/croppie/croppie.js",
+		"src/frameworks/cordova.js"
             ]
           },
           "configurations": {

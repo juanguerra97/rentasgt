@@ -24,6 +24,7 @@ import { DpiEditComponent } from './dpi-edit/dpi-edit.component';
 import { AddressEditComponent } from './address-edit/address-edit.component';
 import { OnlyModeradorGuard } from '../api-authorization/only-moderador.guard';
 import { AppLayoutComponent } from './app-layout/app-layout.component';
+import { API_BASE_URL } from './rentasgt-api';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { AppLayoutComponent } from './app-layout/app-layout.component';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    { provide: API_BASE_URL, useValue: 'https://rentasguatemala.com' }
   ],
   bootstrap: [AppComponent]
 })
