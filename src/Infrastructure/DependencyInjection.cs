@@ -59,9 +59,9 @@ namespace rentasgt.Infrastructure
                     configure.Clients.Add(new Client { 
                         ClientId = "rentasgt.MobileApp",
                         RequirePkce = false,
-                        AllowedGrantTypes = new List<string> { "implicit"},
+                        AllowedGrantTypes = new List<string> { "authorization_code"},
                         AllowedScopes = new List<string> { "openid", "profile", "rentasgt.WebUIAPI" },
-                        RedirectUris = new List<string> { "https://oidcdebugger.com/debug", "com.rentasguatemala://oauth_callback" },
+                        RedirectUris = new List<string> { "https://oidcdebugger.com/debug", "com.rentasguatemala://oauth_callback", "rentasgt://callback" },
                         RequireClientSecret = false,
                         RequireConsent = false,
                         AllowAccessTokensViaBrowser = true,
