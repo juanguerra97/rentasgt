@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.Configuration;
 using NETCore.MailKit.Core;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +13,23 @@ namespace rentasgt.WebUI.Services
     public class EmailSender : IEmailSender
     {
         private readonly IEmailService emailService;
+        private readonly IConfiguration config;
 
-        public EmailSender(IEmailService emailService)
+        public EmailSender(IEmailService emailService, IConfiguration config)
         {
             this.emailService = emailService;
+            this.config = config;
         }
 
-        public Task SendEmailAsync(string email, string subject, string message)
+        public async Task SendEmailAsync(string email, string subject, string message)
         {
-            return this.emailService.SendAsync(email, subject, message, true);
+
+            var apiKey = config.GetValue<string>("SendGridApiKey");
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("usuarios@rentasguatemala.com", "Rentas Guatemala");
+            var to = new EmailAddress(email);
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, "", message);
+            var response = await client.SendEmailAsync(msg);
         }
 
     }
