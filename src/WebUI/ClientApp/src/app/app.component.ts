@@ -5,7 +5,7 @@ import { RatingToProductDto, RatingToProductsClient } from './rentasgt-api';
 import {MatDialog} from '@angular/material/dialog';
 import {RateProductComponent} from './app-common/rate-product/rate-product.component';
 
-declare var device;
+declare var cordova;
 
 @Component({
   selector: 'app-root',
@@ -21,12 +21,20 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // document.addEventListener('deviceready', function() {
-    //   alert(device.platform);
-    //   }, false); 
+    this.addDeviceReadyEvent();
     clearLocation();
     this.getUserLocation();
     this.checkIfThereIsPendingProductRating();
+  }
+
+  private addDeviceReadyEvent(): void {
+    document.addEventListener('deviceready', () => {
+      if (cordova) {
+        (window as any).handleOpenURL = (url: string) => {
+          console.log(url);
+        };
+      }
+    } , false)
   }
 
   private getUserLocation(): void {
