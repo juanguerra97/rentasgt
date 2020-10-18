@@ -43,9 +43,26 @@
   </ItemGroup>
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\platforms\**" />
+    <Compile Remove="ClientApp\plugins\**" />
+    <Compile Remove="ClientApp\www\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\platforms\**" />
+    <Content Remove="ClientApp\plugins\**" />
+    <Content Remove="ClientApp\www\**" />
+    <EmbeddedResource Remove="ClientApp\platforms\**" />
+    <EmbeddedResource Remove="ClientApp\plugins\**" />
+    <EmbeddedResource Remove="ClientApp\www\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\platforms\**" />
+    <None Remove="ClientApp\plugins\**" />
+    <None Remove="ClientApp\www\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="ClientApp\platforms\**" />
+    <None Remove="ClientApp\plugins\**" />
+    <None Remove="ClientApp\www\**" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
