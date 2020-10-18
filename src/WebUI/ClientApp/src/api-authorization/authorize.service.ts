@@ -198,15 +198,26 @@ export class AuthorizeService {
       return;
     }
 
-    const response = await fetch(ApplicationPaths.ApiAuthorizationClientConfigurationUrl);
-    if (!response.ok) {
-      throw new Error(`Could not load settings for '${ApplicationName}'`);
-    }
+    // const response = await fetch(ApplicationPaths.ApiAuthorizationClientConfigurationUrl);
+    // if (!response.ok) {
+    //   throw new Error(`Could not load settings for '${ApplicationName}'`);
+    // }
 
-    const settings: any = await response.json();
-    settings.automaticSilentRenew = true;
-    settings.includeIdTokenInSilentRenew = true;
-    this.userManager = new UserManager(settings);
+    // const settings: any = await response.json();
+    // settings.automaticSilentRenew = true;
+    // settings.includeIdTokenInSilentRenew = true;
+    
+    this.userManager = new UserManager({
+      authority: 'https://rentasguatemala.com',
+      client_id: 'rentasgt.MobileApp',
+      scope: 'openid profile rentasgt.WebUIAPI',
+      redirect_uri: 'rentasgt://callback',
+      response_type: 'code',
+      response_mode: 'query',
+      post_logout_redirect_uri: '/articulos',
+      automaticSilentRenew: true,
+      includeIdTokenInSilentRenew: true
+    });
 
     this.userManager.events.addUserSignedOut(async () => {
       await this.userManager.removeUser();
