@@ -97,7 +97,10 @@
       "cordova-plugin-oauth": {
         "ANDROID_SUPPORT_CUSTOM_TABS_VERSION": "28.+"
       },
-      "cordova-plugin-inappbrowser": {}
+      "cordova-plugin-inappbrowser": {},
+      "cordova-plugin-customurlscheme": {
+        "URL_SCHEME": "rentasgt"
+      }
     },
     "platforms": [
       "android"

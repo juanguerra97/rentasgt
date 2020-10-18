@@ -15,6 +15,17 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+
+    <plugin name="cordova-plugin-customurlscheme" spec="^4.3.0">
+      <variable name="URL_SCHEME" value="rentasgt" />
+      <variable name="ANDROID_SCHEME" value=" " />
+      <variable name="ANDROID_HOST" value=" " />
+      <variable name="ANDROID_PATHPREFIX" value="/" />
+    </plugin>
+
+    <preference name="Scheme" value="https" />
+    <preference name="MixedContentMode" value="2" />
+
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
