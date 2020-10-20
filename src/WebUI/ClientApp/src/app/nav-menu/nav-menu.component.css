@@ -29,6 +29,7 @@ header {
   margin: 0;
   height: 110px;
   box-shadow: 0 2px 3px #e9ecef;
+  background-color: #fff;
 }
 
 .logo {

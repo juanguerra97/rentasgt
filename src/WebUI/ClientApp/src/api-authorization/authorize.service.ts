@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { User, UserManager, WebStorageStateStore } from 'oidc-client';
+import { User, UserManager } from 'oidc-client';
 import { BehaviorSubject, concat, from, Observable } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
-import { ApplicationPaths, ApplicationName } from './api-authorization.constants';
 
 export type IAuthenticationResult =
   SuccessAuthenticationResult |
@@ -50,6 +49,17 @@ export class AuthorizeService {
   private popUpDisabled = true;
   private userManager: UserManager;
   private userSubject: BehaviorSubject<IUser | null> = new BehaviorSubject(null);
+  private user: IUser = null;
+
+  public loggedIn(): boolean {
+    return this.user != null;
+  }
+
+  public loadUser(): void {
+    this.getUser().subscribe(u => {
+      this.user = u;
+    }, console.error);
+  }
 
   public isAuthenticated(): Observable<boolean> {
     return this.getUser().pipe(map(u => !!u));
@@ -84,66 +94,20 @@ export class AuthorizeService {
       return u.role.includes(role);
     }));
   }
-
-  // We try to authenticate the user in three different ways:
-  // 1) We try to see if we can authenticate the user silently. This happens
-  //    when the user is already logged in on the IdP and is done using a hidden iframe
-  //    on the client.
-  // 2) We try to authenticate the user using a PopUp Window. This might fail if there is a
-  //    Pop-Up blocker or the user has disabled PopUps.
-  // 3) If the two methods above fail, we redirect the browser to the IdP to perform a traditional
-  //    redirect flow.
-  public async signIn(state: any): Promise<IAuthenticationResult> {
+  
+  public async signIn(state?: any): Promise<void> {
     await this.ensureUserManagerInitialized();
-    let user: User = null;
-    try {
-      user = await this.userManager.signinSilent(this.createArguments());
-      this.userSubject.next(user.profile);
-      return this.success(state);
-    } catch (silentError) {
-      // User might not be authenticated, fallback to popup authentication
-      console.log('Silent authentication error: ', silentError);
-
-      try {
-        if (this.popUpDisabled) {
-          throw new Error('Popup disabled. Change \'authorize.service.ts:AuthorizeService.popupDisabled\' to false to enable it.');
-        }
-        user = await this.userManager.signinPopup(this.createArguments());
-        this.userSubject.next(user.profile);
-        return this.success(state);
-      } catch (popupError) {
-        if (popupError.message === 'Popup window closed') {
-          // The user explicitly cancelled the login action by closing an opened popup.
-          return this.error('The user closed the window.');
-        } else if (!this.popUpDisabled) {
-          console.log('Popup authentication error: ', popupError);
-        }
-
-        // PopUps might be blocked by the user, fallback to redirect
-        try {
-          await this.userManager.signinRedirect(this.createArguments(state));
-          return this.redirect();
-        } catch (redirectError) {
-          console.log('Redirect authentication error: ', redirectError);
-          return this.error(redirectError);
-        }
-      }
-    }
+    await this.userManager.signinRedirect(this.createArguments(state));
   }
 
-  public async completeSignIn(url: string): Promise<IAuthenticationResult> {
-    try {
+  public async completeSignIn(url: string): Promise<void> {
       await this.ensureUserManagerInitialized();
-      const user = await this.userManager.signinCallback(url);
+      const user = await this.userManager.signinRedirectCallback(url);
+      this.user = user.profile;
       this.userSubject.next(user && user.profile);
-      return this.success(user && user.state);
-    } catch (error) {
-      console.log('There was an error signing in: ', error);
-      return this.error('There was an error signing in.');
-    }
   }
 
-  public async signOut(state: any): Promise<IAuthenticationResult> {
+  public async signOut(state?: any): Promise<IAuthenticationResult> {
     try {
       if (this.popUpDisabled) {
         throw new Error('Popup disabled. Change \'authorize.service.ts:AuthorizeService.popupDisabled\' to false to enable it.');
@@ -206,7 +170,7 @@ export class AuthorizeService {
     // const settings: any = await response.json();
     // settings.automaticSilentRenew = true;
     // settings.includeIdTokenInSilentRenew = true;
-    
+
     this.userManager = new UserManager({
       authority: 'https://rentasguatemala.com',
       client_id: 'rentasgt.MobileApp',

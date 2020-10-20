@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { clearLocation, getAddressFromCoordinates, saveCurrentUserLocation } from './utils';
 import { RatingToProductDto, RatingToProductsClient } from './rentasgt-api';
-import {MatDialog} from '@angular/material/dialog';
-import {RateProductComponent} from './app-common/rate-product/rate-product.component';
+import { MatDialog } from '@angular/material/dialog';
+import { RateProductComponent } from './app-common/rate-product/rate-product.component';
+import { AuthorizeService } from 'src/api-authorization/authorize.service';
+import { Router } from '@angular/router';
 
 declare var cordova;
 
@@ -14,10 +16,13 @@ declare var cordova;
 export class AppComponent implements OnInit {
 
   constructor(
+    private authService: AuthorizeService,
+    private router: Router,
     private mapsAPILoader: MapsAPILoader,
     private ratingToProductsClient: RatingToProductsClient,
     private matDialog: MatDialog,
   ) {
+    this.authService.loadUser();
   }
 
   ngOnInit(): void {
@@ -30,8 +35,9 @@ export class AppComponent implements OnInit {
   private addDeviceReadyEvent(): void {
     document.addEventListener('deviceready', () => {
       if (cordova) {
-        (window as any).handleOpenURL = (url: string) => {
-          console.log(url);
+        (window as any).handleOpenURL = async (url: string) => {
+          await this.authService.completeSignIn(url);
+          this.router.navigate(['/articulos']);
         };
       }
     } , false)

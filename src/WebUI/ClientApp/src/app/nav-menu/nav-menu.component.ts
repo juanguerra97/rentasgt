@@ -20,15 +20,15 @@ export class NavMenuComponent implements OnInit {
   public searchText = '';
 
   constructor(
-    private authorizeService: AuthorizeService,
+    public authService: AuthorizeService,
   ) {
   }
 
   ngOnInit(): void {
-    this.isAuthenticated = this.authorizeService.isAuthenticated();
-    this.isAdmin = this.authorizeService.isAdmin();
-    this.isModerador = this.authorizeService.isModerador();
-    this.email = this.authorizeService.getUser().pipe(map(u => u && u.email ));
+    this.isAuthenticated = this.authService.isAuthenticated();
+    this.isAdmin = this.authService.isAdmin();
+    this.isModerador = this.authService.isModerador();
+    this.email = this.authService.getUser().pipe(map(u => u && u.email ));
     window.addEventListener('click', (e) => {
       if (this.submenuTarget && this.submenuTarget.lastChild && e.target !== this.submenuTarget.lastChild) {
         this.submenuTarget.lastChild.classList.remove('show');
@@ -55,6 +55,14 @@ export class NavMenuComponent implements OnInit {
       submenu.style.width = `230px`;
       submenu.style.right = `${this.calculateCenteredRightPosition(li, submenu)}px`;
     }
+  }
+
+  public async logIn(): Promise<any> {
+    await this.authService.signIn();
+  }
+
+  public isLoggedIn(): boolean {
+    return this.authService.loggedIn();
   }
 
   private calculateCenteredRightPosition(li: HTMLElement, ul: HTMLElement): number {
