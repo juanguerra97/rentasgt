@@ -62,6 +62,7 @@ namespace rentasgt.Infrastructure
                         AllowedGrantTypes = new List<string> { "authorization_code"},
                         AllowedScopes = new List<string> { "openid", "profile", "rentasgt.WebUIAPI" },
                         RedirectUris = new List<string> { "https://oidcdebugger.com/debug", "com.rentasguatemala://oauth_callback", "rentasgt://callback" },
+                        PostLogoutRedirectUris = new List<string> { "com.rentasguatemala://oauth_callback", "rentasgt://callback" },
                         RequireClientSecret = false,
                         RequireConsent = false,
                         AllowAccessTokensViaBrowser = true,
