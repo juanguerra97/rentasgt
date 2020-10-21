@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 
 declare var cordova;
+declare var screen;
 
 @Component({
   selector: 'app-root',
@@ -42,6 +43,9 @@ export class AppComponent implements OnInit {
           this.oidcSecurityService.checkAuth(url).subscribe(console.log, console.error);
           this.router.navigate(['/articulos']);
         };
+      }
+      if (screen) {
+        screen.orientation.lock('portrait');
       }
     } , false)
   }
