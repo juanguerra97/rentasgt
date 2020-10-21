@@ -34,6 +34,7 @@
         <icon src="res/android/mipmap-xhdpi/ic_launcher.png" density="xhdpi" />
         <icon src="res/android/mipmap-xxhdpi/ic_launcher.png" density="xxhdpi" />
         <icon src="res/android/mipmap-xxxhdpi/ic_launcher.png" density="xxxhdpi" />
+        <splash src="res/android/splash.png"/>
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />

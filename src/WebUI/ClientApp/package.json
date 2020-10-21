@@ -76,6 +76,7 @@
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-plugin-inappbrowser": "^4.0.0",
     "cordova-plugin-oauth": "^2.0.0",
+    "cordova-plugin-splashscreen": "^6.0.0",
     "cordova-plugin-statusbar": "^2.4.3",
     "cordova-plugin-whitelist": "^1.3.4",
     "jasmine-core": "~3.3.0",
@@ -105,7 +106,8 @@
         "URL_SCHEME": "rentasgt"
       },
       "cordova-plugin-geolocation": {},
-      "cordova-plugin-statusbar": {}
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-splashscreen": {}
     },
     "platforms": [
       "android"
