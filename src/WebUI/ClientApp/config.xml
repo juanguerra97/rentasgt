@@ -25,6 +25,7 @@
 
     <preference name="Scheme" value="https" />
     <preference name="MixedContentMode" value="2" />
+    <preference name="StatusBarBackgroundColor" value="#56acf2" />
 
     <platform name="android">
         <allow-intent href="market:*" />
