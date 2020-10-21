@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RateProductComponent } from './app-common/rate-product/rate-product.component';
 import { AuthorizeService } from 'src/api-authorization/authorize.service';
 import { Router } from '@angular/router';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
 
 declare var cordova;
 
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private authService: AuthorizeService,
+    public oidcSecurityService: OidcSecurityService,
     private router: Router,
     private mapsAPILoader: MapsAPILoader,
     private ratingToProductsClient: RatingToProductsClient,
@@ -36,7 +38,8 @@ export class AppComponent implements OnInit {
     document.addEventListener('deviceready', () => {
       if (cordova) {
         (window as any).handleOpenURL = async (url: string) => {
-          await this.authService.completeSignIn(url);
+          // await this.authService.completeSignIn(url);
+          this.oidcSecurityService.checkAuth(url).subscribe(console.log, console.error);
           this.router.navigate(['/articulos']);
         };
       }

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthorizeService, IUser } from '../../api-authorization/authorize.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -20,7 +21,8 @@ export class NavMenuComponent implements OnInit {
   public searchText = '';
 
   constructor(
-    public authService: AuthorizeService,
+    public authService: AuthService,
+    public oidcSecurityService: OidcSecurityService,
   ) {
   }
 
@@ -28,7 +30,7 @@ export class NavMenuComponent implements OnInit {
     this.isAuthenticated = this.authService.isAuthenticated();
     this.isAdmin = this.authService.isAdmin();
     this.isModerador = this.authService.isModerador();
-    this.email = this.authService.getUser().pipe(map(u => u && u.email ));
+    this.email = this.authService.user().pipe(map(u => u && u.email));
     window.addEventListener('click', (e) => {
       if (this.submenuTarget && this.submenuTarget.lastChild && e.target !== this.submenuTarget.lastChild) {
         this.submenuTarget.lastChild.classList.remove('show');
@@ -47,8 +49,6 @@ export class NavMenuComponent implements OnInit {
     const submenu = li.lastChild;
     if (window.innerWidth < 768) {
       submenu.style.width =  `${window.innerWidth}px`;
-      console.log(li.offsetLeft);
-      console.log(li.offsetWidth);
 
       submenu.style.right = `${-(window.innerWidth - (li.offsetLeft + li.offsetWidth))}px`;
     } else {
@@ -58,11 +58,14 @@ export class NavMenuComponent implements OnInit {
   }
 
   public async logIn(): Promise<any> {
-    await this.authService.signIn();
+    // await this.authService.signIn();
+    this.oidcSecurityService.authorize();
   }
 
-  public isLoggedIn(): boolean {
-    return this.authService.loggedIn();
+  public async logOut(): Promise<any> {
+    // this.oidcSecurityService.logoff();
+    this.oidcSecurityService.logoffLocal();
+    // this.oidcSecurityService.logoffAndRevokeTokens().subscribe(console.log, console.error);
   }
 
   private calculateCenteredRightPosition(li: HTMLElement, ul: HTMLElement): number {

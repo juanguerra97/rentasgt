@@ -33,6 +33,7 @@
     "@nebular/eva-icons": "6.0.0",
     "@nebular/theme": "^6.0.0",
     "@nguniversal/module-map-ngfactory-loader": "8.0.0-rc.1",
+    "angular-auth-oidc-client": "^11.2.0",
     "angular-cropperjs": "^1.0.2",
     "aspnet-prerendering": "^3.0.1",
     "bootstrap": "^4.3.1",

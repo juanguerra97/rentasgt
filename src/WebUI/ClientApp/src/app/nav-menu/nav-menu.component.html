@@ -29,7 +29,7 @@
           <li class="submenu-item"><a [routerLink]='["/admin/categorias"]' class="submenu-link">Categorias</a></li>
         </ul>
       </li>
-      <ng-container *ngIf="authService.loggedIn();else notAuthenticated">
+      <ng-template [ngIf]="isAuthenticated|async" [ngIfElse]="notAuthenticated">
         <li (click)="onSubmenuClicked($event)" class="nav-list-item">
           <a class="nav-list-link">{{ email | async }}</a>
           <ul class="submenu">
@@ -49,11 +49,11 @@
               <a [routerLink]='["/perfil"]' title="Perfil" class="submenu-link"><i class="pi pi-user"></i>&nbsp;Perfil</a>
             </li>
             <li class="submenu-item">
-              <a [routerLink]='["/authentication/logout"]' [state]='{ local: true }' class="submenu-link" title="Logout"><i class="pi pi-sign-out"></i>&nbsp;Salir</a>
+              <a (click)="logOut()" class="submenu-link" title="Logout"><i class="pi pi-sign-out"></i>&nbsp;Salir</a>
             </li>
           </ul>
         </li>
-      </ng-container>
+      </ng-template>
       <ng-template #notAuthenticated>
         <li class="nav-list-item">
           <a [routerLink]='["/authentication/register"]' class="nav-list-link">Crear cuenta</a>
