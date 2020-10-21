@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { RentRequestRentDto, RentsClient, RentStatus, UserProfileDto, UsersClient } from '../rentasgt-api';
+import { Component, Inject, OnInit } from '@angular/core';
+import { API_BASE_URL, RentRequestRentDto, RentsClient, RentStatus, UserProfileDto, UsersClient } from '../rentasgt-api';
 import { PageInfo } from '../models/PageInfo';
-import { AuthorizeService, IUser } from 'src/api-authorization/authorize.service';
 import { BsModalService } from 'ngx-bootstrap';
 import { ConfirmationModalComponent } from '../app-common/confirmation-modal/confirmation-modal.component';
 import { DateTime } from 'luxon';
@@ -36,9 +35,9 @@ export class RentsComponent implements OnInit {
   constructor(
     private rentsClient: RentsClient,
     private usersClient: UsersClient,
-    private authService: AuthorizeService,
     private bsModalService: BsModalService,
     public dialog: MatDialog,
+    @Inject(API_BASE_URL) public baseUrl?: string,
   ) { }
 
   ngOnInit(): void {

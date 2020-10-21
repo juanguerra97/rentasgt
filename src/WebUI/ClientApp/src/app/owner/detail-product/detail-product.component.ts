@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProductDto, ProductsClient } from '../../rentasgt-api';
+import { API_BASE_URL, ProductDto, ProductsClient } from '../../rentasgt-api';
 import { BsModalService } from 'ngx-bootstrap';
 import { ConfirmationModalComponent } from '../../app-common/confirmation-modal/confirmation-modal.component';
 
@@ -34,6 +34,7 @@ export class DetailProductComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private bsModalService: BsModalService,
+    @Inject(API_BASE_URL) public baseUrl?: string,
   ) { }
 
   ngOnInit(): void {

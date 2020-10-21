@@ -12,11 +12,11 @@
                     [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="false" [showItemNavigatorsOnHover]="true"
                     [showIndicatorsOnItem]="true">
           <ng-template pTemplate="item" let-item>
-            <img [src]="item.pictureContent" style="width: 100%; display: block;" />
+            <img [src]="baseUrl + item.pictureContent" style="width: 100%; display: block;" />
           </ng-template>
           <ng-template pTemplate="thumbnail" let-item>
             <div class="p-grid p-nogutter p-justify-center">
-              <img [src]="item.pictureContent" style="display: block;" />
+              <img [src]="baseUrl + item.pictureContent" style="display: block;" />
             </div>
           </ng-template>
         </p-galleria>
@@ -51,7 +51,7 @@
 
       <div class="product-location mt-2">
         <h3>Ubicaci&oacute;n</h3>
-        <img src="{{ product.location.staticMap }}">
+        <img src="{{ baseUrl + product.location.staticMap }}">
         <p>{{ product.location.city + ', ' + product.location.state }}</p>
       </div>
 
@@ -60,7 +60,7 @@
         <button (click)="onMandarMensaje()" [disabled]="isOwner()" pButton label="Enviar mensaje" type="button" icon="pi pi-comments" class="p-button-raised p-button-info p-button-sm ml-auto mr-auto w-100 mt-2"></button>
       </ng-container>
       <ng-container *ngIf="currentUser && currentUser.profileStatus !== PROFILE_ACTIVE" [ngSwitch]="currentUser.profileStatus">
-        <p *ngSwitchCase="PROFILE_INCOMPLETE" class="p-invalid psmall">No puedes rentar ya que a&Uacute;n no has completado la informaci&oacute;n de tu perfil.</p>
+        <p *ngSwitchCase="PROFILE_INCOMPLETE" class="p-invalid psmall">No puedes rentar ya que a&uacute;n no has completado la informaci&oacute;n de tu perfil.</p>
         <p *ngSwitchCase="PROFILE_WAITING_FOR_APPROVAL" class="psmall text-warning">Debes esperar a que tu cuenta sea aprobada para poder rentar.</p>
         <p *ngSwitchDefault class="p-invalid psmall">No tienes permitido rentar</p>
       </ng-container>

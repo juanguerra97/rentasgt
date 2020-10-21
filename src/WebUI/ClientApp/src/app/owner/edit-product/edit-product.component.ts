@@ -1,7 +1,8 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, Inject, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
+  API_BASE_URL,
   CategoriesClient,
   CategoryDto, CategorySummaryDto,
   PaginatedListResponseOfCategoryDto,
@@ -10,7 +11,7 @@ import {
   ProductsClient
 } from '../../rentasgt-api';
 import { LocationInfo } from '../../models/LocationInfo';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { imgBlobToBase64, getErrorsFromResponse } from '../../utils';
 import { MessageService } from 'primeng';
 
@@ -76,6 +77,7 @@ export class EditProductComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private bsModalService: BsModalService,
     private messageService: MessageService,
+    @Inject(API_BASE_URL) public baseUrl?: string,
   ) { }
 
   ngOnInit(): void {
@@ -105,7 +107,7 @@ export class EditProductComponent implements OnInit {
         for (const pic of this.product.pictures) {
           this.uploadedImages.push({
             id: pic.pictureId,
-            imgCropped: pic.pictureContent
+            imgCropped: this.baseUrl + pic.pictureContent
           });
         }
         this.location.latitude = this.product.location.latitude;

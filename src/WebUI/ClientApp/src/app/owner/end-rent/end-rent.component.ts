@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {EndRentCommand, RentRequestRentDto, RentsClient, RentStatus} from '../../rentasgt-api';
+import { API_BASE_URL, EndRentCommand, RentRequestRentDto, RentsClient, RentStatus } from '../../rentasgt-api';
 
 @Component({
   selector: 'app-end-rent',
@@ -15,6 +15,7 @@ export class EndRentComponent implements OnInit {
     private rentsClient: RentsClient,
     private dialogRef: MatDialogRef<EndRentComponent>,
     @Inject(MAT_DIALOG_DATA) public data: RentRequestRentDto,
+    @Inject(API_BASE_URL) public baseUrl?: string,
   ) { }
 
   ngOnInit(): void {

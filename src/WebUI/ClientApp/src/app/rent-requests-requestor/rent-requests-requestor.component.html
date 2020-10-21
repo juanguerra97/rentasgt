@@ -27,7 +27,7 @@
 
           <div class="flex flex-column ml-1">
             <p class="req-owner-name text-center">{{ req.product.owner.firstName + ' ' + req.product.owner.lastName }}</p>
-            <img src="{{req.product.picture.pictureContent}}" alt="req.product.name">
+            <img src="{{ baseUrl +  req.product.picture.pictureContent }}" alt="req.product.name">
             <p class="req-date text-center"><time>{{ formatDate(req.requestDate) }}</time></p>
           </div>
 
@@ -66,7 +66,7 @@
 
         <div class="flex flex-column ml-1">
           <p class="req-owner-name text-center">{{ selectedRentRequest.product.owner.firstName + ' ' + selectedRentRequest.product.owner.lastName }}</p>
-          <img src="{{selectedRentRequest.product.picture.pictureContent}}" alt="req.product.name">
+          <img src="{{ baseUrl + selectedRentRequest.product.picture.pictureContent }}" alt="req.product.name">
           <p class="req-date text-center"><time>{{ formatDate(selectedRentRequest.requestDate) }}</time></p>
         </div>
 

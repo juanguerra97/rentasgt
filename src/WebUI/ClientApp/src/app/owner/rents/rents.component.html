@@ -25,7 +25,7 @@
 
           <div class="flex flex-column ml-1">
             <p class="rent-owner-name text-center">{{ req.requestor.firstName + ' ' + req.requestor.lastName }}</p>
-            <img src="{{req.product.picture.pictureContent}}">
+            <img src="{{ baseUrl +  req.product.picture.pictureContent }}">
           </div>
 
         </div>
@@ -58,7 +58,7 @@
 
         <div class="flex flex-column ml-1">
           <p class="rent-owner-name text-center">{{ selectedRentRequest.requestor.firstName + ' ' + selectedRentRequest.requestor.lastName }}</p>
-          <img src="{{ selectedRentRequest.product.picture.pictureContent }}">
+          <img src="{{ baseUrl + selectedRentRequest.product.picture.pictureContent }}">
         </div>
 
       </div>

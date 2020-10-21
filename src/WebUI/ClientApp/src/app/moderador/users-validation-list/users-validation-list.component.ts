@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { UserProfileDto, UserProfileStatus, UsersClient } from '../../rentasgt-api';
+import { Component, Inject, OnInit } from '@angular/core';
+import { API_BASE_URL, UserProfileDto, UserProfileStatus, UsersClient } from '../../rentasgt-api';
 import { PageInfo } from '../../models/PageInfo';
 import { FormControl, Validators } from '@angular/forms';
 
@@ -26,6 +26,7 @@ export class UsersValidationListComponent implements OnInit {
 
   constructor(
     private usersClient: UsersClient,
+    @Inject(API_BASE_URL) public baseUrl?: string,
   ) { }
 
   ngOnInit(): void {

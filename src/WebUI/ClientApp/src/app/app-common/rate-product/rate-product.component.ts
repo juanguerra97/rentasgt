@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { RateProductCommand, RatingToProductDto, RatingToProductsClient } from '../../rentasgt-api';
+import { API_BASE_URL, RateProductCommand, RatingToProductDto, RatingToProductsClient } from '../../rentasgt-api';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -25,6 +25,7 @@ export class RateProductComponent implements OnInit {
     private ratingToProductsClient: RatingToProductsClient,
     private dialogRef: MatDialogRef<RateProductComponent>,
     @Inject(MAT_DIALOG_DATA) public data: RatingToProductDto,
+    @Inject(API_BASE_URL) public baseUrl?: string,
   ) { }
 
   ngOnInit(): void {

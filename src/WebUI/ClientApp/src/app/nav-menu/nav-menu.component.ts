@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-menu',
@@ -19,10 +20,12 @@ export class NavMenuComponent implements OnInit {
   public isModerador: Observable<boolean>;
   public email: Observable<string>;
   public searchText = '';
+  public sidebarExpanded: boolean = false;
 
   constructor(
     public authService: AuthService,
     public oidcSecurityService: OidcSecurityService,
+    public router: Router,
   ) {
   }
 
@@ -57,6 +60,10 @@ export class NavMenuComponent implements OnInit {
     }
   }
 
+  public toggleSidebar(): void {
+    this.sidebarExpanded = !this.sidebarExpanded;
+  }
+
   public async logIn(): Promise<any> {
     // await this.authService.signIn();
     this.oidcSecurityService.authorize();
@@ -65,6 +72,7 @@ export class NavMenuComponent implements OnInit {
   public async logOut(): Promise<any> {
     // this.oidcSecurityService.logoff();
     this.oidcSecurityService.logoffLocal();
+    this.router.navigate(['/articulos']);
     // this.oidcSecurityService.logoffAndRevokeTokens().subscribe(console.log, console.error);
   }
 

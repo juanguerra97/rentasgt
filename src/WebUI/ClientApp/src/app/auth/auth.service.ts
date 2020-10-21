@@ -38,4 +38,8 @@ export class AuthService {
     }));
   }
 
+  public getToken(): string {
+    return this.oidcSecurityService.getToken();
+  }
+
 }

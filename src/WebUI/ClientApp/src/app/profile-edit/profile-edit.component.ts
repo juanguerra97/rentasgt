@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { CropperComponent } from 'angular-cropperjs';
-import {SendPhoneNumberVerificationCode, UserProfileDto, UsersClient, ValidateUserPhoneNumberCommand} from '../rentasgt-api';
+import {API_BASE_URL, SendPhoneNumberVerificationCode, UserProfileDto, UsersClient, ValidateUserPhoneNumberCommand} from '../rentasgt-api';
 import { imgBlobToBase64 } from '../utils';
 import { Img } from '../models/Img';
 
@@ -42,6 +42,7 @@ export class ProfileEditComponent implements OnInit {
     public usersClient: UsersClient,
     public dialogRef: MatDialogRef<ProfileEditComponent>,
     @Inject(MAT_DIALOG_DATA) public user: UserProfileDto,
+    @Inject(API_BASE_URL) public baseUrl?: string,
   ) { }
 
   ngOnInit(): void {

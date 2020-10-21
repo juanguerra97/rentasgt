@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { CreateRentRequestCommand, ProductDto, ProductsClient, RentRequestsClient, ChatRoomDto, ChatRoomsClient, CreateChatRoomCommand, UserProfileStatus, UserProfileDto, UsersClient } from '../rentasgt-api';
+import { Component, Inject, OnInit } from '@angular/core';
+import { CreateRentRequestCommand, ProductDto, ProductsClient, RentRequestsClient, ChatRoomDto, ChatRoomsClient, CreateChatRoomCommand, UserProfileStatus, UserProfileDto, UsersClient, API_BASE_URL } from '../rentasgt-api';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DateTime, Duration } from 'luxon';
-import { AuthorizeService, IUser } from '../../api-authorization/authorize.service';
+import { DateTime } from 'luxon';
 import { getErrorsFromResponse } from '../utils';
 
 @Component({
@@ -55,9 +54,9 @@ export class ProductDetailComponent implements OnInit {
     private chatRoomsClient: ChatRoomsClient,
     private usersClient: UsersClient,
     private rentRequestsClient: RentRequestsClient,
-    public authService: AuthorizeService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    @Inject(API_BASE_URL) public baseUrl?: string,
   ) { }
 
   ngOnInit() {

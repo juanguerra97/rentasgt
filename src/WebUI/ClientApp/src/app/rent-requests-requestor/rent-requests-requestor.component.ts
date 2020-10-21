@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { RentRequestDto, RentRequestsClient, RequestEventDto, RequestEventType, RequestStatus } from '../rentasgt-api';
+import { Component, Inject, OnInit } from '@angular/core';
+import { API_BASE_URL, RentRequestDto, RentRequestsClient, RequestEventDto, RequestEventType, RequestStatus } from '../rentasgt-api';
 import { PageInfo } from '../models/PageInfo';
 import { DateTime } from 'luxon';
 import { BsModalService } from 'ngx-bootstrap';
@@ -40,6 +40,7 @@ export class RentRequestsRequestorComponent implements OnInit {
   constructor(
     private rentRequestsClient: RentRequestsClient,
     private bsModalService: BsModalService,
+    @Inject(API_BASE_URL) public baseUrl?: string,
   ) { }
 
   ngOnInit(): void {

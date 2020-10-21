@@ -1,9 +1,11 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, Inject, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { CategoriesClient, CategoryDto, ProductDto, ProductsClient} from '../rentasgt-api';
+import { API_BASE_URL, CategoriesClient, CategoryDto, ProductDto, ProductsClient, RatingToProductDto, RatingToProductsClient } from '../rentasgt-api';
 import { LocationInfo } from '../models/LocationInfo';
 import { PageInfo } from '../models/PageInfo';
+import { RateProductComponent } from '../app-common/rate-product/rate-product.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-products',
@@ -38,8 +40,11 @@ export class ProductsComponent implements OnInit {
   constructor(
     private productsClient: ProductsClient,
     private categoriesClient: CategoriesClient,
+    private ratingToProductsClient: RatingToProductsClient,
     private activatedRoute: ActivatedRoute,
     private bsModalService: BsModalService,
+    private matDialog: MatDialog,
+    @Inject(API_BASE_URL) public baseUrl?: string,
   ) { }
 
   ngOnInit(): void {
@@ -64,6 +69,7 @@ export class ProductsComponent implements OnInit {
           });
     }, console.error);
     this.loadCategories();
+    setTimeout(() => this.checkIfThereIsPendingProductRating(), 1500);
   }
 
   private loadProducts(pageSize: number = this.PAGE_SIZE, pageNumber = this.DEFAULT_PAGE_NUMBER): void {
@@ -132,6 +138,21 @@ export class ProductsComponent implements OnInit {
       img.parentElement.classList.remove('img-wrapper-w');
       img.parentElement.classList.add('img-wrapper-h');
     }
+  }
+
+  private checkIfThereIsPendingProductRating(): void {
+    this.ratingToProductsClient.getPending()
+      .subscribe((res) => {
+        this.askUserForProductRating(res);
+      }, console.error);
+  }
+
+  private askUserForProductRating(pendingRating: RatingToProductDto): void {
+    const ref = this.matDialog.open(RateProductComponent, {
+      width: '350px',
+      panelClass: 'mat-dialog-panel',
+      data: pendingRating
+    });
   }
 
 }

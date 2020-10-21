@@ -14,11 +14,11 @@
                     [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="false" [showItemNavigatorsOnHover]="true"
                     [showIndicatorsOnItem]="true">
           <ng-template pTemplate="item" let-item>
-            <img [src]="item.pictureContent" style="width: 100%; display: block;" />
+            <img [src]="baseUrl + item.pictureContent" style="width: 100%; display: block;" />
           </ng-template>
           <ng-template pTemplate="thumbnail" let-item>
             <div class="p-grid p-nogutter p-justify-center">
-              <img [src]="item.pictureContent" style="display: block;" />
+              <img [src]="baseUrl + item.pictureContent" style="display: block;" />
             </div>
           </ng-template>
         </p-galleria>
@@ -50,7 +50,7 @@
 
       <div class="product-location mt-2">
         <h3>Ubicaci&oacute;n</h3>
-        <img src="{{ product.location.staticMap }}" alt="Ubicaci&oacute;n">
+        <img src="{{ baseUrl + product.location.staticMap }}" alt="Ubicaci&oacute;n">
         <p>{{ product.location.city + ', ' + product.location.state }}</p>
       </div>
 
@@ -62,7 +62,6 @@
       </div>
 
     </div>
-
 
   </div>
 

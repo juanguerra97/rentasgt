@@ -6,7 +6,7 @@
     <div class="d-flex flex-column align-items-center w-100">
       <label class="w-100 m-0 p-0">Producto</label>
       <div class="d-flex align-items-center product-rating mb-2 w-100" style="gap: 10px">
-        <img class="product-pic" src="{{ data.product.picture.pictureContent }}" alt="">
+        <img class="product-pic" src="{{ baseUrl + data.product.picture.pictureContent }}" alt="">
         <p class="m-0 p-0 product-name flex-fill">{{ data.product.name }}</p>
       </div>
       <p-rating formControlName="ratingToProductValue"></p-rating>
@@ -20,7 +20,7 @@
     <div class="d-flex flex-column align-items-center w-100">
       <label class="w-100 m-0 p-0">Due&ntilde;o</label>
       <div class="d-flex align-items-center mb-2 w-100" style="gap: 10px">
-        <img src="{{ data.product.owner.profilePicture.pictureContent }}" alt="" class="owner-pic">
+        <img src="{{ baseUrl + data.product.owner.profilePicture.pictureContent }}" alt="" class="owner-pic">
         <p class="m-0 p-0 flex-fill">{{ data.product.owner.firstName + ' ' + data.product.owner.lastName }}</p>
       </div>
       <p-rating formControlName="ratingToOwnerValue"></p-rating>

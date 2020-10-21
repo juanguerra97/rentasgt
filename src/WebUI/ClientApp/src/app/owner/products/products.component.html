@@ -14,10 +14,10 @@
     <div class="d-flex p-2" style="gap: 10px">
       <h2 class="pantalla-title p-0 m-0">Tus art&iacute;culos</h2>
       <div class="d-flex justify-content-end flex-fill flex-wrap" style="gap: 10px">
-        <button [routerLink]="['/propietario/rentas']"
+        <!-- <button [routerLink]="['/propietario/rentas']"
                 mat-button type="button" class="">Ver rentas</button>
         <button [routerLink]="['/propietario/solicitudes']"
-                mat-button type="button" class="">Solicitudes recibidas</button>
+                mat-button type="button" class="">Solicitudes recibidas</button> -->
         <button [routerLink]="['nuevo']" [disabled]="currentUser && currentUser.profileStatus !== PROFILE_ACTIVE" mat-raised-button color="primary" icon="pi pi-plus" type="button" class="p-button-sm">Nuevo</button>
       </div>
     </div>
@@ -28,7 +28,7 @@
         <li *ngFor="let product of products" [routerLink]="['/propietario/productos/detalle/', product.id]" class="p-orderlist-item">
           <div  class="product-item">
             <div class="image-container">
-              <img src="{{product.pictures[0].pictureContent}}" [alt]="product.name" class="product-image" />
+              <img src="{{ baseUrl + product.pictures[0].pictureContent}}" [alt]="product.name" class="product-image" />
             </div>
             <div class="product-list-detail">
               <p class="p-0 m-0 p-mb-2">{{ product.name }}</p>

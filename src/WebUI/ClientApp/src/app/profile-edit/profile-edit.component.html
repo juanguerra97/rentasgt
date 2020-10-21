@@ -6,8 +6,8 @@
     <div class="d-flex flex-column align-items-center mt-3" style="gap: 8px">
 
       <div *ngIf="!profileImg" [ngClass]="{'image-wrapper': true, 'image-wrapper-shadow': user.profilePicture}">
-        <img *ngIf="user.profilePicture" src="{{ user.profilePicture.pictureContent }}" alt="{{user.firstName}}">
-        <img *ngIf="!user.profilePicture" src="/assets/user.png">
+        <img *ngIf="user.profilePicture" src="{{ baseUrl + user.profilePicture.pictureContent }}" alt="{{user.firstName}}">
+        <img *ngIf="!user.profilePicture" src="{{ baseUrl + '/assets/user.png' }}">
       </div>
 
       <div *ngIf="profileImg" class="image-wrapper image-wrapper-shadow">
@@ -34,7 +34,7 @@
   <mat-tab label="Tel&eacute;fono">
     <mat-form-field class="w-100 mt-3">
       <mat-label>N&uacute;mero de tel&eacute;fono</mat-label>
-      <input matInput [disabled]="sentPhoneNumber || (user.phoneNumber && phoneNumberControl.value === user.phoneNumber)" [formControl]="phoneNumberControl">
+      <input matInput [disabled]="sentPhoneNumber || (user.phoneNumber && phoneNumberControl.value === user.phoneNumber)" [formControl]="phoneNumberControl" type="tel">
 
     </mat-form-field>
 

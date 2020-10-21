@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {ProductDto, ProductsClient, UserProfileDto, UserProfileStatus, UsersClient} from '../../rentasgt-api';
+import { Component, Inject, OnInit } from '@angular/core';
+import {API_BASE_URL, ProductDto, ProductsClient, UserProfileDto, UserProfileStatus, UsersClient} from '../../rentasgt-api';
 import { PageInfo } from '../../models/PageInfo';
 
 @Component({
@@ -29,6 +29,7 @@ export class ProductsComponent implements OnInit {
   constructor(
     private productsClient: ProductsClient,
     private usersClient: UsersClient,
+    @Inject(API_BASE_URL) public baseUrl?: string,
   ) {}
 
   ngOnInit(): void {

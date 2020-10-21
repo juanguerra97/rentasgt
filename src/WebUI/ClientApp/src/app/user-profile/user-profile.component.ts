@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { UserProfileDto, UsersClient } from '../rentasgt-api';
+import { Component, Inject, OnInit } from '@angular/core';
+import { API_BASE_URL, UserProfileDto, UsersClient } from '../rentasgt-api';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileEditComponent } from '../profile-edit/profile-edit.component';
 import { AddressEditComponent } from '../address-edit/address-edit.component';
@@ -27,6 +27,7 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private usersClient: UsersClient,
     public dialog: MatDialog,
+    @Inject(API_BASE_URL) public baseUrl?: string,
   ) { }
 
   ngOnInit(): void {

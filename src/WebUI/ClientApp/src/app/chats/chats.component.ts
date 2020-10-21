@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ChatMessageDto, ChatMessageStatus, ChatRoomDto, ChatRoomsClient, ProductDto, ProductsClient, ChatUserDto, ReadMessageCommand } from '../rentasgt-api';
+import { Component, Inject, OnInit } from '@angular/core';
+import { ChatMessageDto, ChatMessageStatus, ChatRoomDto, ChatRoomsClient, ProductDto, ProductsClient, ChatUserDto, ReadMessageCommand, API_BASE_URL } from '../rentasgt-api';
 import { PageInfo } from '../models/PageInfo';
-import { AuthorizeService, IUser } from '../../api-authorization/authorize.service';
+import { IUser } from '../../api-authorization/authorize.service';
 import { ActivatedRoute } from '@angular/router';
 import * as signalR from '@microsoft/signalr';
 import { DateTime } from 'luxon';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-chats',
@@ -52,8 +53,9 @@ export class ChatsComponent implements OnInit {
   constructor(
     private chatRoomsClient: ChatRoomsClient,
     private productsClient: ProductsClient,
-    private authorizeService: AuthorizeService,
+    private authService: AuthService,
     private activatedRoute: ActivatedRoute,
+    @Inject(API_BASE_URL) public baseUrl?: string
   ) { }
 
   ngOnInit(): void {
@@ -76,7 +78,7 @@ export class ChatsComponent implements OnInit {
           }, console.error);
       }
     });
-    this.authorizeService.getUser().subscribe((res) => {
+    this.authService.user().subscribe((res) => {
       this.currentUser = res;
     }, console.error);
     this.connect();
@@ -98,8 +100,8 @@ export class ChatsComponent implements OnInit {
 
   public connect(): void {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('/chathub', {
-        accessTokenFactory: async () => `${await this.authorizeService.getAccessToken().toPromise()}`
+      .withUrl(`${this.baseUrl}/chathub`, {
+        accessTokenFactory: async () => this.authService.getToken()
       })
       .build();
     this.hubConnection.on('receiveMessage', (message: ChatMessageDto) => {

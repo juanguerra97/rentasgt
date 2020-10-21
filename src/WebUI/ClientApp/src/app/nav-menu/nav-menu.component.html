@@ -2,19 +2,17 @@
 
   <nav class="d-flex flex-column flex-md-row">
 
-    <div class="d-flex flex-fill align-items-center pl-2 pl-md-0">
-      <div class="d-flex justify-content-center p-0 m-0" [routerLink]="['/']" style="min-width: 200px">
+    <div class="d-flex flex-fill align-items-center pl-2 pl-md-0" style="gap: 5px">
+      <button (click)="toggleSidebar()" mat-icon-button color="primary">
+        <li class="pi pi-bars" aria-hidden="true" style="font-size: 1.5rem;"></li>
+      </button>
+      <div class="d-flex justify-content-center p-0 m-0 logo-container" [routerLink]="['/']" style="min-width: 200px">
         <img src="https://rentasguatemala.com/assets/tag.svg" style="width: 22px">
         <a class="logo">Rentas Guatemala</a>
       </div>
-<!--      <p-button icon="pi pi-search" class="p-button-raised ml-0 ml-md-3 p-button-sm"></p-button>-->
-      <!-- <div class="p-inputgroup flex-fill pl-3 pr-2 pr-md-0">
-        <input [(ngModel)]="searchText" type="text" pInputText placeholder="Qu&eacute; buscas?" style="max-width: 520px">
-        <button [routerLink]="['/articulos', {s: searchText}]" type="button" pButton pRipple icon="pi pi-search" styleClass="p-button-warn"></button>
-      </div> -->
     </div>
 
-    <ul class="d-flex flex-fill justify-content-end align-items-stretch nav-list navbar-bottom-container">
+    <!-- <ul class="d-flex flex-fill justify-content-end align-items-stretch nav-list navbar-bottom-container">
       <li *ngIf="isModerador | async" (click)="onSubmenuClicked($event)" class="nav-list-item">
         <a class="nav-list-link">Moderador</a>
         <ul class="submenu">
@@ -62,44 +60,103 @@
           <a (click)="logIn()" class="nav-list-link">Entrar</a>
         </li>
       </ng-template>
-    </ul>
+    </ul> -->
   </nav>
+</header>
 
-  <!--<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-    <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">RentasGT</a>
-      <button class="navbar-toggler"
-              type="button"
-              data-toggle="collapse"
-              data-target=".navbar-collapse"
-              aria-label="Toggle navigation"
-              [attr.aria-expanded]="isExpanded"
-              (click)="toggle()">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
-           [ngClass]="{ show: isExpanded }">
-        <app-login-menu></app-login-menu>
-        <ul class="navbar-nav flex-grow">
-          <li class="nav-item"
-              [routerLinkActive]="['link-active']"
-              [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
+<p-sidebar [(visible)]="sidebarExpanded" styleClass="p-sidebar-md" blockScroll="true" [showCloseIcon]="false">
+  
+  <div (click)="toggleSidebar()" class="sidebar d-flex flex-column p-0 m-0" style="gap: 5px">
+    <ng-template [ngIf]="isAuthenticated|async" [ngIfElse]="notAuthenticated">
+      <p class="p-0 m-0" style="font-size: 0.9rem" style="color: #333">{{email|async}}</p>
+      <button [routerLink]="['/perfil']" routerLinkActive="router-link-active"  pButton label="Ver perfil" icon="pi pi-user" type="button" class="p-button-sm p-button-raised p-button-info w-100"></button>
+      <button (click)="logOut()" pButton label="Salir" icon="pi pi-sign-out" type="button" class="p-button-sm p-button-raised w-100 mt-1"></button>
+    </ng-template>
+    <ng-template #notAuthenticated>
+      <button (click)="logIn()" pButton label="Ingresar" icon="pi pi-sign-in" type="button" class="p-button-sm p-button-raised w-100"></button>
+    </ng-template>
+    <ul class="nav-list">
+      <hr>
+      <li [routerLink]="['/articulos']" routerLinkActive="router-link-active"><a><i class="pi pi-shopping-cart"></i>&nbsp;Art&iacute;culos</a></li>
+      <ng-template [ngIf]="isAuthenticated|async">
+        <li class="submenu-item">
+          <a [routerLink]='["/solicitudes"]' title="Solicitudes" class="submenu-link"><i class="pi pi-clock"></i>&nbsp;Solicitudes</a>
+        </li>
+        <li class="submenu-item">
+          <a [routerLink]='["/rentas"]' title="Solicitudes" class="submenu-link"><i class="pi pi-dollar"></i>&nbsp;Rentas</a>
+        </li>
+        <li class="submenu-item">
+          <a [routerLink]='["/mensajes"]' title="Mensajes" class="submenu-link"><i class="pi pi-comments"></i>&nbsp;Mensajes</a>
+        </li>
+        <li class="submenu-item">
+          <a [routerLink]='["/propietario/productos"]' title="Tus articulos" class="submenu-link"><i class="pi pi-list"></i>&nbsp;Tus art&iacute;culos</a>
+        </li>
+        <li class="submenu-item">
+          <a [routerLink]='["/propietario/solicitudes"]' title="Solicitudes recibidas" class="submenu-link"><i class="pi pi-envelope"></i>&nbsp;Solicitudes recibidas</a>
+        </li>
+        <li class="submenu-item">
+          <a [routerLink]='["/propietario/rentas"]' title="Rentas" class="submenu-link"><i class="pi pi-money-bill"></i>&nbsp;Rentas recibidas</a>
+        </li>
+        <ng-container *ngIf="isModerador | async">
+          <hr>
+          <a class="nav-list-link m-0 p-0" style="font-weight: bold;font-size: 0.8rem;">Moderador</a>
+          <ul class="submenu">
+            <li class="submenu-item"><a [routerLink]='["/moderador/usuarios"]' class="submenu-link"><i class="pi pi-users"></i>&nbsp;Usuarios</a></li>
+            <li class="submenu-item"><a [routerLink]='["/moderador/conflictos"]' class="submenu-link"><i class="pi pi-eye"></i>&nbsp;Conflictos</a></li>
+          </ul>
+        </ng-container>
+        <ng-container *ngIf="isAdmin | async">
+          <hr>
+          <a class="nav-list-link m-0 p-0" style="font-weight: bold;font-size: 0.8rem;">Administrador</a>
+          <ul class="submenu">
+            <li class="submenu-item"><a [routerLink]='["/admin/reportes"]' class="submenu-link"><i class="pi pi-chart-bar"></i>&nbsp;Reportes</a></li>
+            <li class="submenu-item"><a [routerLink]='["/admin/categorias"]' class="submenu-link"><i class="pi pi-tags"></i>&nbsp;Categorias</a></li>
+          </ul>
+        </ng-container>
+      </ng-template>
+    </ul>
+  </div>
+  
+  <!-- <ul class="d-flex flex-fill justify-content-end align-items-stretch nav-list navbar-bottom-container">
+    <li *ngIf="isModerador | async" (click)="onSubmenuClicked($event)" class="nav-list-item">
+      <a class="nav-list-link">Moderador</a>
+      <ul class="submenu">
+        <li class="submenu-item"><a [routerLink]='["/moderador/usuarios"]' class="submenu-link">Usuarios</a></li>
+        <li class="submenu-item"><a [routerLink]='["/moderador/conflictos"]' class="submenu-link">Conflictos</a></li>
+      </ul>
+    </li>
+    <li *ngIf="isAdmin | async" (click)="onSubmenuClicked($event)" class="nav-list-item">
+      <a class="nav-list-link">Admin</a>
+      <ul class="submenu">
+        <li class="submenu-item"><a [routerLink]='["/admin/reportes"]' class="submenu-link">Reportes</a></li>
+        <li class="submenu-item"><a [routerLink]='["/admin/categorias"]' class="submenu-link">Categorias</a></li>
+      </ul>
+    </li>
+    <ng-template>
+      <li (click)="onSubmenuClicked($event)" class="nav-list-item">
+        <a class="nav-list-link">{{ email | async }}</a>
+        <ul class="submenu">
+          <li class="submenu-item">
+            <a [routerLink]='["/solicitudes"]' title="Solicitudes" class="submenu-link"><i class="fa"></i>&nbsp;Solicitudes</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/counter']">Counter</a>
+          <li class="submenu-item">
+            <a [routerLink]='["/rentas"]' title="Solicitudes" class="submenu-link"><i class="fa"></i>&nbsp;Rentas</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/fetch-data']">Fetch data</a>
+          <li class="submenu-item">
+            <a [routerLink]='["/mensajes"]' title="Mensajes" class="submenu-link"><i class="pi pi-comments"></i>&nbsp;Mensajes</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/todo']">Todo</a>
+          <li class="submenu-item">
+            <a [routerLink]='["/propietario/productos"]' title="Tus articulos" class="submenu-link"><i class="pi pi-palette"></i>&nbsp;Tus art&iacute;culos</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link text-dark" href="/api" target="_blank">API</a>
+          <li class="submenu-item">
+            <a [routerLink]='["/perfil"]' title="Perfil" class="submenu-link"><i class="pi pi-user"></i>&nbsp;Perfil</a>
+          </li>
+          <li class="submenu-item">
+            <a (click)="logOut()" class="submenu-link" title="Logout"><i class="pi pi-sign-out"></i>&nbsp;Salir</a>
           </li>
         </ul>
-      </div>
-    </div>
-  </nav>-->
-</header>
+      </li>
+    </ng-template>
+    
+  </ul> -->
+</p-sidebar>

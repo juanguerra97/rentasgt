@@ -1,5 +1,6 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, Inject, OnInit, TemplateRef } from '@angular/core';
 import {
+  API_BASE_URL,
   RejectRentRequestCommand,
   RentRequestDto,
   RentRequestsClient,
@@ -11,8 +12,8 @@ import { PageInfo } from '../../models/PageInfo';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { ConfirmationModalComponent } from '../../app-common/confirmation-modal/confirmation-modal.component';
 import { DateTime } from 'luxon';
-import {MessageService} from 'primeng';
-import {getErrorsFromResponse} from '../../utils';
+import { MessageService } from 'primeng';
+import { getErrorsFromResponse } from '../../utils';
 
 @Component({
   selector: 'app-rent-requests',
@@ -55,6 +56,7 @@ export class RentRequestsComponent implements OnInit {
     private rentRequestsClient: RentRequestsClient,
     private bsModalService: BsModalService,
     private messageService: MessageService,
+    @Inject(API_BASE_URL) public baseUrl?: string,
   ) { }
 
   ngOnInit(): void {

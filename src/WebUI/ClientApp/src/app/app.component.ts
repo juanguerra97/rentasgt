@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     this.addDeviceReadyEvent();
     clearLocation();
     this.getUserLocation();
-    this.checkIfThereIsPendingProductRating();
+    // this.checkIfThereIsPendingProductRating();
   }
 
   private addDeviceReadyEvent(): void {

@@ -28,7 +28,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-user>
           <tr [pSelectableRow]="user">
-            <td><img [src]="user.profilePicture.pictureContent" [alt]="user.firstName" class="p-shadow-4 profile-pic" /></td>
+            <td><img [src]="baseUrl + user.profilePicture.pictureContent" [alt]="user.firstName" class="p-shadow-4 profile-pic" /></td>
             <td>{{ user.firstName + ' ' + user.lastName }}</td>
             <td><p>{{user.email}}</p></td>
 

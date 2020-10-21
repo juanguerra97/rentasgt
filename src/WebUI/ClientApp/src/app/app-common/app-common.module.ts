@@ -9,7 +9,7 @@ import {
   DialogModule, CalendarModule, SliderModule,
   MessageModule, MessagesModule, MessageService,
   TableModule, ProgressBarModule, ProgressSpinnerModule,
-  RatingModule,
+  RatingModule, SidebarModule
 } from 'primeng';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
@@ -58,6 +58,7 @@ import { ChartsModule } from 'ng2-charts';
     ProgressBarModule,
     ProgressSpinnerModule,
     RatingModule,
+    SidebarModule,
     MatDialogModule,
     MatInputModule,
     MatButtonModule,
@@ -99,6 +100,7 @@ import { ChartsModule } from 'ng2-charts';
     ProgressSpinnerModule,
     ProgressBarModule,
     RatingModule,
+    SidebarModule,
     MatDialogModule,
     MatInputModule,
     MatButtonModule,

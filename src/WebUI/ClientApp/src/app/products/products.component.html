@@ -53,7 +53,7 @@
         <div *ngFor="let product of products" [routerLink]="['/articulos/detalle/', product.id]" class="product-item d-flex flex-column align-self-stretch align-items-center" style="gap: 10px">
 
           <div class="img-wrapper d-flex justify-content-center align-items-center mt-3">
-            <img (load)="imgLoaded($event)" [src]="product.pictures[0].pictureContent" [alt]="product.name" class="product-image" />
+            <img (load)="imgLoaded($event)" [src]="baseUrl + product.pictures[0].pictureContent" [alt]="product.name" class="product-image" />
           </div>
 
           <div class="product-item-content d-flex flex-column align-items-center flex-fill mt-0 w-100" style="gap: 10px;">

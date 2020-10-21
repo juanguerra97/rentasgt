@@ -3,7 +3,7 @@
   <h2 class="pantalla-title m-0 p-0">Finalizaci&oacute;n de renta</h2>
   <p class="m-0 p-0 mt-2">¿Qu&eacute; te ha parecido la experiencia?</p>
   <div class="d-flex align-items-center mt-2 mb-2 w-100" style="gap: 5px">
-    <img src="{{ data.requestor.profilePicture.pictureContent }}" alt="" class="profile-pic">
+    <img src="{{ baseUrl + data.requestor.profilePicture.pictureContent }}" alt="" class="profile-pic">
     <p class="m-0 p-0 flex-fill">{{ data.requestor.firstName + ' ' + data.requestor.lastName }}</p>
   </div>
   <p-rating [(ngModel)]="ratingValue"></p-rating>

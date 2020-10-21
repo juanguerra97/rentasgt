@@ -12,11 +12,11 @@
 
       <div class="user-card">
         <div *ngIf="user.profilePicture" class="user-img-container">
-          <img src="{{ user.profilePicture.pictureContent }}" alt="{{user.firstName}}">
+          <img src="{{ baseUrl + user.profilePicture.pictureContent }}" alt="{{user.firstName}}">
 
         </div>
         <div *ngIf="!user.profilePicture" class="default-user-img-container">
-          <img src="/assets/user.png">
+          <img src="{{baseUrl + '/assets/user.png'}}">
         </div>
         <div class="user-card-body">
 
