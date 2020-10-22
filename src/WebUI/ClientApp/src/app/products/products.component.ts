@@ -17,7 +17,6 @@ export class ProductsComponent implements OnInit {
   public PAGE_SIZE = 10;
   public DEFAULT_PAGE_NUMBER = 1;
 
-  public searchText = '';
   public category: CategoryDto = null;
   public location: LocationInfo = {
     formattedAddress: null,
@@ -35,7 +34,9 @@ export class ProductsComponent implements OnInit {
   public products: ProductDto[] = [];
   public pageInfo: PageInfo = null;
 
-  public filter: ProductFilter = {};
+  public filter: ProductFilter = {
+    name: '',
+  };
 
   constructor(
     private productsClient: ProductsClient,
@@ -53,8 +54,8 @@ export class ProductsComponent implements OnInit {
       const searchParam = params.get('s');
       let name = undefined;
       if (searchParam && searchParam.trim().length > 0) {
-        this.searchText = searchParam.trim();
-        name = this.searchText;
+        this.filter.name = searchParam.trim();
+        name = this.filter.name;
       }
 
         this.productsClient.get(this.PAGE_SIZE, this.DEFAULT_PAGE_NUMBER, name,
@@ -95,11 +96,6 @@ export class ProductsComponent implements OnInit {
   public onFiltrar(): void {
     this.searchingProducts = true;
 
-    if (!this.searchText || this.filter.name.length === 0) {
-      this.filter.name = undefined;
-    } else {
-      this.filter.name = this.searchText.trim();
-    }
     this.filter.latitude = this.location.latitude !== null ? this.location.latitude : undefined;
     this.filter.longitude = this.location.longitude !== null ? this.location.longitude : undefined;
     this.filter.category = this.category !== null ? this.category.id : undefined;
