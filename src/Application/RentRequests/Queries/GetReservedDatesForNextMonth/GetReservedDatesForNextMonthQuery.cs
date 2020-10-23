@@ -43,11 +43,14 @@ namespace Application.RentRequests.Queries.GetReservedDatesForNextMonth
             var rangeEndDate = rangeStartDate.AddMonths(1).Date;
             var productRentRequests = await this.context.RentRequests
                 .Include(r => r.Rent)
-                .Where(r => r.Product.Id == prod.Id &&  r.StartDate >= rangeStartDate && r.StartDate <= rangeEndDate)
+                .Where(r => r.Product.Id == prod.Id 
+                    &&  r.StartDate >= rangeStartDate 
+                    && r.StartDate <= rangeEndDate
+                    && r.Status == RequestStatus.Accepted)
                 .ToListAsync();
             productRentRequests = productRentRequests
-                .Where(r => r.Rent == null 
-                    || (r.Rent.Status == RentStatus.Pending || r.Rent.Status == RentStatus.ProductDelivered))
+                .Where(r => r.Rent != null 
+                    && (r.Rent.Status == RentStatus.Pending || r.Rent.Status == RentStatus.ProductDelivered))
                     .OrderBy(r => r.StartDate)
                 .ToList();
             foreach(var rentRequest in productRentRequests) 

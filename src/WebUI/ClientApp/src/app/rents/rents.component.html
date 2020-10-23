@@ -91,6 +91,10 @@
 
     </div>
 
+    <div *ngIf="selectedRentRequest && !loadingRents" class="col-12">
+      <p-messages key="msgsRents"></p-messages>
+    </div>
+
   </div>
 
 </div>
