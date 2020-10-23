@@ -62,9 +62,11 @@ namespace rentasgt.Application.RentRequests.Commands.AcceptRentRequest
             }
 
             var currentDate = dateTimeService.Now;
-            if (entity.StartDate.CompareTo(currentDate) < 0)
+            if (entity.StartDate.Date.CompareTo(currentDate.Date) < 0)
             {
-                throw new InvalidStateException("Hay conflicto con la fecha actual");
+                entity.Status = RequestStatus.NotResolved;
+                await this.context.SaveChangesAsync(cancellationToken);
+                throw new InvalidStateException("La renta se solicitó para una fecha anterior a la actual");
             }
 
             if (await this.context.RentRequests.Where(rq => rq.Status == RequestStatus.Accepted && rq.Product.Id == entity.Product.Id).Where(rq => (entity.StartDate.CompareTo(rq.StartDate) >= 0 && entity.StartDate.CompareTo(rq.EndDate) <= 0) || (entity.EndDate.CompareTo(rq.StartDate) >= 0 && entity.EndDate.CompareTo(rq.EndDate) <= 0) || (entity.StartDate.CompareTo(rq.StartDate) <= 0 && (entity.EndDate.CompareTo(rq.EndDate) >= 0))).AnyAsync())
