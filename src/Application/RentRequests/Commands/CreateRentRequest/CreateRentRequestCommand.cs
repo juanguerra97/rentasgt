@@ -77,14 +77,14 @@ namespace rentasgt.Application.RentRequests.Commands.CreateRentRequest
 
             if (await this.context.RentRequests.Where(rq => rq.RequestorId == this.currentUserService.UserId).Where(rq => rq.Product.Id == productEntity.Id  && (rq.Status == RequestStatus.Pending || rq.Status == RequestStatus.Viewed)).AnyAsync())
             {
-                throw new OperationForbidenException("Tienes solicitudes pendientes de este mismo artículo");
+                throw new InvalidRentRequestException("Tienes solicitudes pendientes de este mismo artículo");
             }
 
             var currentUser = await this.userManager.FindByIdAsync(this.currentUserService.UserId);
 
             if (currentUser.Id == productEntity.Owner.Id)
             {
-                throw new OperationForbidenException("No puedes rentar tu propio articulo");
+                throw new InvalidRentRequestException("No puedes rentar tu propio articulo");
             }
 
             var newRentRequest = new RentRequest
