@@ -42,17 +42,22 @@ namespace rentasgt.Application.Rents.Commands.StartRent
                 throw new NotFoundException(nameof(Rent), request.RentId);
             }
 
-            if (entity.Status != RentStatus.Pending)
-            {
-                throw new InvalidStateException($"No se puede iniciar una renta en estado {RentStatus.Pending.ToString()}");
-            }
-
             var userId = this.currentUserService.UserId;
             if (userId != entity.Request.RequestorId)
             {
                 throw new OperationForbidenException("No puedes iniciar esta renta");
             }
 
+            if (entity.Status != RentStatus.Pending)
+            {
+                throw new InvalidStateException($"No se puede iniciar una renta en estado {RentStatus.Pending.ToString()}");
+            }
+
+            var today = this.timeService.Now.Date;
+            if (today.CompareTo(entity.Request.StartDate.Date) < 0) {
+                throw new InvalidStateException($"La renta debe empezar el {entity.Request.StartDate.ToString("dd/MM/yyyy")}");
+            }
+            
             entity.StartDate = this.timeService.Now;
             entity.Status = RentStatus.ProductDelivered;
             await this.context.SaveChangesAsync(cancellationToken);
