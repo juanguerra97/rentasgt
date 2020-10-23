@@ -6,6 +6,8 @@ import { ConfirmationModalComponent } from '../app-common/confirmation-modal/con
 import { DateTime } from 'luxon';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateConflictComponent } from '../app-common/create-conflict/create-conflict.component';
+import { MessageService } from 'primeng';
+import { getErrorsFromResponse } from '../utils';
 
 @Component({
   selector: 'app-rents',
@@ -35,6 +37,7 @@ export class RentsComponent implements OnInit {
   constructor(
     private rentsClient: RentsClient,
     private usersClient: UsersClient,
+    private messageService: MessageService,
     private bsModalService: BsModalService,
     public dialog: MatDialog,
     @Inject(API_BASE_URL) public baseUrl?: string,
@@ -118,7 +121,14 @@ export class RentsComponent implements OnInit {
     this.rentsClient.startRent(this.selectedRentRequest.id)
       .subscribe((res) => {
         this.selectedRentRequest.rent.status = this.RENT_STATUS_DELIVERED;
-      }, console.error);
+      }, error => {
+        if (error.response) {
+          const err = getErrorsFromResponse(JSON.parse(error.response))[0];
+          this.messageService.add({key: 'msgsRents', severity: 'error', detail: err});
+        } else {
+          console.error(error);
+        }  
+      });
   }
 
   public onReportRent(): void {

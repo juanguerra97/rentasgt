@@ -3,6 +3,7 @@ import { CreateRentRequestCommand, ProductDto, ProductsClient, RentRequestsClien
 import { ActivatedRoute, Router } from '@angular/router';
 import { DateTime } from 'luxon';
 import { getErrorsFromResponse } from '../utils';
+import { MessageService } from 'primeng';
 
 @Component({
   selector: 'app-product-detail',
@@ -56,6 +57,7 @@ export class ProductDetailComponent implements OnInit {
     private rentRequestsClient: RentRequestsClient,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private messageService: MessageService,
     @Inject(API_BASE_URL) public baseUrl?: string,
   ) { }
 
@@ -152,6 +154,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   public showSelectDateModal(): void {
+    this.messageService.clear('msgsCreateRentRequest');
     this.displaySelectDateModal = true;
   }
 
@@ -181,11 +184,18 @@ export class ProductDetailComponent implements OnInit {
     req.endDate = end;
     this.rentRequestsClient.create(req)
       .subscribe((res) => {
+        this.rentDate = [];
+        this.loadReservedDates(this.product.id);
         this.displaySelectDateModal = false;
         this.creatingRequest = false;
       }, error => {
+        if (error.response) {
+          const err = getErrorsFromResponse(JSON.parse(error.response))[0];
+          this.messageService.add({ key: 'msgsCreateRentRequest', severity: 'error', detail: err });
+        } else {
+          console.error(error);
+        }
         this.creatingRequest = false;
-        this.rentError = getErrorsFromResponse(JSON.parse(error.response))[0];
         
       });
   }

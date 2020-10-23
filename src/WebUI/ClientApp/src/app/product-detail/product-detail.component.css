@@ -7,6 +7,11 @@
     font-size: 0.9rem;
 }
 
+::ng-deep .p-messages {
+  width: 100%;
+  max-width: 330px;
+}
+
 .product-info, .product-location {
   padding: 0.5rem;
   border-radius: 3px 3px;
