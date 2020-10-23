@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DateTime, Duration } from 'luxon';
 import { AuthorizeService, IUser } from '../../api-authorization/authorize.service';
 import { getErrorsFromResponse } from '../utils';
+import { MessageService } from 'primeng';
 
 @Component({
   selector: 'app-product-detail',
@@ -58,6 +59,7 @@ export class ProductDetailComponent implements OnInit {
     public authService: AuthorizeService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit() {
@@ -153,6 +155,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   public showSelectDateModal(): void {
+    this.messageService.clear('msgsCreateRentRequest');
     this.displaySelectDateModal = true;
   }
 
@@ -166,7 +169,6 @@ export class ProductDetailComponent implements OnInit {
   }
 
   public onCreateRentRequest(): void {
-    this.rentError = null;
     if (this.rentDate === null || this.rentDate.length === 0 ) {
       return;
     }
@@ -182,11 +184,16 @@ export class ProductDetailComponent implements OnInit {
     req.endDate = end;
     this.rentRequestsClient.create(req)
       .subscribe((res) => {
+        this.rentDate = [];
+        this.loadReservedDates(this.product.id);
         this.displaySelectDateModal = false;
         this.creatingRequest = false;
       }, error => {
         this.creatingRequest = false;
-        this.rentError = getErrorsFromResponse(JSON.parse(error.response))[0];
+        if (error.response) {
+          const err = getErrorsFromResponse(JSON.parse(error.response))[0];
+          this.messageService.add({key: 'msgsCreateRentRequest', severity: 'error', detail: err});
+        }
         
       });
   }

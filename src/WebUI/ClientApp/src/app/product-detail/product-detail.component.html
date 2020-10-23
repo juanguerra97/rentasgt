@@ -74,17 +74,16 @@
 </div>
 
 <p-dialog header="Selecciona la fecha" [(visible)]="displaySelectDateModal" [modal]="true" [draggable]="false" [showHeader]="true" styleClass="rent-date-modal" [baseZIndex]="10000">
+  <p-messages key="msgsCreateRentRequest"></p-messages>
   <p>Total: {{ estimatedCost | currency }}</p>
-  <div class="select-date-container">
+  <div class="select-date-container d-flex justify-content-center">
     <p-calendar [(ngModel)]="rentDate" (onSelect)="onDateSelected($event)" 
       selectionMode="range" selectOtherMonths="true" 
       [inline]="true" [required]="true" [minDate]="minDate" 
       [maxDate]="maxDate" [disabledDates]="reservedDates" [locale]="esCalendarLocale" 
       styleClass="fecha-renta-chooser"></p-calendar>
   </div>
-  <p *ngIf="rentError" class="m-0 p-0 mt-1 psmall p-invalid text-center">
-    {{ rentError }}
-  </p>
+  
   <div class="d-flex justify-content-center mt-2" style="gap: 10px">
 
     <button (click)="cancelDateSelection()" [disabled]="creatingRequest" pButton label="Cancelar" icon="pi pi-times-circle" type="button" class="p-button-sm p-button-raised p-button-danger"></button>
