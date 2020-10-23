@@ -18,15 +18,15 @@
       <li *ngIf="isModerador | async" (click)="onSubmenuClicked($event)" class="nav-list-item">
         <a class="nav-list-link">Moderador</a>
         <ul class="submenu">
-          <li class="submenu-item"><a [routerLink]='["/moderador/usuarios"]' class="submenu-link">Usuarios</a></li>
-          <li class="submenu-item"><a [routerLink]='["/moderador/conflictos"]' class="submenu-link">Conflictos</a></li>
+          <li class="submenu-item"><a [routerLink]='["/moderador/usuarios"]' class="submenu-link"><i class="pi pi-users"></i>&nbsp;Usuarios</a></li>
+          <li class="submenu-item"><a [routerLink]='["/moderador/conflictos"]' class="submenu-link"><i class="pi pi-eye"></i>&nbsp;Conflictos</a></li>
         </ul>
       </li>
       <li *ngIf="isAdmin | async" (click)="onSubmenuClicked($event)" class="nav-list-item">
         <a class="nav-list-link">Admin</a>
         <ul class="submenu">
-          <li class="submenu-item"><a [routerLink]='["/admin/reportes"]' class="submenu-link">Reportes</a></li>
-          <li class="submenu-item"><a [routerLink]='["/admin/categorias"]' class="submenu-link">Categorias</a></li>
+          <li class="submenu-item"><a [routerLink]='["/admin/reportes"]' class="submenu-link"><i class="pi pi-chart-bar"></i>&nbsp;Reportes</a></li>
+          <li class="submenu-item"><a [routerLink]='["/admin/categorias"]' class="submenu-link"><i class="pi pi-tags"></i>&nbsp;Categorias</a></li>
         </ul>
       </li>
       <ng-container *ngIf="isAuthenticated | async;else notAuthenticated">
@@ -34,16 +34,16 @@
           <a class="nav-list-link">{{ email | async }}</a>
           <ul class="submenu">
             <li class="submenu-item">
-              <a [routerLink]='["/solicitudes"]' title="Solicitudes" class="submenu-link"><i class="fa"></i>&nbsp;Solicitudes</a>
+              <a [routerLink]='["/solicitudes"]' title="Solicitudes" class="submenu-link"><i class="pi pi-clock"></i>&nbsp;Solicitudes</a>
             </li>
             <li class="submenu-item">
-              <a [routerLink]='["/rentas"]' title="Solicitudes" class="submenu-link"><i class="fa"></i>&nbsp;Rentas</a>
+              <a [routerLink]='["/rentas"]' title="Solicitudes" class="submenu-link"><i class="pi pi-dollar"></i>&nbsp;Rentas</a>
             </li>
             <li class="submenu-item">
               <a [routerLink]='["/mensajes"]' title="Mensajes" class="submenu-link"><i class="pi pi-comments"></i>&nbsp;Mensajes</a>
             </li>
             <li class="submenu-item">
-              <a [routerLink]='["/propietario/productos"]' title="Tus articulos" class="submenu-link"><i class="pi pi-palette"></i>&nbsp;Tus art&iacute;culos</a>
+              <a [routerLink]='["/propietario/productos"]' title="Tus articulos" class="submenu-link"><i class="pi pi-list"></i>&nbsp;Tus art&iacute;culos</a>
             </li>
             <li class="submenu-item">
               <a [routerLink]='["/perfil"]' title="Perfil" class="submenu-link"><i class="pi pi-user"></i>&nbsp;Perfil</a>
