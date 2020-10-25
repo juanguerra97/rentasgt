@@ -7,6 +7,6 @@
     <p class="m-0 p-0 flex-fill">{{ data.requestor.firstName + ' ' + data.requestor.lastName }}</p>
   </div>
   <p-rating [(ngModel)]="ratingValue"></p-rating>
-  <p class="mt-3 end-note">Al dar por terminada la renta aceptas que ya ten han devuelto tu art&iacute;culo.</p>
+  <p class="mt-3 end-note">Al dar por terminada la renta aceptas que ya te han devuelto tu art&iacute;culo.</p>
   <button [disabled]="ratingValue === null" (click)="onEndRent()" pButton label="Finalizar renta" type="button" class="mt-2 p-button-sm p-button-raised"></button>
 </div>
