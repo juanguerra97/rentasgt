@@ -6,6 +6,12 @@
 <div *ngIf="!showSpinner" class="container-fluid" style="min-height: 83vh">
   <router-outlet></router-outlet>
 </div>
-<footer class="container-fluid bg-dark d-flex align-items-center justify-content-end" style="height: 48px">
-  <small class="text-light">&copy;&nbsp;2020&nbsp;RentasGt.&nbsp;Todos los derechos reservados.</small>
+<footer class="flex-column flex-md-row container-fluid bg-dark d-flex pt-1 pb-1" style="min-height: 48px; gap: 5px;">
+  <div class="m-0 p-0 flex-fill d-flex align-items-center justify-content-center justify-content-md-start" style="gap: 5px">
+    <a pButton icon="pi pi-android" href="https://drive.google.com/file/d/12PnILsWshwkS3AqNAJfwGGfLJ3L7Q4rn/view?usp=sharing" target="__blank" class="text-light p-button-sm p-button-raised" style="text-decoration: none;"></a>
+    <p class="m-0 p-0" style="font-size: 0.9rem; color: #FFF;">contacto@rentasguatemala.com</p>
+  </div>
+  <div class="m-0 p-0 flex-fill d-flex align-items-center justify-content-center justify-content-md-end">
+    <small class="text-light">&copy;&nbsp;2020&nbsp;Rentas Guatemala.&nbsp;Todos los derechos reservados.</small>
+  </div>
 </footer>

@@ -8,7 +8,7 @@
   height: 100vh;
   margin: 0;
   padding: 0;
-  background-image: url("src/assets/home.jpg");
+  background-image: url("src/assets/app.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -21,7 +21,7 @@
 #home-container h1 {
   margin: 0;
   padding: 0;
-  color: #fff;
+  color: #f8f9fa;
 }
 
 .app-logo {
@@ -38,6 +38,7 @@
 .primary-text, .secondary-text {
   margin: 0;
   padding: 0;
+  color: #f8f9fa;
 }
 
 .primary-text {
@@ -98,4 +99,8 @@
   margin: auto;
   width: 1.3rem;
   height: 1.3rem;
+}
+
+.app-logo img {
+  color: red !important;
 }

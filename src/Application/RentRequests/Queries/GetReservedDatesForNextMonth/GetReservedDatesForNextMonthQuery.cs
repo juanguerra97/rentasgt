@@ -50,7 +50,7 @@ namespace Application.RentRequests.Queries.GetReservedDatesForNextMonth
                 .ToListAsync();
             productRentRequests = productRentRequests
                 .Where(r => r.Rent != null 
-                    && (r.Rent.Status == RentStatus.Pending || r.Rent.Status == RentStatus.ProductDelivered))
+                    && (RentStatus.Cancelled != r.Rent.Status && RentStatus.NotCompleted != r.Rent.Status))
                     .OrderBy(r => r.StartDate)
                 .ToList();
             foreach(var rentRequest in productRentRequests) 
