@@ -8,6 +8,7 @@ using rentasgt.Domain.Entities;
 using rentasgt.Domain.Enums;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -106,6 +107,9 @@ namespace rentasgt.Application.Users.Commands.UpdateDpi
 
             if (request.Cui != null)
             {
+                if (this.context.AppUsers.Where(u => u.Cui == request.Cui).Any()) {
+                    throw new InvalidStateException("El CUI está duplicado");
+                }
                 user.Cui = request.Cui;
             }
 
