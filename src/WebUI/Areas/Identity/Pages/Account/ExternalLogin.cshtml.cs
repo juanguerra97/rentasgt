@@ -145,7 +145,14 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
 
-                
+                var u = await this._userManager.FindByEmailAsync(Input.Email);
+                if (u != null)
+                {
+                    ModelState.AddModelError(string.Empty, "Ya existe un usuario con el correo ingresado");
+                    ProviderDisplayName = info.ProviderDisplayName;
+                    ReturnUrl = returnUrl;
+                    return Page();
+                }
 
                 var user = new AppUser 
                 { 
