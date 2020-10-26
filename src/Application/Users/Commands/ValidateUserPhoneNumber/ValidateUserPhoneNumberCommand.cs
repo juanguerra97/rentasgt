@@ -52,7 +52,8 @@ namespace rentasgt.Application.Users.Commands.ValidateUserPhoneNumber
 
                 if(userEntity.ProfileStatus == UserProfileStatus.Incomplete
                     && (userEntity.ProfilePicture != null && userEntity.DpiPicture != null
-                    && userEntity.UserPicture != null && userEntity.AddressPicture != null))
+                    && userEntity.UserPicture != null && userEntity.AddressPicture != null
+                    && userEntity.EmailConfirmed))
                 {
                     userEntity.ProfileStatus = UserProfileStatus.WaitingForApproval;
                 }
