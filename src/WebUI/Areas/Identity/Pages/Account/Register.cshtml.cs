@@ -89,6 +89,12 @@ namespace rentasgt.WebUI.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+                var u = await this._userManager.FindByEmailAsync(Input.Email);
+                if (u != null)
+                {
+                    ModelState.AddModelError(string.Empty, "Ya existe un usuario con el correo ingresado");
+                    return Page();
+                }
                 var user = new AppUser 
                 { 
                     ProfileStatus = UserProfileStatus.Incomplete,
