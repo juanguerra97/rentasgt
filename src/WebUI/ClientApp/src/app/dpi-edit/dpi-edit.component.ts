@@ -3,9 +3,10 @@ import {FormControl, Validators} from '@angular/forms';
 import * as Croppie from 'croppie';
 import {UserProfileDto, UsersClient} from '../rentasgt-api';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {imgBlobToBase64} from '../utils';
+import {getErrorsFromResponse, imgBlobToBase64} from '../utils';
 import {Img} from '../models/Img';
 import {CropperComponent} from 'angular-cropperjs';
+import { MessageService } from 'primeng';
 
 @Component({
   selector: 'app-dpi-edit',
@@ -39,6 +40,7 @@ export class DpiEditComponent implements OnInit {
     public usersClient: UsersClient,
     public dialogRef: MatDialogRef<DpiEditComponent>,
     @Inject(MAT_DIALOG_DATA) public user: UserProfileDto,
+    public messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
@@ -87,6 +89,7 @@ export class DpiEditComponent implements OnInit {
   }
 
   public async onUpdateDpi(): Promise<any> {
+    this.messageService.clear('msgsDpiUpdate');
     this.saving = true;
     let dpiPic;
     if (this.dpiImg) {
@@ -111,8 +114,12 @@ export class DpiEditComponent implements OnInit {
         this.saving = false;
         this.dialogRef.close(true);
       }, error => {
-          console.error(error);
-          this.saving = false;
+        if (error.response) {
+          const err = getErrorsFromResponse(JSON.parse(error.response))[0];
+          this.messageService.add({key: 'msgsDpiUpdate', severity: 'error', detail: err});
+        }
+        console.error(error);
+        this.saving = false;
       });
   }
 
