@@ -60,7 +60,7 @@
 }
 
 .rent-date-modal {
-  width: 70vw;
+  width: 95vw;
 }
 
 .select-date-container {
@@ -77,24 +77,14 @@
 }
 
 ::ng-deep .p-calendar .p-datepicker .p-datepicker-group th, ::ng-deep .p-calendar .p-datepicker .p-datepicker-group td {
-  width: 2rem;
+  width: 2.4rem;
 }
 
 ::ng-deep .p-calendar .p-datepicker .p-datepicker-group th span, ::ng-deep .p-calendar .p-datepicker .p-datepicker-group td span {
-  width: 1.8rem !important;
-  height: 1.8rem !important;
+  width: 2.2rem !important;
+  height: 2.2rem !important;
 }
 
 ::ng-deep .p-calendar .p-datepicker {
-
-}
-
-
-
-@media only screen and(min-width: 768px) {
-
-  .rent-date-modal {
-    width: 50vw;
-  }
 
 }

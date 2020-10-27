@@ -76,7 +76,7 @@
 <p-dialog header="Selecciona la fecha" [(visible)]="displaySelectDateModal" [modal]="true" [draggable]="false" [showHeader]="true" styleClass="rent-date-modal" [baseZIndex]="10000">
   <p-messages key="msgsCreateRentRequest"></p-messages>
   <p>Total: {{ estimatedCost | currency }}</p>
-  <div class="select-date-container d-flex justify-content-center">
+  <div class="select-date-container d-flex justify-content-center w-100">
     <p-calendar [(ngModel)]="rentDate" (onSelect)="onDateSelected($event)" 
       selectionMode="range" selectOtherMonths="true" 
       [inline]="true" [required]="true" [minDate]="minDate" 
