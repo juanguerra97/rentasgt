@@ -40,7 +40,14 @@ export class AppComponent implements OnInit {
       if (cordova) {
         (window as any).handleOpenURL = async (url: string) => {
           // await this.authService.completeSignIn(url);
-          this.oidcSecurityService.checkAuth(url).subscribe(console.log, console.error);
+          this.oidcSecurityService.checkAuth(url).subscribe(res => {
+            if (res === true) {
+              this.oidcSecurityService.userData$.subscribe(u => {
+                (<any>navigator).showToast("Bienvenido!");
+              });
+            }
+          }, console.error);
+
           this.router.navigate(['/articulos']);
         };
       }

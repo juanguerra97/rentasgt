@@ -72,6 +72,7 @@ export class NavMenuComponent implements OnInit {
   public async logOut(): Promise<any> {
     // this.oidcSecurityService.logoff();
     this.oidcSecurityService.logoffLocal();
+    (<any>navigator).showToast("Has cerrado sesión");
     this.router.navigate(['/articulos']);
     // this.oidcSecurityService.logoffAndRevokeTokens().subscribe(console.log, console.error);
   }
