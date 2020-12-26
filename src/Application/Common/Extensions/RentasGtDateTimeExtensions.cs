@@ -5,7 +5,8 @@ namespace Application.Common.Extensions
     public static class RentasGtDateTimeExtensions
     {
 
-        public static readonly TimeZoneInfo CENTRAL_AMERICA_STANDARD_TIME = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+        // public static readonly TimeZoneInfo CENTRAL_AMERICA_STANDARD_TIME = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time"); // WINDOWS SERVER
+        public static readonly TimeZoneInfo CENTRAL_AMERICA_STANDARD_TIME = TimeZoneInfo.FindSystemTimeZoneById("America/Guatemala"); // LINUX SERVER
 
         public static DateTime? ToCentralAmericaStandardTime(this DateTime? fromDate) {
             if (fromDate == null) return null;

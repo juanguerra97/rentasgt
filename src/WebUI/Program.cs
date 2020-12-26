@@ -64,9 +64,9 @@ namespace rentasgt.WebUI
                         if (contextBoundObject.HostingEnvironment.IsProduction())
                         {
                             var buildConfig = config.Build();
-                        var azureServiceTokenProvider = new AzureServiceTokenProvider();
-                        var keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
-                        config.AddAzureKeyVault($@"https://{buildConfig["KeyVaultName"]}.vault.azure.net/", keyVaultClient, new DefaultKeyVaultSecretManager());
+                            var clientId = "";
+                            var clientSecret = "";
+                            config.AddAzureKeyVault($@"https://rentasgt.vault.azure.net/", clientId, clientSecret);
                         }
                         
                     });
