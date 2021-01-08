@@ -64,9 +64,10 @@ namespace rentasgt.WebUI
                         if (contextBoundObject.HostingEnvironment.IsProduction())
                         {
                             var buildConfig = config.Build();
+                            var vaultUri = $@"";
                             var clientId = "";
                             var clientSecret = "";
-                            config.AddAzureKeyVault($@"https://rentasgt.vault.azure.net/", clientId, clientSecret);
+                            config.AddAzureKeyVault(vaultUri, clientId, clientSecret);
                         }
                         
                     });
