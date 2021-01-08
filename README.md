@@ -65,4 +65,4 @@ It is necessary to set the values for the ClientId, ClientSecret and the Vault U
 ## Time Zone
 Dependending on which platform you are running the project, you will need to modify the variable CENTRAL_AMERICA_STANDARD_TIME in the file RentasGtDateTimeExtensions.cs located inside the folder src/Application/Common/Extensions.
 
-<img alt="Azure Key Vault Configuration" src="https://github.com/juanguerra97/rentasgt/raw/master/docs/img/TimeZone.PNG" width="47%">
+<img alt="Azure Key Vault Configuration" src="https://github.com/juanguerra97/rentasgt/raw/master/docs/img/TimeZone.PNG" width="94%">
