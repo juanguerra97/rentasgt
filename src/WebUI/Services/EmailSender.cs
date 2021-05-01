@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
-using NETCore.MailKit.Core;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
@@ -12,12 +11,10 @@ namespace rentasgt.WebUI.Services
 {
     public class EmailSender : IEmailSender
     {
-        private readonly IEmailService emailService;
         private readonly IConfiguration config;
 
-        public EmailSender(IEmailService emailService, IConfiguration config)
+        public EmailSender(IConfiguration config)
         {
-            this.emailService = emailService;
             this.config = config;
         }
 
