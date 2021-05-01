@@ -67,7 +67,7 @@ import { AppLayoutComponent } from './app-layout/app-layout.component';
           { path: 'perfil', component: UserProfileComponent, canActivate: [AuthorizeGuard] },
         ]},
 
-    ], { scrollPositionRestoration: 'enabled' }),
+    ], { scrollPositionRestoration: 'enabled', relativeLinkResolution: 'legacy' }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
