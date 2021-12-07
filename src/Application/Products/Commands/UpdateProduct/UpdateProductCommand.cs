@@ -114,7 +114,7 @@ namespace rentasgt.Application.Products.Commands.UpdateProduct
                 EnsureCreateUploadedMapsDirectory();
                 string mapFileName = $"{request.Name}-{Guid.NewGuid().ToString()}.png";
                 WebClient webClient = new WebClient();
-                string apiKey = config.GetValue<string>("GoogleMapsApiKey");
+                string apiKey = config["GoogleMapsApiKey"];
                 await webClient.DownloadFileTaskAsync($"https://maps.googleapis.com/maps/api/staticmap?markers=|{request.Location.Latitude},{request.Location.Longitude}&language=es&size=540x216&zoom=16&scale=1&key={apiKey}", Path.Combine(StaticMapsPath, mapFileName));
                 
                 request.Location.StaticMap = $"/uploads/maps/{mapFileName}";

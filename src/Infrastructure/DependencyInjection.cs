@@ -18,6 +18,7 @@ using Twilio;
 using rentasgt.Infrastructure.Models;
 using IdentityServer4.Models;
 using System.Collections.Generic;
+using System;
 
 namespace rentasgt.Infrastructure
 {
@@ -32,9 +33,10 @@ namespace rentasgt.Infrastructure
             }
             else
             {
+                var serverVersion = new MySqlServerVersion(new Version(5, 7));
                 services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseMySql(
-                        configuration.GetConnectionString("DefaultConnection"),
+                        configuration.GetConnectionString("DefaultConnection"), serverVersion,
                         b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
             }
 

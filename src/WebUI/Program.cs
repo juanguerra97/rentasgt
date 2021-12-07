@@ -10,9 +10,10 @@ using System;
 using System.Threading.Tasks;
 using rentasgt.Domain.Entities;
 using Microsoft.Azure.Services.AppAuthentication;
-using Microsoft.Azure.KeyVault;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.AzureKeyVault;
+using Azure.Security.KeyVault.Secrets;
+using Azure.Identity;
+using Azure.Extensions.AspNetCore.Configuration.Secrets;
 
 namespace rentasgt.WebUI
 {
@@ -64,10 +65,11 @@ namespace rentasgt.WebUI
                         if (contextBoundObject.HostingEnvironment.IsProduction())
                         {
                             var buildConfig = config.Build();
-                            var vaultUri = $@"";
-                            var clientId = "";
-                            var clientSecret = "";
-                            config.AddAzureKeyVault(vaultUri, clientId, clientSecret);
+                            var vaultUri = $@"https://.vault.azure.net/";
+                            var secretClient = new SecretClient(
+                            new Uri(vaultUri),
+                            new DefaultAzureCredential());
+                            config.AddAzureKeyVault(secretClient, new KeyVaultSecretManager());
                         }
                         
                     });

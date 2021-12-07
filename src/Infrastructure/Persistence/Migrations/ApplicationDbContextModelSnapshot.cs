@@ -14,40 +14,48 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.8")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64)
+                .HasAnnotation("ProductVersion", "5.0.12");
 
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
                 {
                     b.Property<string>("UserCode")
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("ClientId")
                         .IsRequired()
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Data")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
-                        .HasMaxLength(50000);
+                        .HasMaxLength(50000)
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("DeviceCode")
                         .IsRequired()
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.Property<DateTime?>("Expiration")
                         .IsRequired()
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("SessionId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
                     b.Property<string>("SubjectId")
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("UserCode");
 
@@ -62,33 +70,44 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.PersistedGrant", b =>
                 {
                     b.Property<string>("Key")
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("ClientId")
                         .IsRequired()
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<DateTime?>("ConsumedTime")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Data")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
-                        .HasMaxLength(50000);
+                        .HasMaxLength(50000)
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.Property<DateTime?>("Expiration")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("SessionId")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
                     b.Property<string>("SubjectId")
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Key");
 
@@ -96,31 +115,33 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("SubjectId", "ClientId", "Type");
 
+                    b.HasIndex("SubjectId", "SessionId", "Type");
+
                     b.ToTable("PersistedGrants");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex");
+                        .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -132,14 +153,14 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.HasKey("Id");
 
@@ -155,14 +176,14 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.HasKey("Id");
 
@@ -174,19 +195,19 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -198,10 +219,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -213,18 +234,18 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("Value")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -234,7 +255,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("rentasgt.Domain.Entities.AddressPicture", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<long>("PictureId")
                         .HasColumnType("bigint");
@@ -249,40 +270,40 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("rentasgt.Domain.Entities.AppUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Cui")
-                        .HasColumnType("char(13) CHARACTER SET utf8mb4")
-                        .IsFixedLength(true)
-                        .HasMaxLength(13);
+                        .HasMaxLength(13)
+                        .HasColumnType("char(13)")
+                        .IsFixedLength(true);
 
                     b.Property<string>("Email")
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
@@ -291,18 +312,18 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
@@ -314,14 +335,14 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("double");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<bool>("ValidatedAddress")
                         .HasColumnType("tinyint(1)");
@@ -335,11 +356,11 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .IsUnique();
 
                     b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
+                        .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex");
+                        .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -354,23 +375,23 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("varchar(512) CHARACTER SET utf8mb4")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512)");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.HasKey("Id");
 
@@ -388,8 +409,8 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("varchar(512) CHARACTER SET utf8mb4")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512)");
 
                     b.Property<int>("MessageType")
                         .HasColumnType("int");
@@ -399,7 +420,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("SenderId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<DateTime?>("SentDate")
                         .HasColumnType("datetime(6)");
@@ -429,7 +450,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.HasKey("Id");
 
@@ -452,7 +473,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("ComplainantId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<DateTime>("ConflictDate")
                         .HasColumnType("datetime(6)");
@@ -461,21 +482,21 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("varchar(1024) CHARACTER SET utf8mb4")
-                        .HasMaxLength(1024);
+                        .HasMaxLength(1024)
+                        .HasColumnType("varchar(1024)");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ModeratorId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<long>("RentId")
                         .HasColumnType("bigint");
@@ -506,8 +527,8 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("varchar(1024) CHARACTER SET utf8mb4")
-                        .HasMaxLength(1024);
+                        .HasMaxLength(1024)
+                        .HasColumnType("varchar(1024)");
 
                     b.Property<DateTime>("RecordDate")
                         .HasColumnType("datetime(6)");
@@ -522,7 +543,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("rentasgt.Domain.Entities.DpiPicture", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<long>("PictureId")
                         .HasColumnType("bigint");
@@ -542,7 +563,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("PictureContent")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("StorageType")
                         .HasColumnType("int");
@@ -571,32 +592,32 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("varchar(512) CHARACTER SET utf8mb4")
-                        .HasMaxLength(512);
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512)");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("OtherNames")
                         .IsRequired()
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("OwnerId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<double?>("Rating")
                         .HasColumnType("double");
@@ -648,7 +669,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("rentasgt.Domain.Entities.ProfilePicture", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<long>("PictureId")
                         .HasColumnType("bigint");
@@ -667,12 +688,12 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("varchar(1024) CHARACTER SET utf8mb4")
-                        .HasMaxLength(1024);
+                        .HasMaxLength(1024)
+                        .HasColumnType("varchar(1024)");
 
                     b.Property<string>("FromUserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<int?>("OwnerRatingValue")
                         .HasColumnType("int");
@@ -705,12 +726,12 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("varchar(1024) CHARACTER SET utf8mb4")
-                        .HasMaxLength(1024);
+                        .HasMaxLength(1024)
+                        .HasColumnType("varchar(1024)");
 
                     b.Property<string>("FromUserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<DateTime?>("RatingDate")
                         .HasColumnType("datetime(6)");
@@ -723,7 +744,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("ToUserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.HasKey("Id");
 
@@ -743,7 +764,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime(6)");
@@ -752,7 +773,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime(6)");
@@ -797,8 +818,8 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Message")
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<long>("RentId")
                         .HasColumnType("bigint");
@@ -820,7 +841,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime(6)");
@@ -832,11 +853,11 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Place")
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
@@ -846,7 +867,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("RequestorId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime(6)");
@@ -876,8 +897,8 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Message")
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<long>("RentRequestId")
                         .HasColumnType("bigint");
@@ -899,7 +920,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("Done")
                         .HasColumnType("tinyint(1)");
@@ -908,13 +929,13 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("ListId")
                         .HasColumnType("int");
 
                     b.Property<string>("Note")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Priority")
                         .HasColumnType("int");
@@ -924,8 +945,8 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("Id");
 
@@ -941,24 +962,24 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Colour")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("LastModifiedBy")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("Id");
 
@@ -968,7 +989,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("rentasgt.Domain.Entities.UserChatRoom", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<long>("RoomId")
                         .HasColumnType("bigint");
@@ -983,7 +1004,7 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("rentasgt.Domain.Entities.UserPicture", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<long>("PictureId")
                         .HasColumnType("bigint");
@@ -1008,16 +1029,16 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Message")
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
-                        .HasMaxLength(128);
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("UserEventId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<string>("UserProfileId")
                         .IsRequired()
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(95)");
 
                     b.HasKey("Id");
 
@@ -1091,6 +1112,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .WithOne("AddressPicture")
                         .HasForeignKey("rentasgt.Domain.Entities.AddressPicture", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Picture");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.ChatMessage", b =>
@@ -1106,6 +1131,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Room");
+
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.ChatRoom", b =>
@@ -1125,6 +1154,12 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("LastMessage");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.Conflict", b =>
@@ -1145,6 +1180,12 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasForeignKey("rentasgt.Domain.Entities.Conflict", "RentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Complainant");
+
+                    b.Navigation("Moderator");
+
+                    b.Navigation("Rent");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.ConflictRecord", b =>
@@ -1154,6 +1195,8 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasForeignKey("ConflictId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Conflict");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.DpiPicture", b =>
@@ -1168,6 +1211,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .WithOne("DpiPicture")
                         .HasForeignKey("rentasgt.Domain.Entities.DpiPicture", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Picture");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.Product", b =>
@@ -1184,8 +1231,8 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                                 .HasColumnType("bigint");
 
                             b1.Property<string>("City")
-                                .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
-                                .HasMaxLength(128);
+                                .HasMaxLength(128)
+                                .HasColumnType("varchar(128)");
 
                             b1.Property<double>("Latitude")
                                 .HasColumnType("double");
@@ -1194,12 +1241,12 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                                 .HasColumnType("double");
 
                             b1.Property<string>("State")
-                                .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
-                                .HasMaxLength(128);
+                                .HasMaxLength(128)
+                                .HasColumnType("varchar(128)");
 
                             b1.Property<string>("StaticMap")
-                                .HasColumnType("longtext CHARACTER SET utf8mb4")
-                                .HasMaxLength(4096);
+                                .HasMaxLength(4096)
+                                .HasColumnType("varchar(4096)");
 
                             b1.HasKey("ProductId");
 
@@ -1208,6 +1255,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("ProductId");
                         });
+
+                    b.Navigation("Location");
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.ProductCategory", b =>
@@ -1223,6 +1274,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.ProductPicture", b =>
@@ -1238,6 +1293,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Picture");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.ProfilePicture", b =>
@@ -1252,6 +1311,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .WithOne("ProfilePicture")
                         .HasForeignKey("rentasgt.Domain.Entities.ProfilePicture", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Picture");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.RatingToProduct", b =>
@@ -1267,6 +1330,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("FromUser");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.RatingToUser", b =>
@@ -1282,6 +1349,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasForeignKey("ToUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("FromUser");
+
+                    b.Navigation("ToUser");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.Rent", b =>
@@ -1291,6 +1362,8 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasForeignKey("rentasgt.Domain.Entities.Rent", "RequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Request");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.RentCost", b =>
@@ -1300,6 +1373,8 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.RentEvent", b =>
@@ -1309,6 +1384,8 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasForeignKey("RentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Rent");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.RentRequest", b =>
@@ -1324,6 +1401,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasForeignKey("RequestorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Requestor");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.RequestEvent", b =>
@@ -1333,6 +1414,8 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasForeignKey("RentRequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("RentRequest");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.TodoItem", b =>
@@ -1342,6 +1425,8 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasForeignKey("ListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("List");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.UserChatRoom", b =>
@@ -1357,6 +1442,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Room");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.UserPicture", b =>
@@ -1371,6 +1460,10 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .WithOne("UserPicture")
                         .HasForeignKey("rentasgt.Domain.Entities.UserPicture", "UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Picture");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("rentasgt.Domain.Entities.UserProfileEvent", b =>
@@ -1386,6 +1479,68 @@ namespace rentasgt.Infrastructure.Persistence.Migrations
                         .HasForeignKey("UserProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("UserEvent");
+
+                    b.Navigation("UserProfile");
+                });
+
+            modelBuilder.Entity("rentasgt.Domain.Entities.AppUser", b =>
+                {
+                    b.Navigation("AddressPicture");
+
+                    b.Navigation("DpiPicture");
+
+                    b.Navigation("Products");
+
+                    b.Navigation("ProfileEvents");
+
+                    b.Navigation("ProfilePicture");
+
+                    b.Navigation("RentRequests");
+
+                    b.Navigation("UserPicture");
+                });
+
+            modelBuilder.Entity("rentasgt.Domain.Entities.Category", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("rentasgt.Domain.Entities.ChatRoom", b =>
+                {
+                    b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("rentasgt.Domain.Entities.Conflict", b =>
+                {
+                    b.Navigation("ConflictRecords");
+                });
+
+            modelBuilder.Entity("rentasgt.Domain.Entities.Product", b =>
+                {
+                    b.Navigation("Categories");
+
+                    b.Navigation("Pictures");
+
+                    b.Navigation("RentRequests");
+                });
+
+            modelBuilder.Entity("rentasgt.Domain.Entities.Rent", b =>
+                {
+                    b.Navigation("Events");
+                });
+
+            modelBuilder.Entity("rentasgt.Domain.Entities.RentRequest", b =>
+                {
+                    b.Navigation("Events");
+
+                    b.Navigation("Rent");
+                });
+
+            modelBuilder.Entity("rentasgt.Domain.Entities.TodoList", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }
