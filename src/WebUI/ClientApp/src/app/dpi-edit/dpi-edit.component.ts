@@ -1,12 +1,12 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import * as Croppie from 'croppie';
-import {UserProfileDto, UsersClient} from '../rentasgt-api';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {getErrorsFromResponse, imgBlobToBase64} from '../utils';
-import {Img} from '../models/Img';
-import {CropperComponent} from 'angular-cropperjs';
-import { MessageService } from 'primeng';
+import { UserProfileDto, UsersClient } from '../rentasgt-api';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { getErrorsFromResponse, imgBlobToBase64 } from '../utils';
+import { Img } from '../models/Img';
+import { CropperComponent } from 'angular-cropperjs';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-dpi-edit',

@@ -10,9 +10,9 @@ import {
   ProductsClient
 } from '../../rentasgt-api';
 import { LocationInfo } from '../../models/LocationInfo';
-import {ActivatedRoute, Router} from '@angular/router';
 import { imgBlobToBase64, getErrorsFromResponse } from '../../utils';
-import { MessageService } from 'primeng';
+import { MessageService } from 'primeng/api';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-product',

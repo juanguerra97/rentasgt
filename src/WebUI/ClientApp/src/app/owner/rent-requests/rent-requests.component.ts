@@ -11,8 +11,8 @@ import { PageInfo } from '../../models/PageInfo';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { ConfirmationModalComponent } from '../../app-common/confirmation-modal/confirmation-modal.component';
 import { DateTime } from 'luxon';
-import {MessageService} from 'primeng';
-import {getErrorsFromResponse} from '../../utils';
+import { MessageService } from 'primeng/api';
+import { getErrorsFromResponse } from '../../utils';
 
 @Component({
   selector: 'app-rent-requests',

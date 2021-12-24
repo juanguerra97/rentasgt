@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CreateRentRequestCommand, ProductDto, ProductsClient, RentRequestsClient, ChatRoomDto, ChatRoomsClient, CreateChatRoomCommand, UserProfileStatus, UserProfileDto, UsersClient } from '../rentasgt-api';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CreateRentRequestCommand, ProductDto, ProductsClient, RentRequestsClient, ChatRoomDto, ChatRoomsClient, CreateChatRoomCommand, UserProfileStatus, UserProfileDto, UsersClient } from '../rentasgt-api';
 import { DateTime, Duration } from 'luxon';
 import { AuthorizeService, IUser } from '../../api-authorization/authorize.service';
 import { getErrorsFromResponse } from '../utils';
-import { MessageService } from 'primeng';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-product-detail',

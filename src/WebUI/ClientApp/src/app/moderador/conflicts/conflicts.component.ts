@@ -8,10 +8,10 @@ import {
   UserProfileDto,
   UsersClient
 } from '../../rentasgt-api';
-import {PageInfo} from '../../models/PageInfo';
-import {DateTime} from 'luxon';
-import {FormControl, Validators} from '@angular/forms';
-import {SelectItem} from 'primeng';
+import { PageInfo } from '../../models/PageInfo';
+import { DateTime } from 'luxon';
+import { FormControl, Validators } from '@angular/forms';
+import { SelectItem } from 'primeng/api';
 
 @Component({
   selector: 'app-conflicts',
