@@ -16,7 +16,7 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ImgCropperComponent } from './img-cropper/img-cropper.component';
 import { SelectLocationComponent } from './select-location/select-location.component';
-import { AgmCoreModule } from '@agm/core';
+import { GoogleMapsModule } from '@angular/google-maps'
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -67,10 +67,7 @@ import { ChartsModule } from 'ng2-charts';
     AngularCropperjsModule,
     ChartsModule,
     ModalModule.forRoot(),
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCir67E-b2FdkVB6nbJ1pEYON_llhZPO-A',
-      libraries: ['places']
-    })
+    GoogleMapsModule
   ],
   exports: [
     PaginatorNavComponent,

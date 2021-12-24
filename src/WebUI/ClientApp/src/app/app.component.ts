@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MapsAPILoader } from '@agm/core';
 import { clearLocation, getAddressFromCoordinates, saveCurrentUserLocation } from './utils';
 import { RatingToProductDto, RatingToProductsClient } from './rentasgt-api';
-import {MatDialog} from '@angular/material/dialog';
-import {RateProductComponent} from './app-common/rate-product/rate-product.component';
+import { MatDialog } from '@angular/material/dialog';
+import { RateProductComponent } from './app-common/rate-product/rate-product.component';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +11,6 @@ import {RateProductComponent} from './app-common/rate-product/rate-product.compo
 export class AppComponent implements OnInit {
 
   constructor(
-    private mapsAPILoader: MapsAPILoader,
     private ratingToProductsClient: RatingToProductsClient,
     private matDialog: MatDialog,
   ) {
@@ -27,7 +25,7 @@ export class AppComponent implements OnInit {
   private getUserLocation(): void {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(async (position) => {
-        const loc = await getAddressFromCoordinates(position.coords.latitude, position.coords.longitude, this.mapsAPILoader);
+        const loc = await getAddressFromCoordinates(position.coords.latitude, position.coords.longitude);
         saveCurrentUserLocation(loc);
       }, (error) => {
         if (error.code === error.PERMISSION_DENIED) {
