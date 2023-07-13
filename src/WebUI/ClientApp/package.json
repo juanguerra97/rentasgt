@@ -41,7 +41,7 @@
     "croppie": "^2.6.5",
     "eva-icons": "^1.1.2",
     "jquery": "3.5.0",
-    "luxon": "^1.25.0",
+    "luxon": "^1.28.1",
     "material-icons": "^0.3.1",
     "ng2-charts": "^2.4.2",
     "ngx-bootstrap": "^5.2.0",
